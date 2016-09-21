@@ -3,18 +3,18 @@ CXXFLAGS = -g -Wall -Wno-unused-label -MMD -std=c++11 # compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}# makefile name
 
 OBJECTS01 = q1throwcatch.o		# optional build of given program
-EXEC01 = throwcatch			# 0th executable name
+EXEC01 = throwcatch				# 0th executable name
 
-OBJECTS1 = q1lj.o			# object files forming 1st executable with prefix "q1"
-EXEC1 = longjmp				# 1st executable name
+OBJECTS1 = 			# object files forming 1st executable with prefix "q1"
+EXEC1 = longjmp					# 1st executable name
 
 OBJECTS02 = q2resumption.o		# optional build of given program
 EXEC02 = resumption
 
-OBJECTS2 = # object files forming 2nd executable with prefix "q2"
-EXEC2 = fixup				# 2nd executable name
+OBJECTS2 = 			# object files forming 2nd executable with prefix "q2"
+EXEC2 = fixup					# 2nd executable name
 
-OBJECTS3 = # object files forming 3rd executable with prefix "q3"
+OBJECTS3 = 	# object files forming 3rd executable with prefix "q3"
 EXEC3 = floatconstant			# 3rd executable name
 
 OBJECTS = ${OBJECTS1} ${OBJECTS2} ${OBJECTS3}
