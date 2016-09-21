@@ -27,10 +27,10 @@ EXECS = ${EXEC1} ${EXEC2} ${EXEC3}
 
 all : ${EXECS}				# build all executables
 
-q1.o : q1.cc				# change compiler 1st executable, ADJUST SUFFIX (.cc)
+q1.o : q1.cp				# change compiler 1st executable, ADJUST SUFFIX (.cp)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
-q1%.o : q1%.cc				# change compiler 1st executable, ADJUST SUFFIX (.cc)
+q1%.o : q1%.cp				# change compiler 1st executable, ADJUST SUFFIX (.cp)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
 ${EXEC01} : ${OBJECTS01}
@@ -39,16 +39,16 @@ ${EXEC01} : ${OBJECTS01}
 ${EXEC1} : ${OBJECTS1}
 	g++-4.9 ${CXXFLAGS} $^ -o $@
 
-${OBJECTS02} : q2resumption.cc
+${OBJECTS02} : q2resumption.cp
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${EXEC02} : ${OBJECTS02}
 	${CXX} ${CXXFLAGS} $^ -o $@
 
-q2.o : q2.cc				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
+q2.o : q2.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cp)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
-q2%.o : q2%.cc				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
+q2%.o : q2%.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cp)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
 ${EXEC2} : ${OBJECTS2}
