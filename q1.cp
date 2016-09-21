@@ -2,7 +2,6 @@
 #include <cstdlib>
 using namespace std;
 #include <unistd.h>				// getpid
-#include <setjmp.h>
 
 #ifdef NOOUTPUT
 #define print( x )
@@ -10,36 +9,27 @@ using namespace std;
 #define print( x ) x
 #endif
 
-static jmp_buf buf;
-
-void longjmp(jmp_buf env, int val);
-int setjmp(jmp_buf env);
-
 struct E {};
 
 long int freq = 5;
 
-int Ackermann_tests(  ) {
-
-}
-
 long int Ackermann( long int m, long int n ) {
 	if ( m == 0 ) {
-		if ( random() % freq == 0 ) longjmp(buf, 1);
+		if ( random() % freq == 0 ) throw E();
 		return n + 1;
 	} else if ( n == 0 ) {
-		if ( random() % freq == 0 ) longjmp(buf, 1);
-		if( !setjmp(buf) ) {
+		if ( random() % freq == 0 ) throw E();
+		try {
 			return Ackermann( m - 1, 1 );
-		} else {
+		} catch( E ) {
 			print( cout << "E1 " << m << " " << n << endl );
-		} // jump
+		} // try
 	} else {
-		if( !setjmp(buf) ) {
+		try {
 			return Ackermann( m - 1, Ackermann( m, n - 1 ) );
-		} else {
+		} catch( E ) {
 			print( cout << "E2 " << m << " " << n << endl );
-		} // jump
+		} // try
 	} // if
 	return 0;	// recover by returning 0
 }
@@ -56,9 +46,9 @@ int main( int argc, const char *argv[] ) {
 	} // switch
 	srandom( seed );
 	cout << m << " " << n << " " << seed << " " << freq << endl;
-	if ( !setjmp(buf) ) {
+	try {
 		cout << Ackermann( m, n ) << endl;
-	} else {
+	} catch( E ) {
 		print( cout << "E3" << endl );
 	} // try
 }
