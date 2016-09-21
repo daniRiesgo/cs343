@@ -6,7 +6,7 @@ OBJECTS01 = q1throwcatch.o		# optional build of given program
 EXEC01 = throwcatch			# 0th executable name
 
 OBJECTS1 = # object files forming 1st executable with prefix "q1"
-EXEC1 = longjmp				# 1st executable name
+EXEC1 = "longjmp"				# 1st executable name
 
 OBJECTS02 = q2resumption.o		# optional build of given program
 EXEC02 = resumption
