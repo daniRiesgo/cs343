@@ -26,11 +26,14 @@ int Ackermann_tests(  ) {
 
 long int Ackermann( long int m, long int n ) {
     jmp_buf buf2;
-    memcpy(buf2, buf, sizeof(buf));
+    memcpy(&buf2, &buf, sizeof(buf));
+    printf("copied buf n = %d, m = %d\n", n, m);
     if ( m == 0 ) {
+		printf("m was 0\n");
 		if ( random() % freq == 0 ) longjmp(buf2, 1);
 		return n + 1;
 	} else if ( n == 0 ) {
+		printf("n was 0\n");
 		if ( random() % freq == 0 ) longjmp(buf2, 1);
 		if( !setjmp(buf) ) {
 			return Ackermann( m - 1, 1 );
@@ -39,6 +42,7 @@ long int Ackermann( long int m, long int n ) {
 		} // jump
 	} else {
 		if( !setjmp(buf2) ) {
+			printf("ok, here we go!\n");
 			return Ackermann( m - 1, Ackermann( m, n - 1 ) );
 		} else {
 			print( cout << "E2 " << m << " " << n << endl );
