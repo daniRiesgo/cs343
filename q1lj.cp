@@ -12,6 +12,9 @@ using namespace std;
 
 static jmp_buf buf;
 
+void longjmp(jmp_buf env, int val);
+int setjmp(jmp_buf env);
+
 struct E {};
 
 long int freq = 5;
@@ -21,18 +24,19 @@ int Ackermann_tests(  ) {
 }
 
 long int Ackermann( long int m, long int n ) {
-	if ( m == 0 ) {
-		if ( random() % freq == 0 ) longjmp(buf, 1);
+    jmp_buf buf2 = buf;
+    if ( m == 0 ) {
+		if ( random() % freq == 0 ) longjmp(buf2, 1);
 		return n + 1;
 	} else if ( n == 0 ) {
-		if ( random() % freq == 0 ) longjmp(buf, 1);
+		if ( random() % freq == 0 ) longjmp(buf2, 1);
 		if( !setjmp(buf) ) {
 			return Ackermann( m - 1, 1 );
 		} else {
 			print( cout << "E1 " << m << " " << n << endl );
 		} // jump
 	} else {
-		if( !setjmp(buf) ) {
+		if( !setjmp(buf2) ) {
 			return Ackermann( m - 1, Ackermann( m, n - 1 ) );
 		} else {
 			print( cout << "E2 " << m << " " << n << endl );
