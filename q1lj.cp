@@ -20,11 +20,11 @@ struct E {};
 long int freq = 5;
 
 int Ackermann_tests(  ) {
-
+    return 0;
 }
 
 long int Ackermann( long int m, long int n ) {
-    jmp_buf buf2 = buf;
+    jmp_buf buf2 = *buf;
     if ( m == 0 ) {
 		if ( random() % freq == 0 ) longjmp(buf2, 1);
 		return n + 1;
