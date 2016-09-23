@@ -3,6 +3,7 @@
 using namespace std;
 #include <unistd.h>				// getpid
 #include <setjmp.h>
+#include <string.h>
 
 #ifdef NOOUTPUT
 #define print( x )
@@ -24,7 +25,8 @@ int Ackermann_tests(  ) {
 }
 
 long int Ackermann( long int m, long int n ) {
-    jmp_buf buf2 = *buf;
+    jmp_buf buf2;
+    memcpy(buf2, buf, sizeof(buf));
     if ( m == 0 ) {
 		if ( random() % freq == 0 ) longjmp(buf2, 1);
 		return n + 1;
