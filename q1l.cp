@@ -11,62 +11,49 @@ using namespace std;
 #define print( x ) x
 #endif
 
-static jmp_buf buf;
-
-void longjmp(jmp_buf env, int val);
-int setjmp(jmp_buf env);
+jmp_buf buf;
 
 struct E {};
 
 long int freq = 5;
 
-int Ackermann_tests(  ) {
-    return 0;
-}
-
 long int Ackermann( long int m, long int n ) {
-    jmp_buf buf2;
+    jmp_buf backup;
+    memcpy(&backup, &buf, sizeof(jmp_buf));
 
     if ( m == 0 ) {
 
-		if ( random() % freq == 0 ) longjmp(buf, 1);
+		if ( random() % freq == 0 ) { longjmp(buf, 1); }
 		return n + 1;
 
 	} else if ( n == 0 ) {
 
-		if ( random() % freq == 0 ) longjmp(buf, 1);
+		if ( random() % freq == 0 ) { longjmp(buf, 1); }
 
-        memcpy(&buf2, &buf, sizeof(jmp_buf));
+        // memcpy(&backup, &buf, sizeof(jmp_buf));
 
-		if( !setjmp(buf) ) {
-
-			long int ret = Ackermann( m - 1, 1 );
-            memcpy(&buf, &buf2, sizeof(jmp_buf));
-            return ret;
-
-		} else {
+		if ( !setjmp(buf) ) { return Ackermann( m - 1, 1 ); }
+        else {
 
 			print( cout << "E1 " << m << " " << n << endl );
-            memcpy(&buf, &buf2, sizeof(jmp_buf));
+            // memcpy(&buf, &backup, sizeof(jmp_buf));
 
-		}
+		} // try
+
 	} else {
 
-        memcpy(&buf2, &buf, sizeof(jmp_buf));
+        // memcpy(&backup, &buf, sizeof(jmp_buf));
 
-		if( !setjmp(buf) ) {
-
-            long int ret = Ackermann( m - 1, Ackermann( m, n - 1 ) );
-            memcpy(&buf, &buf2, sizeof(jmp_buf));
-            return ret;
-
-		} else {
+		if ( !setjmp(buf) ) { return Ackermann( m - 1, Ackermann( m, n - 1 ) ); }
+        else {
 
 			print( cout << "E2 " << m << " " << n << endl );
-            memcpy(&buf, &buf2, sizeof(jmp_buf));
+            // memcpy(&buf, &backup, sizeof(jmp_buf));
 
-		} // jump
+		} // try
 	} // if
+
+    memcpy(&buf, &backup, sizeof(jmp_buf));
 	return 0;	// recover by returning 0
 }
 
@@ -83,9 +70,8 @@ int main( int argc, const char *argv[] ) {
 	srandom( seed );
 	cout << m << " " << n << " " << seed << " " << freq << endl;
 
-	if ( !setjmp(buf) ) {
-		cout << Ackermann( m, n ) << endl;
-	} else {
+    if ( !setjmp(buf) ) { cout << Ackermann( m, n ) << endl; }
+    else {
 		print( cout << "E3" << endl );
 	} // try
 }

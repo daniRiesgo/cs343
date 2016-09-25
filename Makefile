@@ -11,7 +11,7 @@ EXEC1 = longjmp				# 1st executable name
 OBJECTS02 = q2resumption.o		# optional build of given program
 EXEC02 = resumption
 
-OBJECTS2 = # object files forming 2nd executable with prefix "q2"
+OBJECTS2 = q2fu.o			# object files forming 2nd executable with prefix "q2"
 EXEC2 = fixup				# 2nd executable name
 
 OBJECTS3 = # object files forming 3rd executable with prefix "q3"
@@ -28,16 +28,16 @@ EXECS = ${EXEC1} ${EXEC2} ${EXEC3}
 all : ${EXECS}				# build all executables
 
 q1.o : q1.cp				# change compiler 1st executable, ADJUST SUFFIX (.cp)
-	g++-4.9 ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c $< -o $@
 
 q1%.o : q1%.cp				# change compiler 1st executable, ADJUST SUFFIX (.cp)
-	g++-4.9 ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c $< -o $@
 
 ${EXEC01} : ${OBJECTS01}
-	g++-4.9 ${CXXFLAGS} $^ -o $@
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${EXEC1} : ${OBJECTS1}
-	g++-4.9 ${CXXFLAGS} $^ -o $@
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${OBJECTS02} : q2resumption.cp
 	${CXX} ${CXXFLAGS} -c $< -o $@
@@ -46,13 +46,13 @@ ${EXEC02} : ${OBJECTS02}
 	${CXX} ${CXXFLAGS} $^ -o $@
 
 q2.o : q2.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cp)
-	g++-4.9 ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c $< -o $@
 
 q2%.o : q2%.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cp)
-	g++-4.9 ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c $< -o $@
 
 ${EXEC2} : ${OBJECTS2}
-	g++-4.9 ${CXXFLAGS} $^ -o $@
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${EXEC3} : ${OBJECTS3}
 	${CXX} ${CXXFLAGS} $^ -o $@
