@@ -3,20 +3,20 @@
 using namespace std;
 
 struct fixup {
-    fixup(void ( *handler_ )( int, fixup* )) : handler( handler_ ) {}
-    void operator()(int y, fixup *fatherHandler) const { fixup::handler( y, fatherHandler ); }
+    fixup(void ( *handler_ )( int&, fixup* )) : handler( handler_ ) { }
+    void operator()(int &y, fixup *fatherHandler) const { fixup::handler( y, fatherHandler ); }
 
 private:
-    void ( *handler )( int, fixup* );
+    void ( *handler )( int&, fixup* );
 };
 
 void f( int &i, fixup *fatherHandler );
 
-void handlerInMain( int y, fixup *fatherHandler ) {
+void handlerInMain( int &y, fixup *fatherHandler ) {
     cout << "root " << y << endl;
 }
 
-void handlerInF( int y, fixup *fatherHandler ) {
+void handlerInF( int &y, fixup *fatherHandler ) {
     cout << "f handler " << y << endl;
     y -= 1;
     f( y, fatherHandler );
@@ -25,7 +25,10 @@ void handlerInF( int y, fixup *fatherHandler ) {
 void f( int &i, fixup *fatherHandler ) {
     fixup thisone = *fatherHandler;
     cout << "f " << i << endl;
-    if ( rand() % 5 == 0 ) thisone( i, fatherHandler );     // require correction ?
+    if ( rand() % 5 == 0 ) {
+        cout << "I lost" << endl;
+        thisone( i, fatherHandler );
+    }
 
     i -= 1;
     fixup newHandler( &handlerInF );
