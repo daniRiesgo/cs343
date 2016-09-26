@@ -128,16 +128,18 @@ _Coroutine FloatConstant {
 
 void uMain::main() {
 
+    // cin >> noskipws;
+
     for ( ;; )
     {
         FloatConstant parser;
         FloatConstant::Status status;
         string input_text;
         int i;
-        cin >> noskipws >> input_text;
+        getline( cin,input_text );
 
         try {
-            if ( !( input_text.size() > 0 ) ) {
+            if ( input_text.empty() ) {
                 i = 0;
                 _Throw H( i );
             }
@@ -155,8 +157,8 @@ void uMain::main() {
                 cerr << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
 
         } catch ( H &h ) {
-            if( i ) cout << "\"\" : Warning! Blank line.";
-            if( i < (int) input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
+            if( !i ) cout << "\"\" : Warning! Blank line.";
+            else if( i < (int) input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
             cerr << endl;
 
         }
