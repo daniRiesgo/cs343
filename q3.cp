@@ -137,7 +137,10 @@ void uMain::main() {
         cin >> noskipws >> input_text;
 
         try {
-            if ( !( input_text.size() > 0 ) ) ; _Throw H( 0 );
+            if ( !( input_text.size() > 0 ) ) {
+                i = 0;
+                _Throw H( i );
+            }
             for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
                 try { status = parser.next( input_text[i] ); }
                 _CatchResume ( uBaseCoroutine::UnhandledException ) {
