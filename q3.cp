@@ -134,8 +134,7 @@ void uMain::main() {
         FloatConstant::Status status;
         string input_text;
         int i;
-        cin << noskipws;
-        cin >> input_text;
+        cin >> noskipws >> input_text;
 
         try {
             if ( !( input_text.size() > 0 ) ) ; _Throw H( 0 );
