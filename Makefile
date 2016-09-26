@@ -1,4 +1,4 @@
-CXX = u++				# compiler
+CXX = u++ # compiler
 CXXFLAGS = -g -Wall -Wno-unused-label -MMD -std=c++11 # compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}# makefile name
 
@@ -14,7 +14,7 @@ EXEC02 = resumption
 OBJECTS2 = q2fu.o# object files forming 2nd executable with prefix "q2"
 EXEC2 = fixup				# 2nd executable name
 
-OBJECTS3 = q3.o# object files forming 3rd executable with prefix "q3"
+OBJECTS3 = q3.o # object files forming 3rd executable with prefix "q3"
 EXEC3 = floatconstant			# 3rd executable name
 
 OBJECTS = ${OBJECTS1} ${OBJECTS2} ${OBJECTS3}
@@ -50,6 +50,9 @@ q2.o : q2.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
 
 q2%.o : q2%.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
+
+q3.o : q3.cp
+	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${EXEC2} : ${OBJECTS2}
 	g++-4.9 ${CXXFLAGS} $^ -o $@

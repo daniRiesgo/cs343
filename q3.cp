@@ -127,13 +127,13 @@ _Coroutine FloatConstant {
 };
 
 void uMain::main() {
-    FloatConstant parser;
-    FloatConstant::Status status;
-    string input_text;
-    int i;
-
+    
     for ( ;; )
     {
+        FloatConstant parser;
+        FloatConstant::Status status;
+        string input_text;
+        int i;
         cin >> input_text;
 
         try {
