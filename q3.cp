@@ -134,14 +134,15 @@ void uMain::main() {
         FloatConstant::Status status;
         string input_text;
         int i;
+        cin << noskipws;
         cin >> input_text;
 
         try {
-            if ( !( input_text.size() > 0 ) ) ; // TODO: handle blank lines
+            if ( !( input_text.size() > 0 ) ) ; _Throw H( 0 );
             for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
                 try { status = parser.next( input_text[i] ); }
                 _CatchResume ( uBaseCoroutine::UnhandledException ) {
-                    cout << "\"" << input_text << "\" : \"" << input_text.substr( 0, ++i ) << "\" no";
+                    cerr << "\"" << input_text << "\" : \"" << input_text.substr( 0, ++i ) << "\" no";
                     _Throw H( i );
                 }
             }
@@ -149,12 +150,12 @@ void uMain::main() {
             if( status == FloatConstant::Status::MATCH )
                 cout << "\"" << input_text << "\" : \"" << input_text << "\" yes" << endl;
             else if( status == FloatConstant::Status::CONT )
-                cout << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
+                cerr << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
 
         } catch ( H &h ) {
-
+            if( i ) cout << "\"\" : Warning! Blank line."
             if( i < (int) input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
-            cout << endl;
+            cerr << endl;
 
         }
     }
