@@ -146,7 +146,8 @@ void uMain::main() {
             for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
                 try { status = parser.next( input_text[i] ); }
                 _CatchResume ( uBaseCoroutine::UnhandledException ) {
-                    cerr << "\"" << input_text << "\" : \"" << input_text.substr( 0, ++i ) << "\" no";
+                    i += 2;
+                    cerr << "\"" << input_text << "\" : \"" << input_text.substr( 0, i ) << "\" no";
                     _Throw H( i );
                 }
             }
