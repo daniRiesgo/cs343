@@ -153,7 +153,8 @@ void uMain::main() {
 
         } catch ( H &h ) {
 
-            cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"" << endl;
+            if( i == input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
+            cout << endl;
 
         }
     }
