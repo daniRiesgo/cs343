@@ -44,8 +44,8 @@ _Coroutine FloatConstant {
             }
 
             // look for a new digit
-            if ( digits.find(ch) != std::string::npos ) {
-                status = CONT;
+            if ( findDigit ( 16 ) ) {
+                status = MATCH;
                 suspend();
             }
 
@@ -136,7 +136,8 @@ void uMain::main() {
         FloatConstant::Status status;
         string input_text;
         int i;
-        getline( cin,input_text );
+        try{ getline( cin,input_text ); }
+        catch ( uFile::failure ) { break; }
 
         try {
             if ( input_text.empty() ) {
