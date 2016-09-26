@@ -136,8 +136,7 @@ void uMain::main() {
         FloatConstant::Status status;
         string input_text;
         int i;
-        try{ getline( cin,input_text ); }
-        catch ( uFile::failure ) { break; }
+        if(!getline( cin,input_text ) { break; }
 
         try {
             if ( input_text.empty() ) {
