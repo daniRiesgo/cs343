@@ -39,13 +39,13 @@ _Coroutine FloatConstant {
 
             // look for the separator
             if ( ch == '.' ) {
-                status = CONT;
+                status = MATCH;
                 break; // if found, go read the mantissa
             }
 
             // look for a new digit
             if ( digits.find(ch) != std::string::npos ) {
-                status = MATCH;
+                status = CONT;
                 suspend();
             }
 
@@ -60,7 +60,7 @@ _Coroutine FloatConstant {
             for ( ;; ) {
 
                 // look for new digits
-                if ( findDigit ( 16) ) {
+                if ( findDigit ( 16 ) ) {
                     status = MATCH;
                     suspend();
                 }
@@ -132,25 +132,29 @@ void uMain::main() {
     string input_text;
     int i;
 
-    cout << "Give me some awesome floating point number to parse" << endl;
-    cin >> input_text;
+    for ( ;; )
+    {
+        cin >> input_text;
 
-    try {
-        for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
-            try { status = parser.next( input_text[i] ); }
-            _CatchResume ( uBaseCoroutine::UnhandledException ) {
-                _Throw H( i );
+        try {
+            if ( !( input_text.size() > 0 ) ) ; // TODO: handle blank lines
+            for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
+                try { status = parser.next( input_text[i] ); }
+                _CatchResume ( uBaseCoroutine::UnhandledException ) {
+                    _Throw H( i );
+                }
             }
+
+            if( status == FloatConstant::Status::MATCH )
+                cout << "\"" << input_text << "\" : \"" << input_text << "\" yes" << endl;
+            else if( status == FloatConstant::Status::CONT )
+                cout << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
+
+        } catch ( H &h ) {
+
+            cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"" << endl;
+
         }
-
-        if( status == FloatConstant::Status::MATCH ) cout << "Valid input!" << endl;
-        else if( status == FloatConstant::Status::CONT )cout << "Incomplete input." << endl;
-
-    } catch ( H &h ) {
-
-        if( h.i > 0 ) cerr << "Okay characters: '" << input_text.substr( 0, h.i ) << "'" << endl;
-        cerr << "Not okay characters: '" << input_text.substr( h.i ) << "'" << endl;
-
     }
 
 
