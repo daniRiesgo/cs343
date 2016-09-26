@@ -155,7 +155,7 @@ void uMain::main() {
                 cerr << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
 
         } catch ( H &h ) {
-            if( i ) cout << "\"\" : Warning! Blank line."
+            if( i ) cout << "\"\" : Warning! Blank line.";
             if( i < (int) input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
             cerr << endl;
 
