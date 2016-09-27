@@ -129,9 +129,10 @@ _Coroutine FloatConstant {
 void uMain::main() {
 
     INIT: {
-        if ( argc > 2 )
+        if ( argc > 2 ) {
             cerr << "Usage: ./" << argv[0] << " [infile-file]" << endl;
             break INIT;
+        }
         else if ( argc == 2 ){
             ifstream file( argv[1] );
             if ( file ) {
