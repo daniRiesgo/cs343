@@ -26,7 +26,6 @@ void f( int &i, fixup *fatherHandler ) {
     fixup thisone = *fatherHandler;
     cout << "f " << i << endl;
     if ( rand() % 5 == 0 ) {
-        cout << "I lost" << endl;
         thisone( i, fatherHandler );
     }
 
