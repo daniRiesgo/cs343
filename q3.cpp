@@ -131,10 +131,7 @@ void uMain::main() {
     ifstream infile;
     if( argc == 2 ) {
         try infile = new ifstream( argv[1] );
-        catch ( uFile::Failure ) {
-            cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
-
-        }
+        catch ( uFile::Failure ) cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
     }
 
     for ( ;; )

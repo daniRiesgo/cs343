@@ -5,13 +5,13 @@ MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}# makefile name
 OBJECTS01 = q1throwcatch.o		# optional build of given program
 EXEC01 = throwcatch			# 0th executable name
 
-OBJECTS1 = q1lj.o# object files forming 1st executable with prefix "q1"
+OBJECTS1 = q1longjmp.o# object files forming 1st executable with prefix "q1"
 EXEC1 = longjmp				# 1st executable name
 
 OBJECTS02 = q2resumption.o		# optional build of given program
 EXEC02 = resumption
 
-OBJECTS2 = q2fu.o# object files forming 2nd executable with prefix "q2"
+OBJECTS2 = q2noresumption.o# object files forming 2nd executable with prefix "q2"
 EXEC2 = fixup				# 2nd executable name
 
 OBJECTS3 = q3.o # object files forming 3rd executable with prefix "q3"
@@ -27,10 +27,10 @@ EXECS = ${EXEC1} ${EXEC2} ${EXEC3}
 
 all : ${EXECS}				# build all executables
 
-q1.o : q1.cp				# change compiler 1st executable, ADJUST SUFFIX (.cc)
+q1.o : q1.cpp				# change compiler 1st executable, ADJUST SUFFIX (.cc)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
-q1%.o : q1%.cp				# change compiler 1st executable, ADJUST SUFFIX (.cc)
+q1%.o : q1%.cpp				# change compiler 1st executable, ADJUST SUFFIX (.cc)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
 ${EXEC01} : ${OBJECTS01}
@@ -39,19 +39,19 @@ ${EXEC01} : ${OBJECTS01}
 ${EXEC1} : ${OBJECTS1}
 	g++-4.9 ${CXXFLAGS} $^ -o $@
 
-${OBJECTS02} : q2resumption.cp
+${OBJECTS02} : q2resumption.cpp
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${EXEC02} : ${OBJECTS02}
 	${CXX} ${CXXFLAGS} $^ -o $@
 
-q2.o : q2.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
+q2.o : q2.cpp				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
-q2%.o : q2%.cp				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
+q2%.o : q2%.cpp				# change compiler 2nd executable, ADJUST SUFFIX (.cc)
 	g++-4.9 ${CXXFLAGS} -c $< -o $@
 
-q3.o : q3.cp
+q3.o : q3.cpp
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${EXEC2} : ${OBJECTS2}
