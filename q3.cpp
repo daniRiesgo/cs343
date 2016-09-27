@@ -36,12 +36,12 @@ _Coroutine FloatConstant {
         // look for sign if any
         if ( ch == '-' || ch == '+' ) suspend();
 
-
         for( ;; ) {
 
             // look for the separator
             if ( ch == '.' ) {
-                status = MATCH;
+                if( digit_count > 0 ) status = MATCH;
+                else status = CONT;
                 break; // if found, go read the mantissa
             }
 
@@ -57,7 +57,6 @@ _Coroutine FloatConstant {
 
         // READ MANTISSA
 
-        digit_count = 0;
         BS: {
             for ( ;; ) {
 
