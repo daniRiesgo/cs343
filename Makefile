@@ -8,10 +8,10 @@ EXEC01 = throwcatch			# 0th executable name
 OBJECTS1 = q1longjmp.o# object files forming 1st executable with prefix "q1"
 EXEC1 = longjmp				# 1st executable name
 
-OBJECTS02 = q2resumption.o		# optional build of given program
+OBJECTS02 = q2.o # optional build of given program
 EXEC02 = resumption
 
-OBJECTS2 = q2noresumption.o# object files forming 2nd executable with prefix "q2"
+OBJECTS2 = q2noresumption.o # object files forming 2nd executable with prefix "q2"
 EXEC2 = fixup				# 2nd executable name
 
 OBJECTS3 = q3.o # object files forming 3rd executable with prefix "q3"
@@ -39,7 +39,7 @@ ${EXEC01} : ${OBJECTS01}
 ${EXEC1} : ${OBJECTS1}
 	g++-4.9 ${CXXFLAGS} $^ -o $@
 
-${OBJECTS02} : q2resumption.cpp
+${OBJECTS02} : q2.cpp
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${EXEC02} : ${OBJECTS02}
