@@ -36,6 +36,8 @@ _Coroutine FloatConstant {
         // look for sign if any
         if ( ch == '-' || ch == '+' ) suspend();
 
+        digit_count = 0;
+
         for( ;; ) {
 
             // look for the separator
