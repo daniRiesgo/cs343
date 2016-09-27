@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+struct noop {
+    void operator()(...) const {}
+};
+
 _Event H {                                              // uC++ exception type
   public:
     int &i;                                             // pointer to fixup variable at raise
