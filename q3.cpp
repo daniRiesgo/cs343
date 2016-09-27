@@ -130,6 +130,8 @@ _Coroutine FloatConstant {
 void uMain::main() {
 
     INIT: {
+        stringstream buffer;
+
         if ( argc > 2 ) {
             cerr << "Usage: ./" << argv[0] << " [infile-file]" << endl;
             break INIT;
@@ -137,13 +139,14 @@ void uMain::main() {
         else if ( argc == 2 ){
             ifstream file( argv[1] );
             if ( file ) {
-                cin << file.rdbuf();
+                buffer << file.rdbuf();
                 file.close();
             } else {
                 cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
                 break INIT;
             }
-
+        } else {
+            cin >> buffer;
         }
 
         for ( ;; )
