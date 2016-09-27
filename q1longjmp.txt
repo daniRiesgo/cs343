@@ -1,0 +1,35 @@
+Transformations from C-style to µC++ haven't started yet, but this first question introduces new ways to
+handle the flow of our program instead of just try/catch clauses handling exceptions. setjmp() was used in
+this case to substitute the aforementioned reserved words.
+
+Once modified the code, we used the time command to compare the execution times of both versions, obtaining
+the following results without compiler optimizations:
+
+% time ./throwcatch 40 280 40
+    real 1m24.815s
+    user 1m24.891s
+    sys	 0m0.004s
+
+% time ./longjmp 40 280 40
+    real 0m10.964s
+    user 0m10.974s
+    sys  0m0.000s
+
+As well as with optimizations activated:
+
+% time ./throwcatch 40 280 40
+    real 1m43.186s
+    user 1m43.208s
+    sys  0m0.068s
+
+% time ./longjmp 40 280 40
+    real 0m10.904s
+    user 0m10.912s
+    sys  0m0.000s
+
+We can observe how in this case the modification supposed a great optimization in performance among the
+original and the modified version. The time reduced down to a 10% of the original execution time in the
+scenario where no compiler optimizations were employed.
+
+It is curious, however, to see how compiler optimizations notoriously stretch instead of reduce the
+execution time of the original version, whilst the modified improves a humble ≈1%.

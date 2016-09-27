@@ -1,5 +1,0 @@
-\contentsline {section}{\numberline {1}Code description}{2}
-\contentsline {subsection}{\numberline {1.1}Source code}{2}
-\contentsline {subsection}{\numberline {1.2}Descripci\IeC {\'o}n del C\IeC {\'o}digo de \texttt {RRFI.c}}{3}
-\contentsline {section}{\numberline {2}Test and analysis of results}{4}
-\contentsline {section}{\numberline {3}Conclusions and Problems Faced}{5}
