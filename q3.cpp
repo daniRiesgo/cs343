@@ -154,8 +154,10 @@ void uMain::main() {
             FloatConstant::Status status;
             string input_text;
             int i;
-            if ( argc == 1 ) if( !getline( cin,input_text ) ) { break; }
-            else if( !getline( buffer,input_text ) ) { break; }
+            if ( argc == 2 ) {
+                if( !getline( buffer, input_text ) ) { break; }
+            }
+            else if( !getline( cin, input_text ) ) { break; }
 
             try {
                 if ( input_text.empty() ) {
