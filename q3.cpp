@@ -146,8 +146,6 @@ void uMain::main() {
                 cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
                 break INIT;
             }
-        } else {
-            cin >> buffer;
         }
 
         for ( ;; )
@@ -156,7 +154,8 @@ void uMain::main() {
             FloatConstant::Status status;
             string input_text;
             int i;
-            if( !getline( cin,input_text ) ) { break; }
+            if ( argc == 1 ) if( !getline( cin,input_text ) ) { break; }
+            else if( !getline( buffer,input_text ) ) { break; }
 
             try {
                 if ( input_text.empty() ) {
