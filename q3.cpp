@@ -129,9 +129,17 @@ _Coroutine FloatConstant {
 void uMain::main() {
 
     ifstream infile;
-    if( argc == 2 ) {
-        try infile = new ifstream( argv[1] );
-        catch ( uFile::Failure ) cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
+    shared_ptr<istream> input;
+
+    if (argc != 2)
+        input.reset( &cin, noop() );
+    else {
+        try {
+            input.reset( new ifstream( argv[1].c_str() ) );
+        }
+        catch ( uFile::Failure ) {
+            cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
+        }
     }
 
     for ( ;; )
@@ -140,7 +148,7 @@ void uMain::main() {
         FloatConstant::Status status;
         string input_text;
         int i;
-        if( !getline( cin,input_text ) ) { break; }
+        if( !getline( input, input_text ) ) { break; }
 
         try {
             if ( input_text.empty() ) {
@@ -168,6 +176,5 @@ void uMain::main() {
 
         }
     }
-
 
 }
