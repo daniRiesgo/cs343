@@ -1,10 +1,6 @@
 #include <iostream>
 using namespace std;
 
-struct noop {
-    void operator()(...) const {}
-};
-
 _Event H {                                              // uC++ exception type
   public:
     int &i;                                             // pointer to fixup variable at raise
@@ -132,53 +128,58 @@ _Coroutine FloatConstant {
 
 void uMain::main() {
 
-    ifstream infile;
-    shared_ptr<istream> input;
-
-    if (argc != 2)
-        input.reset( &cin, noop() );
-    else {
-        try {
-            input.reset( new ifstream( argv[1].c_str() ) );
-        }
-        catch ( uFile::Failure ) {
-            cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
-        }
-    }
-
-    for ( ;; )
-    {
-        FloatConstant parser;
-        FloatConstant::Status status;
-        string input_text;
-        int i;
-        if( !getline( input, input_text ) ) { break; }
-
-        try {
-            if ( input_text.empty() ) {
-                i = 0;
-                _Throw H( i );
+    INIT: {
+        if ( argc > 2 )
+            cerr << "Usage: ./" << argv[0] << " [infile-file]" << endl;
+            break INIT;
+        else if ( argc == 2 ){
+            ifstream file( argv[1] );
+            if ( file ) {
+                cin << file.rdbuf();
+                file.close();
+            } else {
+                cerr << "Error! Could not open input file \"" << argv[1] << "\"" << endl;
+                break INIT;
             }
-            for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
-                try { status = parser.next( input_text[i] ); }
-                _CatchResume ( uBaseCoroutine::UnhandledException ) {
-                    i += 2;
-                    cerr << "\"" << input_text << "\" : \"" << input_text.substr( 0, i ) << "\" no";
+
+        }
+
+        for ( ;; )
+        {
+            FloatConstant parser;
+            FloatConstant::Status status;
+            string input_text;
+            int i;
+            if( !getline( cin,input_text ) ) { break; }
+
+            try {
+                if ( input_text.empty() ) {
+                    i = 0;
                     _Throw H( i );
                 }
+                for ( i = 0 ; i < (int) input_text.size() ; i++ ) {
+                    try { status = parser.next( input_text[i] ); }
+                    _CatchResume ( uBaseCoroutine::UnhandledException ) {
+                        i += 2;
+                        cerr << "\"" << input_text << "\" : \"" << input_text.substr( 0, i ) << "\" no";
+                        _Throw H( i );
+                    }
+                }
+
+                if( status == FloatConstant::Status::MATCH )
+                    cout << "\"" << input_text << "\" : \"" << input_text << "\" yes" << endl;
+                else if( status == FloatConstant::Status::CONT )
+                    cerr << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
+
+            } catch ( H &h ) {
+                if( !i ) cout << "\"\" : Warning! Blank line.";
+                else if( i < (int) input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
+                cerr << endl;
+
             }
-
-            if( status == FloatConstant::Status::MATCH )
-                cout << "\"" << input_text << "\" : \"" << input_text << "\" yes" << endl;
-            else if( status == FloatConstant::Status::CONT )
-                cerr << "\"" << input_text << "\" : \"" << input_text << "\" no" << endl;
-
-        } catch ( H &h ) {
-            if( !i ) cout << "\"\" : Warning! Blank line.";
-            else if( i < (int) input_text.size() ) cerr << " -- extraneous characters \"" << input_text.substr( h.i ) << "\"";
-            cerr << endl;
-
         }
+
     }
+
 
 }
