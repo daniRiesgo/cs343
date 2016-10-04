@@ -19,7 +19,8 @@ template<typename T> _Coroutine Binsertsort {
 
   private:
     void main() {
-        Binsertsort<int> less = &Binsertsort<int>( Sentinel ), greater = &Binsertsort<int>( Sentinel );
+        Binsertsort<int> less = &Binsertsort<int>( Sentinel );
+        Binsertsort<int> greater = &Binsertsort<int>( Sentinel );
         for ( ;; ) {
             if ( value < Sentinel ) less.sort( value );
             else greater.sort( value );
