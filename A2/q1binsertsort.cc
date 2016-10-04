@@ -36,7 +36,7 @@ void uMain::main() {
     const int Sentinel = 1;
     Binsertsort<int> root = ( Sentinel );
 
-    std::cout << "Initial values were: "
+    std::cout << "Initial values were: ";
 
     for ( auto value : unsorted ) {
         root.sort( value );
