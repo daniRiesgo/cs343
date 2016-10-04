@@ -19,7 +19,7 @@ template<typename T> _Coroutine Binsertsort {
 
   private:
     void main() {
-        Binsertsort<int> less = Binsertsort<int>( Sentinel ), greater = Binsertsort<int>( Sentinel );
+        Binsertsort<int> less = Binsertsort<int>( Sentinel )&, greater = Binsertsort<int>( Sentinel )&;
         for ( ;; ) {
             if ( value < Sentinel ) less.sort( value );
             else greater.sort( value );
@@ -33,7 +33,7 @@ void uMain::main() {
     int unsorted[] = {25, 6, 9, 5, 99, 100, 101, 7};
     int size = 0;
     const int Sentinel = 1;
-    Binsertsort<int> root = Binsertsort<int>( Sentinel );
+    Binsertsort<int> root = Binsertsort<int>( Sentinel )&;
 
     std::cout << "Initial values were: "
 
