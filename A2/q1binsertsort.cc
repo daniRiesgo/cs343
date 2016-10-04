@@ -3,7 +3,6 @@ using namespace std;
 template<typename T> _Coroutine Binsertsort {
     const T Sentinel;            // value denoting end of set
     T value;                     // communication: value being passed down/up the tree
-    void main();                 // YOU WRITE THIS ROUTINE
   public:
     Binsertsort( T Sentinel ) : Sentinel( Sentinel ) {}
 
@@ -19,7 +18,7 @@ template<typename T> _Coroutine Binsertsort {
 
   private:
     void main() {
-        Binsertsort less = Binsertsort( Sentinel ), greater = Binsertsort( Sentinel );
+        Binsertsort<int> less = Binsertsort( Sentinel ), greater = Binsertsort( Sentinel );
         for ( ;; ) {
             if ( value < Sentinel ) less.sort( value );
             else greater.sort( value );
@@ -33,7 +32,7 @@ void uMain::main() {
     int unsorted[] = {25, 6, 9, 5, 99, 100, 101, 7};
     int size = 0;
     const int Sentinel = 1;
-    Binsertsort root = Binsertsort( Sentinel );
+    Binsertsort<int> root = Binsertsort( Sentinel );
 
     cout << "Initial values were: "
 
@@ -51,5 +50,5 @@ void uMain::main() {
         cout << sorted[ i ];
     }
 
-    cout << endl;   
+    cout << endl;
 }
