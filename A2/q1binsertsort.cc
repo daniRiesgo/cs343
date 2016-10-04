@@ -1,4 +1,3 @@
-using namespace std;
 
 template<typename T> _Coroutine Binsertsort {
     const T Sentinel;            // value denoting end of set
@@ -18,7 +17,7 @@ template<typename T> _Coroutine Binsertsort {
 
   private:
     void main() {
-        Binsertsort<int> less = Binsertsort( Sentinel ), greater = Binsertsort( Sentinel );
+        Binsertsort<int> less = Binsertsort<int>( Sentinel ), greater = Binsertsort<int>( Sentinel );
         for ( ;; ) {
             if ( value < Sentinel ) less.sort( value );
             else greater.sort( value );
@@ -32,23 +31,23 @@ void uMain::main() {
     int unsorted[] = {25, 6, 9, 5, 99, 100, 101, 7};
     int size = 0;
     const int Sentinel = 1;
-    Binsertsort<int> root = Binsertsort( Sentinel );
+    Binsertsort<int> root = Binsertsort<int>( Sentinel );
 
-    cout << "Initial values were: "
+    std::cout << "Initial values were: "
 
     for ( auto value : unsorted ) {
         root.sort( value );
-        cout << value;
+        std::cout << value;
         size++;
     }
 
-    cout << endl << "And sorted values are: ";
+    std::cout << std::endl << "And sorted values are: ";
 
     int sorted[size];
     for ( int i = 0; i < size; i++ ) {
         sorted[ i ] = root.retrieve();
-        cout << sorted[ i ];
+        std::cout << sorted[ i ];
     }
 
-    cout << endl;
+    std::cout << endl;
 }
