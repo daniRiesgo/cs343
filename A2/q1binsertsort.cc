@@ -22,7 +22,10 @@ template<typename T> _Coroutine Binsertsort {
   private:
     void main() {
         Binsertsort<int> less( Sentinel );
+        printf("With a less\n");
         Binsertsort<int> greater( Sentinel );
+        printf("An a greater\n");
+
         for ( ;; ) {
             if ( value < Sentinel ) less.sort( value );
             else greater.sort( value );
