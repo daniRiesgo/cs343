@@ -5,7 +5,9 @@ template<typename T> _Coroutine Binsertsort {
     const T Sentinel;            // value denoting end of set
     T value;                     // communication: value being passed down/up the tree
   public:
-    Binsertsort( T Sentinel ) : Sentinel( Sentinel ) {}
+    Binsertsort( T Sentinel ) : Sentinel( Sentinel ) {
+        printf("I new binsertsort was created with Sentinel %d\n", Sentinel);
+    }
 
     void sort( T value ) {       // value to be sorted
         Binsertsort::value = value;
