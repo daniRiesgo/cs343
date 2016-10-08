@@ -39,7 +39,7 @@ template<typename T> _Coroutine Binsertsort {
             if ( value == SENTINEL ) break;
             if ( value < ownValue ) { less.sort( value ); }
             else { greater.sort( value ); }
-            resume();
+            suspend();
         }
 
         for ( ;; ) { // retrieving from the left
