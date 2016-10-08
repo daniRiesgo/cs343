@@ -32,7 +32,7 @@ template<typename T> _Coroutine Binsertsort {
             suspend();
         }
         ownValue = value;
-        printf("sorted value: %d\n", value)
+        printf("sorted value: %d\n", value);
         resume();
         for ( ;; ) {
 
