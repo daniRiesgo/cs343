@@ -26,29 +26,34 @@ template<typename T> _Coroutine Binsertsort {
         Binsertsort<int> less( Sentinel );
         Binsertsort<int> greater( Sentinel );
         ownValue = value;
+
         // first iteration
         for( ;; ) {
             if( ownValue != Sentinel ) break;
             suspend();
         }
         ownValue = value;
-        printf("sorted value: %d\n", value);
-        resume();
-        for ( ;; ) {
+        suspend();
 
-            if ( value < ownValue ) {
-                less.sort( value );
-                value = ownValue;
-                suspend();
-            }
-            else {//if ( value > ownValue ) {
-                greater.sort( value );
-                value = ownValue;
-                suspend();
-            } //else {
+        for ( ;; ) { // sorting
+            if ( value == SENTINEL ) break;
+            if ( value < ownValue ) { less.sort( value ); }
+            else { greater.sort( value ); }
+            resume();
+        }
 
-            // }
-            // resume();
+        for ( ;; ) { // retrieving from the left
+            resume();
+            value = less.retrieve();
+            if( value == SENTINEL ) break;
+        }
+
+        value = ownValue;
+
+        for ( ;; ) { // retrieving from the right
+            resume();
+            value = greater.retrieve();
+            if( value == SENTINEL ) break;
         }
     }
 };
