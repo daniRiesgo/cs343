@@ -20,11 +20,11 @@ template<typename T> _Coroutine Binsertsort {
     }
 
   private:
-    Binsertsort<int> less( Sentinel );
-    Binsertsort<int> greater( Sentinel );
     T ownValue;
 
     void main() {
+        Binsertsort<int> less( Sentinel );
+        Binsertsort<int> greater( Sentinel );
         ownValue = value;
         // first iteration
         for( ;; ) {
@@ -78,13 +78,13 @@ void uMain::main() {
     std::cout << endl;
 }
 
-void something() {
-    Binsertsort<int> root( Sentinel );
-
-    root.sort(0); // root.value = 0
-    root.sort(27); // root.greater.value = 27
-    root.sort(4); // root.greater.less.value = 4
-    root.sort(-12); // root.less.value = -12
-    root.sort(-3); // root.less.greater.value = -3
-    root.sort(30); // root.greater.greater.value = 30
-}
+// void something() {
+//     Binsertsort<int> root( Sentinel );
+//
+//     root.sort(0); // root.value = 0
+//     root.sort(27); // root.greater.value = 27
+//     root.sort(4); // root.greater.less.value = 4
+//     root.sort(-12); // root.less.value = -12
+//     root.sort(-3); // root.less.greater.value = -3
+//     root.sort(30); // root.greater.greater.value = 30
+// }
