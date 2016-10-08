@@ -67,7 +67,7 @@ void uMain::main() {
 
     for ( auto value : unsorted ) {
         root.sort( value );
-        std::cout << value;
+        std::cout << value << " ";
         size++;
     }
 
@@ -76,7 +76,7 @@ void uMain::main() {
     int sorted[size];
     for ( int i = 0; i < size; i++ ) {
         sorted[ i ] = root.retrieve();
-        std::cout << sorted[ i ];
+        std::cout << sorted[ i ] << " ";
     }
 
     std::cout << endl;
