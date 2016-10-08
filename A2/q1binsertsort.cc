@@ -20,16 +20,35 @@ template<typename T> _Coroutine Binsertsort {
     }
 
   private:
-    void main() {
-        Binsertsort<int> less( Sentinel );
-        printf("With a less\n");
-        Binsertsort<int> greater( Sentinel );
-        printf("An a greater\n");
+    Binsertsort<int> less( Sentinel );
+    Binsertsort<int> greater( Sentinel );
+    T ownValue;
 
+    void main() {
+        ownValue = value;
+        // first iteration
+        for( ;; ) {
+            if( ownValue != Sentinel ) break;
+            suspend();
+        }
+        ownValue = value;
+        printf("sorted value: %d\n", value)
+        resume();
         for ( ;; ) {
-            if ( value < Sentinel ) less.sort( value );
-            else greater.sort( value );
-            resume();
+
+            if ( value < ownValue ) {
+                less.sort( value );
+                value = ownValue;
+                suspend();
+            }
+            else {//if ( value > ownValue ) {
+                greater.sort( value );
+                value = ownValue;
+                suspend();
+            } //else {
+
+            // }
+            // resume();
         }
     }
 };
@@ -57,4 +76,15 @@ void uMain::main() {
     }
 
     std::cout << endl;
+}
+
+void something() {
+    Binsertsort<int> root( Sentinel );
+
+    root.sort(0); // root.value = 0
+    root.sort(27); // root.greater.value = 27
+    root.sort(4); // root.greater.less.value = 4
+    root.sort(-12); // root.less.value = -12
+    root.sort(-3); // root.less.greater.value = -3
+    root.sort(30); // root.greater.greater.value = 30
 }
