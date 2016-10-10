@@ -71,6 +71,8 @@ void uMain::main() {
         size++;
     }
 
+    root.sort( SENTINEL );
+
     std::cout << std::endl << "And sorted values are: ";
 
     int sorted[size];
