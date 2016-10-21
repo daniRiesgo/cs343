@@ -3,14 +3,14 @@ KIND:=NOBUSY
 OPT:= # -multi -O2
 
 CXX = u++					# compiler
-CXXFLAGS = -g -Wall -Wno-unused-label ${OPT} -MMD -std=c++11 \
+CXXFLAGS = -O2 -g -Wall -Wno-unused-label ${OPT} -MMD -std=c++11 \
 		-DSENTINEL=${SENTINEL} -D${KIND}# compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
-OBJECTS01 = q1staticexits.o			# optional build of given program
+OBJECTS01 = q1.o			# optional build of given program
 EXEC01 = staticexits				# 0th executable name
 
-OBJECTS1 = q1nostaticexits.o
+OBJECTS1 = q1.o
 EXEC1 = nostaticexits				# 1st executable name
 
 OBJECTS2 = # object files forming 2nd executable with prefix "q2"
@@ -30,16 +30,16 @@ EXECS = ${EXEC1} ${EXEC2} ${EXEC3}		# all executables
 all : ${EXECS}					# build all executables
 
 q1.o : q1.cc					# change compiler 1st executable, ADJUST SUFFIX (.cc)
-	g++-4.9 ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c $< -o $@
 
 q1%.o : q1%.cc					# change compiler 1st executable, ADJUST SUFFIX (.cc)
-	g++-4.9 ${CXXFLAGS} -c $< -o $@
+	g++ ${CXXFLAGS} -c $< -o $@
 
 ${EXEC01} : ${OBJECTS01}
-	g++-4.9 ${CXXFLAGS} $^ -o $@
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${EXEC1} : ${OBJECTS1}
-	g++-4.9 ${CXXFLAGS} $^ -o $@
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${EXEC2} : ${OBJECTS2}				# link step
 	${CXX} ${CXXFLAGS} $^ -o $@

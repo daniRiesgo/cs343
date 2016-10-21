@@ -1,45 +1,65 @@
 #include <cstdlib>                    // atoi
 #include <iostream>
 using namespace std;
+#define NOOUPUT
 
 // volatile prevents dead-code removal
 void do_work( int C1, int C2, int C3, int L1, int L2, volatile int L3 ) {
     for ( int i = 0; i < L1; i += 1 ) {
-#ifndef NOOUPUT
-        cout << "S1 i:" << i << endl;
-#endif
+
+        #ifndef NOOUPUT
+                cout << "S1 i:" << i << endl;
+        #endif
+
         for ( int j = 0; j < L2; j += 1 ) {
-#ifndef NOOUPUT
-            cout << "S2 i:" << i << " j:" << j << endl;
-#endif
+
+            #ifndef NOOUPUT
+                cout << "S2 i:" << i << " j:" << j << endl;
+            #endif
+
             for ( int k = 0; k < L3; k += 1 ) {
-#ifndef NOOUPUT
-                cout << "S3 i:" << i << " j:" << j << " k:" << k << " : ";
-#endif
-      if ( C1 ) goto EXIT1;
-#ifndef NOOUPUT
-                cout << "S4 i:" << i << " j:" << j << " k:" << k << " : ";
-#endif
-          if ( C2 ) goto EXIT2;
-#ifndef NOOUPUT
-                cout << "S5 i:" << i << " j:" << j << " k:" << k << " : ";
-#endif
-              if ( C3 ) goto EXIT3;
-#ifndef NOOUPUT
-                cout << "S6 i:" << i << " j:" << j << " k:" << k << " : ";
-#endif
+
+                #ifndef NOOUPUT
+                    cout << "S3 i:" << i << " j:" << j << " k:" << k << " : ";
+                #endif
+
+                if ( C1 ) goto EXIT1;
+
+                #ifndef NOOUPUT
+                    cout << "S4 i:" << i << " j:" << j << " k:" << k << " : ";
+                #endif
+
+                if ( C2 ) goto EXIT2;
+
+                #ifndef NOOUPUT
+                    cout << "S5 i:" << i << " j:" << j << " k:" << k << " : ";
+                #endif
+
+                if ( C3 ) goto EXIT3;
+
+                #ifndef NOOUPUT
+                    cout << "S6 i:" << i << " j:" << j << " k:" << k << " : ";
+                #endif
             } // for
-          EXIT3:;
-#ifndef NOOUPUT
-            cout << "S7 i:" << i << " j:" << j << endl;
-#endif
+
+            EXIT3:;
+
+            #ifndef NOOUPUT
+                cout << "S7 i:" << i << " j:" << j << endl;
+            #endif
+
         } // for
-      EXIT2:;
-#ifndef NOOUPUT
-        cout << "S8 i:" << i << endl;
-#endif
+
+        EXIT2:;
+
+        #ifndef NOOUPUT
+            cout << "S8 i:" << i << endl;
+        #endif
+
     } // for
-  EXIT1:;
+
+    EXIT1:;
+
 } // do_work
 
 int main( int argc, char *argv[] ) {
