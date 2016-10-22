@@ -23,7 +23,7 @@ void uMain::main() {
     INIT: {
         // ARGUMENT PARSING
 
-        if( !parseArgs( argc, argv, xfile, yfile) ) break INIT;
+        if( !parseArgs( argc, argv, &xfile, &yfile) ) break INIT;
 
         // MATRIX INITIALIZATION
 
