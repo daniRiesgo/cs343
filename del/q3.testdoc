@@ -1,0 +1,5 @@
+Inputs for the parser in file input.txt were tested covering as many corner cases as possible, making
+use of the command line argument to test the parsing capacities.
+
+With regard to the stability of code for q3, we tried entering more arguments than allowed (max 1) and an
+incorrect one (a file that does not exist).
