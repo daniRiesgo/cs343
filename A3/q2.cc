@@ -106,7 +106,7 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
     for( size_t i = 0; i < rows; i++ ) {
         for( size_t j = 0; j < cols; j++ ) {
             *file >> dest[ i ][ j ];
-            if( *file.fail() ) {
+            if( file->fail() ) {
                 cerr << "Error when reading matrix file" << endl;
                 return -1;
             }
