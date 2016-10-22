@@ -61,7 +61,6 @@ void uMain::main() {
                 // read a line from file
                 line.clear();
                 getline( xfile, line );
-                cout << line << endl;
 
                 // place each row element in the matrix
                 for( size_t j = 0; j < xcyr; j++ ) {
@@ -69,6 +68,7 @@ void uMain::main() {
                         cerr << "Error reading the file " << argv[ 4 ] << endl;
                         break INIT;
                     }
+                    cout << line << endl;
                     // coge la substr
                     if( j < xcyr-1 ) {
                         pos = line.find( " " );
