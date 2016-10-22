@@ -3,7 +3,6 @@
 #include <sstream>
 #include <iomanip>
 #define DEFAULT_UNIFORM 37
-//#define OUTPUT
 using namespace std;
 
 int parseArgs( int argc, char *argv[], stringstream *xfile,
@@ -84,7 +83,7 @@ int readFile( stringstream *dest, char *filename ) {
         *dest << file.rdbuf();
         file.close();
     } else {
-        cerr << "Error! Could not open input file \"" << filename << "\"" << endl;
+        cout << "Error! Could not open input file \"" << filename << "\"" << endl;
         return -1;
     }
     return 0;
@@ -119,7 +118,7 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
         for( size_t j = 0; j < cols; j++ ) {
             *file >> dest[ i ][ j ];
             if( file->fail() ) {
-                cerr << "Error when reading matrix file" << endl;
+                cout << "Error when reading matrix file" << endl;
                 return -1;
             }
         }
@@ -141,8 +140,8 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
             break;
         }
         default: {
-            cerr << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
-            cerr << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
+            cout << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
+            cout << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
             return -1;
         }
     }
