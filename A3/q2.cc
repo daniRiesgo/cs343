@@ -8,6 +8,8 @@ using namespace std;
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc );
 int readFile( stringstream *dest, char *filename );
 void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
+int parseArgs( int argc, char *argv[], stringstream *xfile,
+                stringstream *yfile, int & xr, int & xcyr, int & yc);
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
     printf("%s\n", "Sí, sí, todo bien");
@@ -102,7 +104,7 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value ) {
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file ) {
     for( size_t i = 0; i < rows; i++ ) {
         for( size_t j = 0; j < cols; j++ ) {
-            file >> X[ i ][ j ];
+            file >> dest[ i ][ j ];
             if( file.fail() ) {
                 cerr << "Error when reading matrix file" << endl;
                 return -1;
@@ -112,16 +114,17 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file
     return 0;
 }
 
-int parseArgs( int argc, const char *argv[], stringstream *xfile, stringstream *yfile ) {
+int parseArgs( int argc, char *argv[], stringstream *xfile,
+                stringstream *yfile, int & xr, int & xcyr, int & yc) {
     switch ( argc ) {
         case 6: { // when files are provided
             if( readFile( xfile, argv[ 4 ] ) ) return -1;
             if( readFile( yfile, argv[ 5 ] ) ) return -1;
         }
         case 4: { // when number of arguments is correct
-            xr   = atoi( argv[ 1 ] );
-            xcyr = atoi( argv[ 2 ] );
-            yc   = atoi( argv[ 3 ] );
+            *xr   = atoi( argv[ 1 ] );
+            *xcyr = atoi( argv[ 2 ] );
+            *yc   = atoi( argv[ 3 ] );
             break;
         }
         default: {
@@ -130,4 +133,5 @@ int parseArgs( int argc, const char *argv[], stringstream *xfile, stringstream *
             return -1;
         }
     }
+    return 0;
 }
