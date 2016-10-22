@@ -16,3 +16,7 @@ _Task Consumer {
   public:
     Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum );
 };
+
+void uMain::main () {
+    prinf("I workaut\n");
+}
