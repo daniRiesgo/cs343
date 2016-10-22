@@ -155,7 +155,7 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
     for( size_t i = 0; i < xcyr; i++ ) {
         // blank spaces
         for( size_t j = 0; j < xcyr; j++ ) {
-            if( i != 0 ) cout << " ";
+            if( j != 0 ) cout << " ";
             cout << setw(8) << " ";
         }
         // separator
@@ -165,7 +165,7 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
         cout << endl;
     }
     // print separator
-    for( size_t i = 0; i < 8*xcyr+4 ; i++ ) {
+    for( size_t i = 0; i < 9*xcyr+3 ; i++ ) {
         cout << "-";
     }
     cout << "*";
@@ -177,7 +177,7 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
     for( size_t i = 0; i < xr; i++ ) {
         // blank spaces
         for( size_t j = 0; j < xcyr; j++ ) {
-            if( i != 0 ) cout << " ";
+            if( j != 0 ) cout << " ";
             cout << setw(8) << X[ i ][ j ];
         }
         // separator
