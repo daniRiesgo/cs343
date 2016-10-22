@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #define DEFAULT_UNIFORM 37
+#define OUTPUT
 using namespace std;
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc );
