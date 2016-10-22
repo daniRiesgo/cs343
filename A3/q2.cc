@@ -38,9 +38,9 @@ void uMain::main() {
         }
 
         // initialize the three matrices to be used with the given dimensions
-        int *X[];
-        int *Y[];
-        int *Z[];
+        int *X[ xr ];
+        int *Y[ xcyr ];
+        int *Z[ xr ];
 
         for( int i = 0; i < xr; i++ ) {
             X[ i ] = new int[ xcyr ];
