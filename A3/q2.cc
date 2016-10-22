@@ -78,15 +78,15 @@ void uMain::main() {
                             }
                         }
 
-                        X[ i ][ j ] = atoi( line.substr( 0, pos ) );
+                        X[ i ][ j ] = atoi( line.substr( 0, pos ).c_str() );
 
-                        do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' )
+                        do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' );
                         line = line.substr( pos );
                     } else {
-                        X[ i ][ j ] = atoi( line );
+                        X[ i ][ j ] = atoi( line.c_str() );
                     }
 
-                    X[ i ][ j ] = line;
+                    X[ i ][ j ] = atoi( line.c_str() );
                     #ifdef OUTPUT
                         cout << X[ i ][ j ] << "\t";
                     #endif
