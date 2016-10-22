@@ -9,7 +9,7 @@ int readFile( stringstream *dest, char *filename );
 void fillUniformMatrix( int *dest[], unsigned int rows, unsigned int cols, int value );
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
-
+    printf("%s\n", "Sí, sí, todo bien");
 }
 
 void uMain::main() {
@@ -56,6 +56,14 @@ void uMain::main() {
 
         matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
+        // generateOutput();
+
+        // Free resources
+        for( unsigned int i = 0; i < xr; i++ ) {
+            free( X[ i ] );
+            free( Z[ i ] );
+        }
+        for( unsigned int i = 0; i < xcyr; i++ ) { free( Y[ i ] ); }
     }
 }
 
