@@ -217,7 +217,7 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
         cout << setw(5) << "|";
         // row of Y matrix
         for( size_t j = 0; j < yc; j++ ) cout << setw(9) << Y[ i ][ j ];
-        cout << endl;
+        cout << " " << endl;
     }
     // print separator
     for( size_t i = 0; i < 9*xcyr+3 ; i++ ) {
@@ -239,6 +239,6 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
         cout << setw(5) << "|";
         // row of Y matrix
         for( size_t j = 0; j < yc; j++ ) cout << setw(9) << Z[ i ][ j ];
-        cout << endl;
+        cout << " " << endl;
     }
 }
