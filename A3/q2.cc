@@ -54,7 +54,7 @@ void uMain::main() {
             fillUniformMatrix( Y, xcyr, yc, DEFAULT_UNIFORM );
         }
 
-        matrixmultiply( Z, X, xr, xcyc, Y, yc );
+        matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
     }
 }
