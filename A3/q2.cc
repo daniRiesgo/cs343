@@ -5,16 +5,18 @@
 //#define OUTPUT
 using namespace std;
 
+int parseArgs( int argc, char *argv[], stringstream *xfile,
+                stringstream *yfile, size_t *xr, size_t *xcyr, size_t *yc);
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc );
 int readFile( stringstream *dest, char *filename );
 void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file );
-int parseArgs( int argc, char *argv[], stringstream *xfile,
-                stringstream *yfile, size_t *xr, size_t *xcyr, size_t *yc);
+void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc );
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
     printf("%s\n", "Sí, sí, todo bien");
 }
+
 
 void uMain::main() {
 
@@ -29,9 +31,7 @@ void uMain::main() {
         // MATRIX INITIALIZATION
 
             // create the three matrices to be used with the given dimensions
-        int *X[ xr ];
-        int *Y[ xcyr ];
-        int *Z[ xr ];
+        int *X[ xr ], *Y[ xcyr ], *Z[ xr ];
 
             // reserve the necessary space for each matrix in the heap
         for( size_t i = 0; i < xr; i++ ) {
@@ -55,9 +55,12 @@ void uMain::main() {
 
         matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
-        // generateOutput( X, Y, Z );
+        // PRINT OUTPUT
 
-        // Free resources
+        if( argc == 6 ) generateOutput( X, Y, Z );
+
+        // FREE RESOURCES
+
         for( size_t i = 0; i < xr; i++ ) {
             free( X[ i ] );
             free( Z[ i ] );
@@ -135,4 +138,8 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
         }
     }
     return 0;
+}
+
+void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc ) {
+    printf( "Y este output es la polla o k\n" );
 }
