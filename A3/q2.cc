@@ -57,7 +57,7 @@ void uMain::main() {
 
         // PRINT OUTPUT
 
-        if( argc == 6 ) generateOutput( X, Y, Z );
+        if( argc == 6 ) { generateOutput( X, Y, Z, xr, xcyr, yc ); }
 
         // FREE RESOURCES
 
@@ -105,6 +105,14 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value ) {
     }
 }
 
+/*
+    Fills a matrix with the values obtained from an ifstream.
+    Args:
+        - dest: location of the matrix to be filled
+        - rows: y dimension of the matrix
+        - cols: x dimension of the matrix
+        - file: content to be placed in the matrix
+*/
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file ) {
     for( size_t i = 0; i < rows; i++ ) {
         for( size_t j = 0; j < cols; j++ ) {
@@ -141,5 +149,38 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
 }
 
 void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc ) {
-    printf( "Y este output es la polla o k\n" );
+
+    // print blank space and Y matrix
+    for( size_t i = 0; i < xcyr; i++ ) {
+        // blank spaces
+        for( size_t j = 0; j < xcyr; j++ ) cout << setw(8) << " ";
+        // separator
+        cout << setw(5) << "|" << " ";
+        // row of Y matrix
+        for( size_t j = 0; j < yc; j++ ) cout << setw(8) << Y[ i ][ j ];
+        cout << endl;
+    }
+    // print separator
+    for( size_t i = 0; i < 8*xcyr+4 ; i++ ) {
+        cout << "-";
+    }
+    cout << "*";
+    for( size_t i = 0; i < 8*yc+2 ; i++ ) {
+        cout << "-";
+    }
+    cout << endl;
+    // print matrices X and Z
+    for( size_t i = 0; i < xr; i++ ) {
+        // blank spaces
+        for( size_t j = 0; j < xcyr; j++ ) cout << setw(8) << X[ i ][ j ];
+        // separator
+        cout << setw(5) << "|" << " ";
+        // row of Y matrix
+        for( size_t j = 0; j < yc; j++ ) cout << setw(8) << Z[ i ][ j ];
+        cout << endl;
+    }
+
+
 }
+
+8*xcyr+xcyr+3| # # # #
