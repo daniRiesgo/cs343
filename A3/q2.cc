@@ -60,36 +60,40 @@ void uMain::main() {
             for( size_t i = 0; i < xr; i++ ) {
                 // read a line from file
                 line.clear();
-                getline( xfile, line );
+                // getline( xfile, line );
 
                 // place each row element in the matrix
                 for( size_t j = 0; j < xcyr; j++ ) {
-                    if ( line.empty() ) {
-                        cerr << "Error reading the file " << argv[ 4 ] << endl;
-                        break INIT;
+                    xfile >> X[ i ][ j ];
+                    if( xfile.err ) {
+                        cerr << "Wops" << endl;
                     }
-                    cout << line;
-                    // coge la substr
-                    if( j < xcyr-1 ) {
-                        // pos = line.find( " " );
-                        // if( pos == string::npos ) {
-                        //     pos = line.find( "\t" );
-                        //     if( pos == string::npos ) {
-                        //         cerr << "Error reading the file " << argv[ 4 ] << endl;
-                        //         break INIT;
-                        //     }
-                        // }
-
-                        X[ i ][ j ] = atoi( line.c_str() );
-
-                        do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' );
-                        line = line.substr( pos );
-                    } else {
-                        X[ i ][ j ] = atoi( line.c_str() );
-                    }
-
-                    // X[ i ][ j ] = atoi( line.c_str() );
-                    cout << ", get " << X[ i ][ j ] << endl;
+                    // if ( line.empty() ) {
+                    //     cerr << "Error reading the file " << argv[ 4 ] << endl;
+                    //     break INIT;
+                    // }
+                    // cout << line;
+                    // // coge la substr
+                    // if( j < xcyr-1 ) {
+                    //     pos = line.find( " " );
+                    //     if( pos == string::npos ) {
+                    //         pos = line.find( "\t" );
+                    //         if( pos == string::npos ) {
+                    //             cerr << "Error reading the file " << argv[ 4 ] << endl;
+                    //             break INIT;
+                    //         }
+                    //     }
+                    //
+                    //     X[ i ][ j ] = atoi( line.c_str() );
+                    //
+                    //     do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' );
+                    //     line = line.substr( pos );
+                    // } else {
+                    //     X[ i ][ j ] = atoi( line.c_str() );
+                    // }
+                    //
+                    // // X[ i ][ j ] = atoi( line.c_str() );
+                    // cout << ", get " << X[ i ][ j ] << endl;
                     #ifdef OUTPUT
                         cout << X[ i ][ j ] << "\t";
                     #endif
