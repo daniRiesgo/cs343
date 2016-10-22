@@ -154,11 +154,11 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
     // print blank space and Y matrix
     for( size_t i = 0; i < xcyr; i++ ) {
         // blank spaces
-        for( size_t j = 0; j < xcyr; j++ ) cout << setw(8) << " ";
+        for( size_t j = 0; j < xcyr; j++ ) cout << setw(9) << " ";
         // separator
-        cout << setw(5) << "|" << " ";
+        cout << setw(5) << "|";
         // row of Y matrix
-        for( size_t j = 0; j < yc; j++ ) cout << setw(8) << Y[ i ][ j ];
+        for( size_t j = 0; j < yc; j++ ) cout << setw(9) << Y[ i ][ j ];
         cout << endl;
     }
     // print separator
@@ -173,11 +173,11 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
     // print matrices X and Z
     for( size_t i = 0; i < xr; i++ ) {
         // blank spaces
-        for( size_t j = 0; j < xcyr; j++ ) cout << setw(8) << X[ i ][ j ];
+        for( size_t j = 0; j < xcyr; j++ ) cout << setw(9) << X[ i ][ j ];
         // separator
-        cout << setw(5) << "|" << " ";
+        cout << setw(5) << "|";
         // row of Y matrix
-        for( size_t j = 0; j < yc; j++ ) cout << setw(8) << Z[ i ][ j ];
+        for( size_t j = 0; j < yc; j++ ) cout << setw(9) << Z[ i ][ j ];
         cout << endl;
     }
 }
