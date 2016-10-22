@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #define DEFAULT_UNIFORM 37
-#define OUTPUT
+//#define OUTPUT
 using namespace std;
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc );
@@ -61,6 +61,7 @@ void uMain::main() {
                 // read a line from file
                 line.clear();
                 getline( xfile, line );
+                cout << line << endl;
 
                 // place each row element in the matrix
                 for( size_t j = 0; j < xcyr; j++ ) {
@@ -72,7 +73,6 @@ void uMain::main() {
                     if( j < xcyr-1 ) {
                         pos = line.find( " " );
                         if( pos == string::npos ) {
-                            printf("didn't find a space, looking for a tab\n");
                             pos = line.find( "\t" );
                             if( pos == string::npos ) {
                                 cerr << "Error reading the file " << argv[ 4 ] << endl;
