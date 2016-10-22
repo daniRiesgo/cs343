@@ -68,17 +68,17 @@ void uMain::main() {
                         cerr << "Error reading the file " << argv[ 4 ] << endl;
                         break INIT;
                     }
-                    cout << line << endl;
+                    cout << line;
                     // coge la substr
                     if( j < xcyr-1 ) {
-                        pos = line.find( " " );
-                        if( pos == string::npos ) {
-                            pos = line.find( "\t" );
-                            if( pos == string::npos ) {
-                                cerr << "Error reading the file " << argv[ 4 ] << endl;
-                                break INIT;
-                            }
-                        }
+                        // pos = line.find( " " );
+                        // if( pos == string::npos ) {
+                        //     pos = line.find( "\t" );
+                        //     if( pos == string::npos ) {
+                        //         cerr << "Error reading the file " << argv[ 4 ] << endl;
+                        //         break INIT;
+                        //     }
+                        // }
 
                         X[ i ][ j ] = atoi( line.c_str() );
 
@@ -88,7 +88,8 @@ void uMain::main() {
                         X[ i ][ j ] = atoi( line.c_str() );
                     }
 
-                    X[ i ][ j ] = atoi( line.c_str() );
+                    // X[ i ][ j ] = atoi( line.c_str() );
+                    cout << ", get " << X[ i ][ j ] << endl;
                     #ifdef OUTPUT
                         cout << X[ i ][ j ] << "\t";
                     #endif
