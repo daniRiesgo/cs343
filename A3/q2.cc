@@ -42,11 +42,11 @@ void uMain::main() {
         int *Y[ xcyr ];
         int *Z[ xr ];
 
-        for( int i = 0; i < xr; i++ ) {
+        for( unsigned int i = 0; i < xr; i++ ) {
             X[ i ] = new int[ xcyr ];
             Z[ i ] = new int[ yc ];
         }
-        for( int i = 0; i < xcyr; i++ ) { Y[ i ] = new int[ yc ]; }
+        for( unsigned int i = 0; i < xcyr; i++ ) { Y[ i ] = new int[ yc ]; }
 
         // fill multiplying matrices with default values when applicable
         if( argc == 4 ) {
@@ -54,7 +54,7 @@ void uMain::main() {
             fillUniformMatrix( Y, xcyr, yc, DEFAULT_UNIFORM );
         }
 
-        matrixmultiply( Z, X, xr, xc, Y, yc );
+        matrixmultiply( Z, X, xr, xcyc, Y, yc );
 
     }
 }
@@ -88,8 +88,8 @@ int readFile( stringstream *dest, char *filename ) {
         - value: content to be placed in the matrix
 */
 void fillUniformMatrix( int *dest[], unsigned int rows, unsigned int cols, int value ) {
-    for( int i = 0; i < rows; i++ ) {
-        for( int j = 0; j < cols; j++ ) {
+    for( unsigned int i = 0; i < rows; i++ ) {
+        for( unsigned int j = 0; j < cols; j++ ) {
             dest[ i ][ j ] = value;
         }
     }
