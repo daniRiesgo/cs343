@@ -65,7 +65,7 @@ void uMain::main() {
                 // place each row element in the matrix
                 for( size_t j = 0; j < xcyr; j++ ) {
                     xfile >> X[ i ][ j ];
-                    if( xfile.err ) {
+                    if( xfile.fail() ) {
                         cerr << "Wops" << endl;
                     }
                     // if ( line.empty() ) {
