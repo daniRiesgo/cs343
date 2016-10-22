@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
 #define DEFAULT_UNIFORM 37
 //#define OUTPUT
 using namespace std;
