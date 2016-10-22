@@ -25,11 +25,9 @@ void uMain::main() {
 
     INIT: {
         // ARGUMENT PARSING
-
-        if( !parseArgs( argc, argv, &xfile, &yfile, &xr, &xcyr, &yc ) ) break INIT;
+        if( parseArgs( argc, argv, &xfile, &yfile, &xr, &xcyr, &yc ) ) break INIT;
 
         // MATRIX INITIALIZATION
-
             // create the three matrices to be used with the given dimensions
         int *X[ xr ], *Y[ xcyr ], *Z[ xr ];
 
@@ -52,15 +50,12 @@ void uMain::main() {
         }
 
         // MATRIX MULTIPLICATION
-
         matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
         // PRINT OUTPUT
-
         if( argc == 6 ) { generateOutput( X, Y, Z, xr, xcyr, yc ); }
 
         // FREE RESOURCES
-
         for( size_t i = 0; i < xr; i++ ) {
             free( X[ i ] );
             free( Z[ i ] );
@@ -70,6 +65,28 @@ void uMain::main() {
 }
 
 // Auxiliary functions
+
+int parseArgs( int argc, char *argv[], stringstream *xfile,
+                stringstream *yfile, size_t *xr, size_t *xcyr, size_t *yc) {
+    switch ( argc ) {
+        case 6: { // when files are provided
+            if( readFile( xfile, argv[ 4 ] ) ) return -1;
+            if( readFile( yfile, argv[ 5 ] ) ) return -1;
+        }
+        case 4: { // when number of arguments is correct
+            *xr   = atoi( argv[ 1 ] );
+            *xcyr = atoi( argv[ 2 ] );
+            *yc   = atoi( argv[ 3 ] );
+            break;
+        }
+        default: {
+            cout << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
+            cout << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
+            return -1;
+        }
+    }
+    return 0;
+}
 
 /*
     Safely open a file, and make the stringstream usable with that input.
@@ -126,28 +143,12 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
     return 0;
 }
 
-int parseArgs( int argc, char *argv[], stringstream *xfile,
-                stringstream *yfile, size_t *xr, size_t *xcyr, size_t *yc) {
-    switch ( argc ) {
-        case 6: { // when files are provided
-            if( readFile( xfile, argv[ 4 ] ) ) return -1;
-            if( readFile( yfile, argv[ 5 ] ) ) return -1;
-        }
-        case 4: { // when number of arguments is correct
-            *xr   = atoi( argv[ 1 ] );
-            *xcyr = atoi( argv[ 2 ] );
-            *yc   = atoi( argv[ 3 ] );
-            break;
-        }
-        default: {
-            cout << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
-            cout << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
-            return -1;
-        }
-    }
-    return 0;
-}
-
+/*
+    Formats and prints the matrices in the screen
+    Args:
+        - X, Y, Z: matrices
+        - xr, xcyr, yc: dimensions of the matrices
+*/
 void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc ) {
 
     // print blank space and Y matrix
