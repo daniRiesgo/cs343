@@ -13,11 +13,6 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file );
 void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc );
 
-void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
-    printf("%s\n", "Sí, sí, todo bien");
-}
-
-
 void uMain::main() {
 
     size_t xr, xcyr, yc;
@@ -64,8 +59,14 @@ void uMain::main() {
     }
 }
 
-// Auxiliary functions
 
+/*
+    Check and process the command line arguments
+    Args:
+        - argc and argv: command line arguments
+        - xfile, yfile: where the matrix data will be stored if applicable
+        - xr, xcyr, yc: where the matrix dimensions will be stored
+*/
 int parseArgs( int argc, char *argv[], stringstream *xfile,
                 stringstream *yfile, size_t *xr, size_t *xcyr, size_t *yc) {
     switch ( argc ) {
@@ -141,6 +142,57 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
         }
     }
     return 0;
+}
+
+/*
+    Multiplies 2 matrices and stores the resulting matrix.
+    Args:
+        - Z: result matrix
+        - X and Y: matrices to be multiplied
+        - xr, xcyr, yc: dimensions of the matrices
+*/
+
+_Task T {
+    int *X[], *Y[], *Z[];
+    size_t xr, xc, yc;
+    size_t rows, cols;
+    size_t x, y;
+public:
+    T( int *Z[], int *X[], size_t xr, size_t xc, int *Y[], size_t yc,
+            size_t rows, size_t cols, size_t x, size_t y) :
+        X(X), Y(Y), Z(Z),
+        xr(xr), xc(xc), yc(yc),
+        rows(rows), cols(cols),
+        x(x), y(y) {}
+protected:
+    void main() {
+        if( rows > 1 ) {
+            // launch 2 tasks, each with half rows in X
+            size_t odd = rows%2 == 0 ? 0 : 1
+            T t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, cols, x, y );
+            T t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, cols, x + (size_t) rows/2, y );
+
+        } else if( cols > 1 ) {
+            // launch 2 tasks, each with half cols in Y
+            size_t odd = cols%2 == 0 ? 0 : 1
+            T t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y );
+            T t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2);
+
+        } else {
+            // multiply a row by a column
+            Z[ x ][ y ] = 0;
+            for( size_t i = 0; i < xc; i++ ) {
+                Z[ x ][ y ] += X[ 0 ][ i ] * Y[ i ][ 0 ];
+            }
+        }
+    }
+}
+
+
+void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
+
+    T exec( Z, X, xr, xc, Y, yc, xr, yc, 0, 0 );
+
 }
 
 /*
