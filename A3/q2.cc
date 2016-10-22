@@ -179,8 +179,4 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
         for( size_t j = 0; j < yc; j++ ) cout << setw(8) << Z[ i ][ j ];
         cout << endl;
     }
-
-
 }
-
-8*xcyr+xcyr+3| # # # #
