@@ -13,6 +13,48 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file );
 void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc );
 
+_Task DivideAndConquer {
+
+    int **X, **Y, **Z;
+    size_t xr, xc, yc;
+    size_t rows, cols;
+    size_t x, y;
+
+public:
+
+    // constructor
+    DivideAndConquer( int *Z[], int *X[], size_t xr, size_t xc, int *Y[], size_t yc,
+            size_t rows, size_t cols, size_t x, size_t y) :
+        X(X), Y(Y), Z(Z),
+        xr(xr), xc(xc), yc(yc),
+        rows(rows), cols(cols),
+        x(x), y(y) {}
+
+protected:
+
+    void main() {
+        if( rows > 1 ) {
+            // DIVIDE! Launch 2 tasks, each with half rows in X
+            size_t odd = rows%2 == 0 ? 0 : 1;
+            DivideAndConquer t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, cols, x, y );
+            DivideAndConquer t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, cols, x + (size_t) rows/2, y );
+
+        } else if( cols > 1 ) {
+            // DIVIDE! Launch 2 tasks, each with half cols in Y
+            size_t odd = cols%2 == 0 ? 0 : 1;
+            DivideAndConquer t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y );
+            DivideAndConquer t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2);
+
+        } else {
+            // multiply a row by a column
+            Z[ x ][ y ] = 0;
+            for( size_t i = 0; i < xc; i++ ) {
+                Z[ x ][ y ] += X[ x ][ i ] * Y[ i ][ y ];
+            }
+        } // if
+    } // main
+};
+
 void uMain::main() {
 
     size_t xr, xcyr, yc;
@@ -151,48 +193,9 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
         - X and Y: matrices to be multiplied
         - xr, xcyr, yc: dimensions of the matrices
 */
-
-_Task T {
-    int **X, **Y, **Z;
-    size_t xr, xc, yc;
-    size_t rows, cols;
-    size_t x, y;
-public:
-    T( int *Z[], int *X[], size_t xr, size_t xc, int *Y[], size_t yc,
-            size_t rows, size_t cols, size_t x, size_t y) :
-        X(X), Y(Y), Z(Z),
-        xr(xr), xc(xc), yc(yc),
-        rows(rows), cols(cols),
-        x(x), y(y) {}
-protected:
-    void main() {
-        if( rows > 1 ) {
-            // launch 2 tasks, each with half rows in X
-            size_t odd = rows%2 == 0 ? 0 : 1;
-            T t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, cols, x, y );
-            T t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, cols, x + (size_t) rows/2, y );
-
-        } else if( cols > 1 ) {
-            // launch 2 tasks, each with half cols in Y
-            size_t odd = cols%2 == 0 ? 0 : 1;
-            T t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y );
-            T t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2);
-
-        } else {
-            // multiply a row by a column
-            Z[ x ][ y ] = 0;
-            for( size_t i = 0; i < xc; i++ ) {
-                Z[ x ][ y ] += X[ x ][ i ] * Y[ i ][ y ];
-            }
-        }
-    }
-};
-
-
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
-
-    T exec( Z, X, xr, xc, Y, yc, xr, yc, 0, 0 );
-
+    // Create the task to start dividing and conquering!
+    DivideAndConquer exec( Z, X, xr, xc, Y, yc, xr, yc, 0, 0 );
 }
 
 /*
