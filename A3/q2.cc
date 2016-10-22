@@ -169,7 +169,7 @@ void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_
         cout << "-";
     }
     cout << "*";
-    for( size_t i = 0; i < 8*yc+2 ; i++ ) {
+    for( size_t i = 0; i < 9*yc+1 ; i++ ) {
         cout << "-";
     }
     cout << endl;
