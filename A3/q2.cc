@@ -47,8 +47,8 @@ void uMain::main() {
             fillUniformMatrix( Y, xcyr, yc, DEFAULT_UNIFORM );
         } else {
             // with values from file when applicable
-            fillMatrixFromFile( X, xr, xcyr, xfile );
-            fillMatrixFromFile( Y, xcyr, yc, yfile );
+            fillMatrixFromFile( X, xr, xcyr, &xfile );
+            fillMatrixFromFile( Y, xcyr, yc, &yfile );
         }
 
         // MATRIX MULTIPLICATION
@@ -102,7 +102,7 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value ) {
     }
 }
 
-int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file ) {
+int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file ) {
     for( size_t i = 0; i < rows; i++ ) {
         for( size_t j = 0; j < cols; j++ ) {
             file >> dest[ i ][ j ];
