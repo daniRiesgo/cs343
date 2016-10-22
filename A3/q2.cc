@@ -182,7 +182,7 @@ protected:
             // multiply a row by a column
             Z[ x ][ y ] = 0;
             for( size_t i = 0; i < xc; i++ ) {
-                Z[ x ][ y ] += X[ 0 ][ i ] * Y[ i ][ 0 ];
+                Z[ x ][ y ] += X[ x ][ i ] * Y[ i ][ y ];
             }
         }
     }
