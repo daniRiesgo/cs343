@@ -6,7 +6,7 @@ using namespace std;
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc );
 int readFile( stringstream *dest, char *filename );
-void fillUniformMatrix( int *dest[], unsigned int rows, unsigned int cols, int value );
+void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
     printf("%s\n", "Sí, sí, todo bien");
@@ -14,7 +14,7 @@ void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *
 
 void uMain::main() {
 
-    unsigned int xr, xcyr, yc;
+    size_t xr, xcyr, yc;
     stringstream xfile, yfile;
 
     // Parse command line arguments
@@ -42,28 +42,73 @@ void uMain::main() {
         int *Y[ xcyr ];
         int *Z[ xr ];
 
-        for( unsigned int i = 0; i < xr; i++ ) {
+        for( size_t i = 0; i < xr; i++ ) {
             X[ i ] = new int[ xcyr ];
             Z[ i ] = new int[ yc ];
         }
-        for( unsigned int i = 0; i < xcyr; i++ ) { Y[ i ] = new int[ yc ]; }
+        for( size_t i = 0; i < xcyr; i++ ) { Y[ i ] = new int[ yc ]; }
 
         // fill multiplying matrices with default values when applicable
         if( argc == 4 ) {
             fillUniformMatrix( X, xr, xcyr, DEFAULT_UNIFORM );
             fillUniformMatrix( Y, xcyr, yc, DEFAULT_UNIFORM );
-        }
+        } else {
+            string line;
+            size_t pos;
+
+            for( size_t i = 0; i < xr; i++ ) {
+                // read a line from file
+                line.clear();
+                getline( xfile, line );
+
+                // place each row element in the matrix
+                for( size_t j = 0; j < xcyr; j++ ) {
+                    if ( line.empty() ) {
+                        cerr << "Error reading the file " << argv[ 4 ] << endl;
+                        break INIT;
+                    }
+                    // coge la substr
+                    if( j < xcyr-1 ) {
+                        pos = line.find( " " );
+                        if( pos == string::npos ) {
+                            pos = line.find( "\t" );
+                            if( pos == string::npos ) {
+                                cerr << "Error reading the file " << argv[ 4 ] << endl;
+                                break INIT;
+                            }
+                        }
+
+                        X[ i ][ j ] = atoi( line.substr( 0, pos ) );
+
+                        do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' )
+                        line = line.substr( pos );
+                    } else {
+                        X[ i ][ j ] = atoi( line );
+                    }
+
+                    X[ i ][ j ] = line;
+                    #ifdef OUTPUT
+                        cout << X[ i ][ j ] << "\t";
+                    #endif
+                }
+                #ifdef OUTPUT
+                    cout << endl;
+                #endif
+            }
+        } // fill multiplying matrices with given values when applicable
+
+
 
         matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
         // generateOutput();
 
         // Free resources
-        for( unsigned int i = 0; i < xr; i++ ) {
+        for( size_t i = 0; i < xr; i++ ) {
             free( X[ i ] );
             free( Z[ i ] );
         }
-        for( unsigned int i = 0; i < xcyr; i++ ) { free( Y[ i ] ); }
+        for( size_t i = 0; i < xcyr; i++ ) { free( Y[ i ] ); }
     }
 }
 
@@ -95,9 +140,9 @@ int readFile( stringstream *dest, char *filename ) {
         - cols: x dimension of the matrix
         - value: content to be placed in the matrix
 */
-void fillUniformMatrix( int *dest[], unsigned int rows, unsigned int cols, int value ) {
-    for( unsigned int i = 0; i < rows; i++ ) {
-        for( unsigned int j = 0; j < cols; j++ ) {
+void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value ) {
+    for( size_t i = 0; i < rows; i++ ) {
+        for( size_t j = 0; j < cols; j++ ) {
             dest[ i ][ j ] = value;
         }
     }
