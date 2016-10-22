@@ -18,5 +18,5 @@ _Task Consumer {
 };
 
 void uMain::main () {
-    prinf("I workaut\n");
+    printf("I workaut\n");
 }
