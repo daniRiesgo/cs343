@@ -153,7 +153,7 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
 */
 
 _Task T {
-    int *X[], *Y[], *Z[];
+    int **X, **Y, **Z;
     size_t xr, xc, yc;
     size_t rows, cols;
     size_t x, y;
@@ -168,13 +168,13 @@ protected:
     void main() {
         if( rows > 1 ) {
             // launch 2 tasks, each with half rows in X
-            size_t odd = rows%2 == 0 ? 0 : 1
+            size_t odd = rows%2 == 0 ? 0 : 1;
             T t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, cols, x, y );
             T t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, cols, x + (size_t) rows/2, y );
 
         } else if( cols > 1 ) {
             // launch 2 tasks, each with half cols in Y
-            size_t odd = cols%2 == 0 ? 0 : 1
+            size_t odd = cols%2 == 0 ? 0 : 1;
             T t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y );
             T t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2);
 
@@ -186,7 +186,7 @@ protected:
             }
         }
     }
-}
+};
 
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
