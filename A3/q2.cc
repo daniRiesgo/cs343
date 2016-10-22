@@ -32,8 +32,8 @@ void uMain::main() {
                 break;
             }
             default: {
-                cerr << "Usage: ./" << argv[0] << " xrows xcols-yrows ycols";
-                cerr << " [ X-matrix-file Y-matrix-file ]" << endl;
+                cerr << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
+                cerr << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
                 break INIT;
             }
         }
@@ -72,6 +72,7 @@ void uMain::main() {
                     if( j < xcyr-1 ) {
                         pos = line.find( " " );
                         if( pos == string::npos ) {
+                            printf("didn't find a space, looking for a tab\n");
                             pos = line.find( "\t" );
                             if( pos == string::npos ) {
                                 cerr << "Error reading the file " << argv[ 4 ] << endl;
@@ -79,7 +80,7 @@ void uMain::main() {
                             }
                         }
 
-                        X[ i ][ j ] = atoi( line.substr( 0, pos ).c_str() );
+                        X[ i ][ j ] = atoi( line.c_str() );
 
                         do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' );
                         line = line.substr( pos );
