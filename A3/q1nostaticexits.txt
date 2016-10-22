@@ -1,2 +1,15 @@
-Original version: 5.62, 5.60
+Original version: 5.62, 5.60 with optimizations deprecable
 No static exits version: 8.64, 8.70 with optimizations 0.77, 0.78
+
+linuxenv ~ ./nostaticexits 2000 200 10 25
+
+original, no opt 0.479s average ( 0.481s - 0.477s - 0.481s - 0.481s )
+original, with opt 0.141s average ( 0.140s - 0.143s - 0.139s - 0.144s )
+
+no static exits, no opt 0.936s average ( 0.942s - 0.933s - 0.935s - 0.934s )
+no static extis, with opt 0.553s average ( 0.559s - 0.553s - 0.551s - 0.549s )
+
+Explain the relative differences in the timing results with respect to the original and transformed
+program.
+
+State the performance difference when compiler optimization is used
