@@ -8,7 +8,7 @@ using namespace std;
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc );
 int readFile( stringstream *dest, char *filename );
 void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
-int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file );
+int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file );
 int parseArgs( int argc, char *argv[], stringstream *xfile,
                 stringstream *yfile, size_t *xr, size_t *xcyr, size_t *yc);
 
@@ -105,7 +105,7 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value ) {
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *file ) {
     for( size_t i = 0; i < rows; i++ ) {
         for( size_t j = 0; j < cols; j++ ) {
-            file >> dest[ i ][ j ];
+            *file >> dest[ i ][ j ];
             if( file.fail() ) {
                 cerr << "Error when reading matrix file" << endl;
                 return -1;
