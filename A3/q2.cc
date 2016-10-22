@@ -10,7 +10,7 @@ int readFile( stringstream *dest, char *filename );
 void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value );
 int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file );
 int parseArgs( int argc, char *argv[], stringstream *xfile,
-                stringstream *yfile, int &xr, int &xcyr, int &yc);
+                stringstream *yfile, size_t &xr, size_t &xcyr, size_t &yc);
 
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
     printf("%s\n", "Sí, sí, todo bien");
@@ -116,7 +116,7 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file
 }
 
 int parseArgs( int argc, char *argv[], stringstream *xfile,
-                stringstream *yfile, int &xr, int &xcyr, int &yc) {
+                stringstream *yfile, size_t &xr, size_t &xcyr, size_t &yc) {
     switch ( argc ) {
         case 6: { // when files are provided
             if( readFile( xfile, argv[ 4 ] ) ) return -1;
