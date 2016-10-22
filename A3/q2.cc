@@ -18,97 +18,41 @@ void uMain::main() {
     size_t xr, xcyr, yc;
     stringstream xfile, yfile;
 
-    // Parse command line arguments
     INIT: {
-        switch ( argc ) {
-            case 6: { // when files are provided
-                if( readFile( &xfile, argv[ 4 ] ) ) break INIT;
-                if( readFile( &yfile, argv[ 5 ] ) ) break INIT;
-            }
-            case 4: { // when number of arguments is correct
-                xr   = atoi( argv[ 1 ] );
-                xcyr = atoi( argv[ 2 ] );
-                yc   = atoi( argv[ 3 ] );
-                break;
-            }
-            default: {
-                cerr << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
-                cerr << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
-                break INIT;
-            }
-        }
+        // ARGUMENT PARSING
 
-        // initialize the three matrices to be used with the given dimensions
+        if( !parseArgs( argc, argv, xfile, yfile) ) break INIT;
+
+        // MATRIX INITIALIZATION
+
+            // create the three matrices to be used with the given dimensions
         int *X[ xr ];
         int *Y[ xcyr ];
         int *Z[ xr ];
 
+            // reserve the necessary space for each matrix in the heap
         for( size_t i = 0; i < xr; i++ ) {
             X[ i ] = new int[ xcyr ];
             Z[ i ] = new int[ yc ];
         }
         for( size_t i = 0; i < xcyr; i++ ) { Y[ i ] = new int[ yc ]; }
 
-        // fill multiplying matrices with default values when applicable
+            // fill the initial matrices with their values
         if( argc == 4 ) {
+            // with default values when applicable
             fillUniformMatrix( X, xr, xcyr, DEFAULT_UNIFORM );
             fillUniformMatrix( Y, xcyr, yc, DEFAULT_UNIFORM );
         } else {
-            string line;
-            size_t pos;
+            // with values from file when applicable
+            fillMatrixFromFile( X, xr, xcyr, xfile );
+            fillMatrixFromFile( Y, xcyr, yc, yfile );
+        }
 
-            for( size_t i = 0; i < xr; i++ ) {
-                // read a line from file
-                line.clear();
-                // getline( xfile, line );
-
-                // place each row element in the matrix
-                for( size_t j = 0; j < xcyr; j++ ) {
-                    xfile >> X[ i ][ j ];
-                    if( xfile.fail() ) {
-                        cerr << "Wops" << endl;
-                    }
-                    // if ( line.empty() ) {
-                    //     cerr << "Error reading the file " << argv[ 4 ] << endl;
-                    //     break INIT;
-                    // }
-                    // cout << line;
-                    // // coge la substr
-                    // if( j < xcyr-1 ) {
-                    //     pos = line.find( " " );
-                    //     if( pos == string::npos ) {
-                    //         pos = line.find( "\t" );
-                    //         if( pos == string::npos ) {
-                    //             cerr << "Error reading the file " << argv[ 4 ] << endl;
-                    //             break INIT;
-                    //         }
-                    //     }
-                    //
-                    //     X[ i ][ j ] = atoi( line.c_str() );
-                    //
-                    //     do{ pos++; } while( line.at( pos ) == ' ' || line.at( pos ) == '\t' );
-                    //     line = line.substr( pos );
-                    // } else {
-                    //     X[ i ][ j ] = atoi( line.c_str() );
-                    // }
-                    //
-                    // // X[ i ][ j ] = atoi( line.c_str() );
-                    // cout << ", get " << X[ i ][ j ] << endl;
-                    #ifdef OUTPUT
-                        cout << X[ i ][ j ] << "\t";
-                    #endif
-                }
-                #ifdef OUTPUT
-                    cout << endl;
-                #endif
-            }
-        } // fill multiplying matrices with given values when applicable
-
-
+        // MATRIX MULTIPLICATION
 
         matrixmultiply( Z, X, xr, xcyr, Y, yc );
 
-        // generateOutput();
+        // generateOutput( X, Y, Z );
 
         // Free resources
         for( size_t i = 0; i < xr; i++ ) {
@@ -151,6 +95,39 @@ void fillUniformMatrix( int *dest[], size_t rows, size_t cols, int value ) {
     for( size_t i = 0; i < rows; i++ ) {
         for( size_t j = 0; j < cols; j++ ) {
             dest[ i ][ j ] = value;
+        }
+    }
+}
+
+int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream file ) {
+    for( size_t i = 0; i < rows; i++ ) {
+        for( size_t j = 0; j < cols; j++ ) {
+            file >> X[ i ][ j ];
+            if( file.fail() ) {
+                cerr << "Error when reading matrix file" << endl;
+                return -1;
+            }
+        }
+    }
+    return 0;
+}
+
+int parseArgs( int argc, const char *argv[], stringstream *xfile, stringstream *yfile ) {
+    switch ( argc ) {
+        case 6: { // when files are provided
+            if( readFile( xfile, argv[ 4 ] ) ) return -1;
+            if( readFile( yfile, argv[ 5 ] ) ) return -1;
+        }
+        case 4: { // when number of arguments is correct
+            xr   = atoi( argv[ 1 ] );
+            xcyr = atoi( argv[ 2 ] );
+            yc   = atoi( argv[ 3 ] );
+            break;
+        }
+        default: {
+            cerr << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
+            cerr << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
+            return -1;
         }
     }
 }
