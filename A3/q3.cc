@@ -15,7 +15,7 @@ template<typename T> class BoundedBuffer {
       : pos(0), items(0), size(size)
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
-        if( buffer = nullptr ) {
+        if( buffer == nullptr ) {
             cout << "Error allocating buffer. Stop." << endl;
         }
     }
@@ -85,7 +85,7 @@ _Task Consumer {
         }
     }
   public:
-    Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum ) :
+    Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum )
       :
         buffer( buffer ),
         Delay( Delay ),
