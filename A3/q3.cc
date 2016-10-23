@@ -30,7 +30,7 @@ template<typename T> class BoundedBuffer {
             cout << red << "Error allocating buffer. Stop." << white << endl;
         }
         #ifdef DEBUGOUTPUT
-            cout << green << "Buffer created, size " << size << endl;
+            cout << green << "Buffer created, size " << size << white << endl;
         #endif
     }
 
@@ -206,6 +206,7 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
+    Producer *prod = malloc;
     for( size_t i; i < PRODUCERS; i++ ) {
         Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
     }
