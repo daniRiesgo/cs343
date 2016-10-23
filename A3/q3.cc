@@ -174,7 +174,7 @@ _Task Producer {
             catch( E ) {
                 i--;
                 #ifdef ERROROUTPUT
-                    cout << red << "Producer: Failed to insert" << white << endl;
+                    cout << red << "Producer: No room for new items. Retrying..." << white << endl;
                 #endif
             }
         }
@@ -188,7 +188,7 @@ _Task Producer {
             }
             catch( E ) {
                 #ifdef ERROROUTPUT
-                    cout << red << "Producer: No space to insert Sentinel, retrying." << white << endl;
+                    cout << red << "Producer: No space to insert Sentinel. Retrying..." << white << endl;
                 #endif
             }
         }
@@ -237,7 +237,7 @@ _Task Consumer {
                 }
             } catch( E ) {
                 #ifdef ERROROUTPUT
-                    cout << red << "Consumer: No values to get" << white << endl;
+                    cout << red << "Consumer: No values to get. Retrying..." << white << endl;
                 #endif
             }
         }
