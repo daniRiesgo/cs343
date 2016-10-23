@@ -37,18 +37,19 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
         if( items < size ) {
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Acquiring lock for insert" << white << endl;
-            #endif
-            lock.acquire();
-            #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
                 else cout << "value " << elem;
                 cout << " in pos " << pos << white << endl;
+
+                cout << green << "Buffer: Acquiring lock for insert" << white << endl;
             #endif
+
+            lock.acquire();
             buffer[ ++pos % size ] = elem;
             items++;
             lock.release();
+
             #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: Lock released by insert" << white << endl;
             #endif
@@ -62,37 +63,34 @@ template<typename T> class BoundedBuffer {
     }
     T remove() {
         if( items > 0 ) {
-            #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Acquiring lock for remove" << white << endl;
-            #endif
-            lock.acquire();
+
             #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: Adquiring item." << white << endl;
             #endif
-            while( buffer[ pos % size ] == SENTINEL ) {
-                if( count < PRODUCERS ) {
-                    count++;
-                    pos--;
-                    items--;
-                    if( items <= 0 ) {
-                        #ifdef ERROROUTPUT
-                            cout << red << "Buffer: Failed to adquire item." << white << endl;
-                        #endif
-                        lock.release();
-                        _Throw E();
-                    }
-                }
-                else {
-                    lock.release();
-                    return SENTINEL;
-                }
+
+            // When producer completed, return SENTINEL
+            if( buffer[ pos % size ] == SENTINEL ) {
+                #ifdef DEBUGOUTPUT
+                    cout << green << "Buffer: Returning SENTINEL." << white << endl;
+                #endif
+                return SENTINEL;
             }
-            items--;
-            int res = buffer[ pos-- % size ];
-            lock.release();
+
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Lock released by remove" << white << endl;
+                cout << green << "Buffer: Acquiring lock for remove" << white << endl;
             #endif
+
+            int res;
+            lock.acquire();
+            res = buffer[ pos-- % size ];
+            items--;
+            lock.release();
+
+            #ifdef DEBUGOUTPUT
+                cout << green << "Buffer: Lock released by remove. ";
+                cout << "Returning value " << res << white << endl;
+            #endif
+
             return res;
         }
         else {
