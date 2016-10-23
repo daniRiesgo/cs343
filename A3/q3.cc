@@ -226,9 +226,9 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
-    Producer prod( buffer, (const int) PRODUCE, (const int) DELAY ); ;
+    Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
     // launch consumers
-    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum); }
+    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
 
     cout << "Main thread created both Producer and Consumer" << endl;
 }
