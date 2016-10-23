@@ -10,7 +10,6 @@
 #define ERROROUTPUT
 
 using namespace std;
-using namespace Color;
 
 /*  The following code was obtained from a topic posted in StackOverflow
 *   It is solely used for colouring the console when debugging.
@@ -40,6 +39,8 @@ namespace Color {
         }
     };
 }
+
+using namespace Color;
 
 Modifier red(Color::FG_RED);
 Modifier green(Color::FG_GREEN);
