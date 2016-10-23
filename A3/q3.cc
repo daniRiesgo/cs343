@@ -114,7 +114,7 @@ void uMain::main () {
     // launch producers
     Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
     // launch consumers
-    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, *sum);
+    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
 
     printf( "This should be 45: %d\n", sum );
 }
