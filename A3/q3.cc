@@ -23,12 +23,12 @@ using namespace std;
 namespace Color {
     enum Code {
         FG_RED      = 31,
-        FG_GREEN    = 32,
+        FG_LGRAY    = 37,
         FG_YELLOW   = 33,
         FG_BLUE     = 34,
         FG_DEFAULT  = 39,
         BG_RED      = 41,
-        BG_GREEN    = 42,
+        BG_LGRAY    = 42,
         BG_BLUE     = 44,
         BG_DEFAULT  = 49
     };
@@ -47,7 +47,7 @@ namespace Color {
 using namespace Color;
 
 Modifier red    (Color::FG_RED);
-Modifier green  (Color::FG_GREEN);
+Modifier lgrey  (Color::FG_LGRAY);
 Modifier blue   (Color::FG_BLUE);
 Modifier yellow (Color::FG_YELLOW);
 Modifier white  (Color::FG_DEFAULT);
@@ -64,7 +64,7 @@ template<typename T> class BoundedBuffer {
             cout << red << "Error allocating buffer. Stop." << white << endl;
         }
         #ifdef DEBUGOUTPUT
-            cout << green << "Buffer created, size " << size << white << endl;
+            cout << lgrey << "Buffer created, size " << size << white << endl;
         #endif
     }
 
@@ -73,12 +73,12 @@ template<typename T> class BoundedBuffer {
             if( elem == SENTINEL && ++count != prods ) return;
 
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: inserting ";
+                cout << lgrey << "Buffer: inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
                 else cout << "value " << elem;
                 cout << " in pos " << back << white << endl;
 
-                cout << green << "Buffer: Acquiring lock for insert" << white << endl;
+                cout << lgrey << "Buffer: Acquiring lock for insert" << white << endl;
             #endif
 
             lock.acquire();
@@ -87,7 +87,7 @@ template<typename T> class BoundedBuffer {
             lock.release();
 
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Lock released by insert" << white << endl;
+                cout << lgrey << "Buffer: Lock released by insert" << white << endl;
             #endif
         }
         else {
@@ -101,19 +101,19 @@ template<typename T> class BoundedBuffer {
         if( items > 0 ) {
 
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Adquiring item." << white << endl;
+                cout << lgrey << "Buffer: Adquiring item." << white << endl;
             #endif
 
             // When producer completed, return SENTINEL
             if( buffer[ front % size ] == SENTINEL ) {
                 #ifdef DEBUGOUTPUT
-                    cout << green << "Buffer: Returning SENTINEL." << white << endl;
+                    cout << lgrey << "Buffer: Returning SENTINEL." << white << endl;
                 #endif
                 return SENTINEL;
             }
 
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Acquiring lock for remove" << white << endl;
+                cout << lgrey << "Buffer: Acquiring lock for remove" << white << endl;
             #endif
 
             int res;
@@ -123,7 +123,7 @@ template<typename T> class BoundedBuffer {
             lock.release();
 
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Lock released by remove. ";
+                cout << lgrey << "Buffer: Lock released by remove. ";
                 cout << "Returning value " << res << white << endl;
             #endif
 
