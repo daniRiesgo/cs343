@@ -1,10 +1,11 @@
 SENTINEL:=-1
 KIND:=NOBUSY
+# OUTPUT:=DEBUGOUTPUT
 OPT:= # -multi -O2
 
 CXX = u++ # compiler
 CXXFLAGS = -g -Wall -Wno-unused-label ${OPT} -MMD -std=c++11 \
-		-DSENTINEL=${SENTINEL} -D${KIND}# compiler flags
+		-DSENTINEL=${SENTINEL} -D${OUTPUT} -D${KIND}# compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
 OBJECTS01 = q1.o			# optional build of given program
