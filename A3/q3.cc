@@ -5,7 +5,7 @@
 #define BUFFER_SIZE 10
 #define PRODUCE 10
 #define DELAY 10
-// #define DEBUGOUTPUT
+#define DEBUGOUTPUT
 
 using namespace std;
 
@@ -100,8 +100,8 @@ _Task Producer {
         MPRNG random( getpid() );
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
-            int times = random() % ( Delay-1 );
-            cout << "random number: " << times << endl;
+            int times = random() % ( Delay );
+            // cout << "random number: " << times << endl;
             yield( times );
             // produce corresponding item
             try {
@@ -161,7 +161,7 @@ _Task Consumer {
         MPRNG random( getpid() );
         for ( ;; ) {
             // yield form 0 to Delay-1 times
-            yield( random() % (Delay-1) );
+            yield( random() % (Delay) );
             // produce corresponding item
             try {
                 #ifdef DEBUGOUTPUT
