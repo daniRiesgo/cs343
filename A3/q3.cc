@@ -7,7 +7,6 @@
 #define PRODUCERS 3
 #define PRODUCE 10
 #define BUFFER_SIZE 10
-#define DELAY 10
 #define DEBUGOUTPUT
 #define ERROROUTPUT
 
@@ -247,15 +246,20 @@ _Task Consumer {
     }
 };
 
+bool isNegative( size_t value, string name ) {
+    if( value > 0 ) return false;
+    cout << "'" << name << "' must be a positive integer." << endl;
+    return true;
+}
+
 void uMain::main () {
 
     INIT: {
 
-        size_t cons     = atoi("coags");
+        size_t cons     = CONSUMERS;
         size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
-        size_t delay    = DELAY;
 
         switch ( argc ) {
             case 1: break;
@@ -269,7 +273,19 @@ void uMain::main () {
                 cout << "Usage: " << argv[0] << " [ Cons [ Prods ";
                 cout << "[ Produce [ BufferSize [ Delays ] ] ] ] ]" << endl;
                 break INIT;
-        } // switch
+        }
+
+        size_t delay = prods + cons;
+
+        if( isNegative(cons, "Cons") ) break INIT;
+        if( isNegative(prods, "Prods") ) break INIT;
+        if( isNegative(produce, "Produce") ) break INIT;
+        if( isNegative(bufsize, "BufferSize") ) break INIT;
+        if( isNegative(delay, "Delays") ) break INIT;
+        if( (cons + prods) > MAX_INT ) {
+            cout << "Too many tasks (Producers + Consumers)" << endl;
+            break INIT;
+        }
 
         // INITIALIZE ENVIRONMENT
 
