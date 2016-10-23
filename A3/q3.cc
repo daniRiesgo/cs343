@@ -4,8 +4,10 @@
 
 #define BUFFER_SIZE 10
 #define PRODUCE 100
+#define PRODUCERS 10
+#define CONSUMERS 10
 #define DELAY 10
-// #define DEBUGOUTPUT
+#define DEBUGOUTPUT
 #define ERROROUTPUT
 
 using namespace std;
@@ -61,8 +63,11 @@ template<typename T> class BoundedBuffer {
     T remove() {
         if( items > 0 ) {
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Adquiring item " << white << endl;
+                cout << green << "Buffer: Adquiring item." << white << endl;
             #endif
+            if( buffer[ pos % size ] == SENTINEL ) {
+                return SENTINEL;
+            }
             items--;
             return buffer[ pos-- % size ];
         }
@@ -201,7 +206,11 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
-    Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
+    for( size_t i; i < PRODUCERS; i++ ) {
+        Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
+    }
     // launch consumers
-    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
+    for( size_t i; i < CONSUMERS; i++ ) {
+        Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
+    }
 }
