@@ -10,12 +10,42 @@
 #define ERROROUTPUT
 
 using namespace std;
+using namespace Color;
 
-Color::Modifier red(Color::FG_RED);
-Color::Modifier green(Color::FG_GREEN);
-Color::Modifier blue(Color::FG_BLUE);
-Color::Modifier yellow(Color::FG_YELLOW);
-Color::Modifier white(Color::FG_DEFAULT);
+/*  The following code was obtained from a topic posted in StackOverflow
+*   It is solely used for colouring the console when debugging.
+*   credit (last check 10-22-2016):
+*   http://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
+*/
+namespace Color {
+    enum Code {
+        FG_RED      = 31,
+        FG_GREEN    = 32,
+        FG_YELLOW   = 33,
+        FG_BLUE     = 34,
+        FG_DEFAULT  = 39,
+        BG_RED      = 41,
+        BG_GREEN    = 42,
+        BG_BLUE     = 44,
+        BG_DEFAULT  = 49
+    };
+    class Modifier {
+        Code code;
+    public:
+        Modifier(Code pCode) : code(pCode) {}
+        friend std::ostream&
+        operator<<(std::ostream& os, const Modifier& mod) {
+            if( mod.code != 39 ) return os << "\033[" << mod.code << "m\033[1m";
+            else return os << "\033[" << mod.code << "m\033[0m";
+        }
+    };
+}
+
+Modifier red(Color::FG_RED);
+Modifier green(Color::FG_GREEN);
+Modifier blue(Color::FG_BLUE);
+Modifier yellow(Color::FG_YELLOW);
+Modifier white(Color::FG_DEFAULT);
 
 _Event E {};
 
@@ -225,33 +255,4 @@ void uMain::main () {
     Consumer cons2( buffer, (const int) DELAY, (const int) SENTINEL, sum);
 
     cout << "Main thread created both Producer and Consumer" << endl;
-}
-
-/*  The following code was obtained from a topic posted in StackOverflow
-*   It is solely used for colouring the console when debugging.
-*   credit (last check 10-22-2016):
-*   http://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
-*/
-namespace Color {
-    enum Code {
-        FG_RED      = 31,
-        FG_GREEN    = 32,
-        FG_YELLOW   = 33,
-        FG_BLUE     = 34,
-        FG_DEFAULT  = 39,
-        BG_RED      = 41,
-        BG_GREEN    = 42,
-        BG_BLUE     = 44,
-        BG_DEFAULT  = 49
-    };
-    class Modifier {
-        Code code;
-    public:
-        Modifier(Code pCode) : code(pCode) {}
-        friend std::ostream&
-        operator<<(std::ostream& os, const Modifier& mod) {
-            if( mod.code != 39 ) return os << "\033[" << mod.code << "m\033[1m";
-            else return os << "\033[" << mod.code << "m\033[0m";
-        }
-    };
 }
