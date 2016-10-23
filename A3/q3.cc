@@ -11,6 +11,8 @@
 #define ERROROUTPUT
 #define MAX_INT 2147483647
 
+size_t prods = PRODUCERS;
+
 using namespace std;
 
 /*  The following code was obtained from a topic posted in StackOverflow
@@ -258,7 +260,6 @@ void uMain::main () {
     INIT: {
 
         size_t cons     = CONSUMERS;
-        size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
         size_t delay;
