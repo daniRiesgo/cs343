@@ -180,7 +180,7 @@ _Task Consumer {
         #ifdef DEBUGOUTPUT
             int total = 0;
             for( size_t i = 0; i < PRODUCE; i++ ) total += i;
-            cout << "This should be" << total << ": " << sum << endl;
+            cout << "This should be " << total << ": " << sum << endl;
         #endif
     }
 };
