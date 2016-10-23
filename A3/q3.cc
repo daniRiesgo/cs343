@@ -106,10 +106,15 @@ _Task Consumer {
             // produce corresponding item
             try {
                 int value = buffer.remove();
-                if( value != Sentinel ) sum += value;
+                if( value != Sentinel ) {
+                    sum += value;
+                    cout << "added value " << value << endl;
+                }
                 else break;
             } catch( E ) {}
         }
+
+        printf( "This should be 45: %d\n", sum );
     }
 };
 
@@ -122,6 +127,4 @@ void uMain::main () {
     Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
     // launch consumers
     Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
-
-    printf( "This should be 45: %d\n", sum );
 }
