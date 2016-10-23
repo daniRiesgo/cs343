@@ -163,6 +163,7 @@ _Task Consumer {
             int total = 0;
             for( size_t i = 0; i < PRODUCE; i++ ) total += i;
             printf( "This should be %d: %d\n", total, sum );
+        #endif
     }
 };
 
