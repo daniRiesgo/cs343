@@ -1,3 +1,4 @@
+#include <iostream>
 #include "MPRNG.h"
 
 #define BUFFER_SIZE 10
@@ -6,7 +7,7 @@ using namespace std;
 
 MPRNG prng();
 
-_Event E {}
+_Event E {};
 
 template<typename T> class BoundedBuffer {
   public:
@@ -51,7 +52,6 @@ _Task Producer {
             // produce corresponding item
             try { buffer->insert( i ); }
             catch( E ) { i--; }
-            }
         }
     }
   public:
