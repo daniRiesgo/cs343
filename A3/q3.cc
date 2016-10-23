@@ -206,12 +206,17 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
-    Producer *prod = malloc;
+    Producer *prod[ PRODUCERS ];// = malloc( PRODUCERS * sizeof( Producer ) );
+    Consumer *cons[ CONSUMERS ];// = malloc( CONSUMERS * sizeof( Consumer ) );
     for( size_t i; i < PRODUCERS; i++ ) {
-        Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
+        prod[ i ] = new Producer( buffer, (const int) PRODUCE, (const int) DELAY );
     }
     // launch consumers
     for( size_t i; i < CONSUMERS; i++ ) {
-        Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
+        cons[ i ] = new Consumer( buffer, (const int) DELAY, (const int) SENTINEL, sum);
     }
+
+    delete [] prod;
+    delete [] cons;
+
 }
