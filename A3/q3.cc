@@ -2,6 +2,8 @@
 #include "MPRNG.h"
 
 #define BUFFER_SIZE 10
+#define PRODUCE 10
+#define DELAY 10
 
 using namespace std;
 
@@ -19,11 +21,17 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
-        if( items < size ) buffer[ ++pos % size ] = elem;
+        if( items < size ) {
+            lock.acquire();
+            buffer[ ++pos % size ] = elem;
+            lock.release();
+        }
         else _Throw E();
     }
     T remove() {
-        if( items > 0 ) return buffer[ pos-- % size ];
+        if( items > 0 ) {
+            return buffer[ pos-- % size ];
+        }
         else _Throw E();
     }
     ~BoundedBuffer() {
@@ -101,8 +109,12 @@ _Task Consumer {
 void uMain::main () {
 
     BoundedBuffer<int> buffer( BUFFER_SIZE );
+    int sum = 0;
 
+    // launch producers
+    Producer( &buffer, PRODUCE, DELAY );
+    // launch consumers
+    Consumer( &buffer, DELAY, SENTINEL, *sum);
 
-
-    printf("I workaut\n");
+    printf( "This should be 45: %d\n", sum );
 }
