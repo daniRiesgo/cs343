@@ -27,7 +27,8 @@ template<typename T> class BoundedBuffer {
         else _Throw E();
     }
     ~BoundedBuffer() {
-        // add destructor
+        free( buffer );
+        cout << "cmon" << endl;
     }
   private:
     T *buffer;
@@ -73,6 +74,7 @@ _Task Consumer {
         Sentinel( Sentinel ),
         sum( sum )
     {}
+    ~Consumer() {}
 
   protected:
 
@@ -100,5 +102,6 @@ _Task Consumer {
 void uMain::main () {
 
     BoundedBuffer<int> buffer( BUFFER_SIZE );
+
     printf("I workaut\n");
 }
