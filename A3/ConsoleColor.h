@@ -2,7 +2,7 @@
 
 #pragma once
 #include <iostream>
-#include <windows.h>
+// #include <windows.h>
 
 inline std::ostream& blue(std::ostream &s)
 {
