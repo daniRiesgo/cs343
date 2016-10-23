@@ -99,19 +99,19 @@ template<typename T> class BoundedBuffer {
         if( items > 0 ) {
 
             #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: Adquiring item." << white << endl;
+                cout << lgrey << "Buffer: Removing item." << white;
             #endif
 
             // When producer completed, return SENTINEL
             if( buffer[ front % size ] == SENTINEL ) {
                 #ifdef DEBUGOUTPUT
-                    cout << lgrey << "Buffer: Returning SENTINEL." << white << endl;
+                    cout << lgrey << " Returning SENTINEL." << white << endl;
                 #endif
                 return SENTINEL;
             }
 
             #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: Acquiring lock for remove" << white << endl;
+                cout << lgrey << " Acquiring lock for remove" << white << endl;
             #endif
 
             int res;
