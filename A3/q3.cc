@@ -71,6 +71,7 @@ template<typename T> class BoundedBuffer {
             #endif
             if( buffer[ pos % size ] == SENTINEL ) {
                 return SENTINEL;
+                lock.release();
             }
             items--;
             int res = buffer[ pos-- % size ];
