@@ -70,8 +70,8 @@ template<typename T> class BoundedBuffer {
                 cout << green << "Buffer: Adquiring item." << white << endl;
             #endif
             if( buffer[ pos % size ] == SENTINEL ) {
-                return SENTINEL;
                 lock.release();
+                return SENTINEL;
             }
             items--;
             int res = buffer[ pos-- % size ];
