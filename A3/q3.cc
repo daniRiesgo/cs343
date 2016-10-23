@@ -7,7 +7,7 @@
 #define PRODUCERS 50
 #define CONSUMERS 10
 #define DELAY 10
-//#define DEBUGOUTPUT
+#define DEBUGOUTPUT
 #define ERROROUTPUT
 
 using namespace std;
@@ -23,7 +23,7 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : pos(0), items(0), size(size), count(0), lock(1)
+      : front(0), back(0), items(0), size(size), count(0), lock(1)
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -40,13 +40,13 @@ template<typename T> class BoundedBuffer {
                 cout << green << "Buffer: inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
                 else cout << "value " << elem;
-                cout << " in pos " << pos << white << endl;
+                cout << " in pos " << back << white << endl;
 
                 cout << green << "Buffer: Acquiring lock for insert" << white << endl;
             #endif
 
             lock.acquire();
-            buffer[ ++pos % size ] = elem;
+            buffer[ ++back % size ] = elem;
             items++;
             lock.release();
 
@@ -69,7 +69,7 @@ template<typename T> class BoundedBuffer {
             #endif
 
             // When producer completed, return SENTINEL
-            if( buffer[ pos % size ] == SENTINEL ) {
+            if( buffer[ front % size ] == SENTINEL ) {
                 #ifdef DEBUGOUTPUT
                     cout << green << "Buffer: Returning SENTINEL." << white << endl;
                 #endif
@@ -82,7 +82,7 @@ template<typename T> class BoundedBuffer {
 
             int res;
             lock.acquire();
-            res = buffer[ pos-- % size ];
+            res = buffer[ front++ % size ];
             items--;
             lock.release();
 
@@ -105,7 +105,7 @@ template<typename T> class BoundedBuffer {
     }
   private:
     T *buffer;
-    size_t pos, items, size, count;
+    size_t front, back, items, size, count;
     uLock lock;
 };
 
