@@ -7,7 +7,7 @@
 #define PRODUCERS 50
 #define CONSUMERS 10
 #define DELAY 10
-#define DEBUGOUTPUT
+//#define DEBUGOUTPUT
 #define ERROROUTPUT
 
 using namespace std;
