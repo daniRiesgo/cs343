@@ -87,12 +87,11 @@ _Task Consumer {
   public:
     Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum )
       :
+        buffer( buffer ),
         Delay( Delay ),
-        Sentinel( Sentinel )
-    {
-        this->buffer = buffer;
-        this->sum = sum;
-    }
+        Sentinel( Sentinel ),
+        sum( sum )
+    {}
 };
 
 void uMain::main () {
