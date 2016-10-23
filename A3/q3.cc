@@ -174,7 +174,7 @@ _Task Consumer {
                 }
                 else {
                     #ifdef DEBUGOUTPUT
-                        cout << blue << "Consumer: Read centinel value! Exiting." << white << endl;
+                        cout << blue << "Consumer: Read sentinel value! Exiting." << white << endl;
                     #endif
                     break;
                 }
