@@ -28,7 +28,6 @@ template<typename T> class BoundedBuffer {
     }
     ~BoundedBuffer() {
         free( buffer );
-        cout << "cmon" << endl;
     }
   private:
     T *buffer;
