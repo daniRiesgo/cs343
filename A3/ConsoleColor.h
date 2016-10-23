@@ -17,7 +17,7 @@ namespace Color {
         Modifier(Code pCode) : code(pCode) {}
         friend std::ostream&
         operator<<(std::ostream& os, const Modifier& mod) {
-            if( mod.code !=39 ) return os << "\033[" << mod.code << "m\033[1m";
+            if( mod.code != 39 ) return os << "\033[" << mod.code << "m\033[1m";
             else return os << "\033[" << mod.code << "m\033[21m";
         }
     };
