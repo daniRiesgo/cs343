@@ -136,7 +136,7 @@ template<typename T> class BoundedBuffer {
   private:
     T *buffer;
     size_t front, back, items, size, count;
-    uLock lock;
+    uCondLock lock;
 };
 
 _Task Producer {
@@ -245,15 +245,52 @@ _Task Consumer {
 
 void uMain::main () {
 
-    BoundedBuffer<int> buffer( BUFFER_SIZE );
-    int sum = 0;
+    INIT: {
 
-    // launch producers
-    Producer prod1( buffer, (const int) PRODUCE, (const int) DELAY );
-    Producer prod2( buffer, (const int) PRODUCE, (const int) DELAY );
-    // launch consumers
-    Consumer cons1( buffer, (const int) DELAY, (const int) SENTINEL, sum);
-    Consumer cons2( buffer, (const int) DELAY, (const int) SENTINEL, sum);
+        size_t cons     = CONSUMERS;
+        size_t prods    = PRODUCERS;
+        size_t produce  = PRODUCE;
+        size_t bufsize  = BUFFER_SIZE;
+        size_t delay    = DELAY;
 
-    cout << "Main thread created both Producer and Consumer" << endl;
+        switch ( argc ) {
+            case 6: delay   = atoi( argv[5] );
+            case 5: bufsize = atoi( argv[4] );
+            case 4: produce = atoi( argv[3] );
+            case 3: prods   = atoi( argv[2] );
+            case 2: cons    = atoi( argv[1] );
+            break;
+            default:
+                cout << "Usage: " << argv[0] << " [ Cons [ Prods ";
+                cout << "[ Produce [ BufferSize [ Delays ] ] ] ] ]" << endl;
+                break INIT;
+        } // switch
+
+        // INITIALIZE ENVIRONMENT
+
+        BoundedBuffer<int> buffer( bufsize );
+        Producer *producers[ prods ];
+        Consumer *consumers[ cons ];
+        int sum[ cons ];
+        size_t i;
+
+        // LAUNCH TASKS
+
+            // launch producers
+        for( i = 0; i < prods; i++ ) {
+            producers[ i ] = new Producer( buffer, produce, delay );
+        }
+
+            // launch consumers
+        for( i = 0; i < cons; i++ ) {
+            consumers[ i ] = new Consumer( buffer, delay, (const int) SENTINEL, sum[ i ] );
+        }
+
+        delete [] producers;
+        delete [] consumers;
+
+        int total = 0;
+        for( i = 0; i < cons; i++ ) total += sum[ i ];
+        cout << "Sum should be " << produce*producers << ", is " << total << endl;
+    }
 }
