@@ -217,7 +217,7 @@ void uMain::main () {
         cons[ i ] = new Consumer( buffer, (const int) DELAY, (const int) SENTINEL, sum);
     }
 
-    delete [] prod;
-    delete [] cons;
+    for( size_t i = 0; i < PRODUCERS; i++ ) { delete prod[ i ]; }
+    for( size_t i = 0; i < CONSUMERS; i++ ) { delete cons[ i ]; }
 
 }
