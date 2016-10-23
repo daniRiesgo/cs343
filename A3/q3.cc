@@ -134,9 +134,6 @@ _Task Producer {
             yield( times );
             // produce corresponding item
             try {
-                #ifdef DEBUGOUTPUT
-                    cout << yellow << "Producer: Inserting item " << i << white << endl;
-                #endif
                 buffer.insert( (int) i );
                 #ifdef DEBUGOUTPUT
                     cout << yellow << "Producer: Success inserting item " << i << white << endl;
@@ -145,7 +142,7 @@ _Task Producer {
             catch( E ) {
                 i--;
                 #ifdef ERROROUTPUT
-                    cout << red << "Producer: No space to insert" << white << endl;
+                    cout << red << "Producer: Failed to insert" << white << endl;
                 #endif
             }
         }
