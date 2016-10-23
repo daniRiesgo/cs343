@@ -9,6 +9,12 @@
 
 using namespace std;
 
+Color::Modifier red(Color::FG_RED);
+Color::Modifier green(Color::FG_GREEN);
+Color::Modifier blue(Color::FG_BLUE);
+Color::Modifier yellow(Color::FG_YELLOW);
+Color::Modifier white(Color::FG_DEFAULT);
+
 _Event E {};
 
 template<typename T> class BoundedBuffer {
