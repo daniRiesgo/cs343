@@ -97,7 +97,7 @@ _Task Producer {
 
     void main() {
         size_t i;
-        MPRNG random( Delay );
+        MPRNG random( getpid() );
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
             int times = random() % ( Delay-1 );
@@ -158,7 +158,7 @@ _Task Consumer {
 
     void main() {
         sum = 0;
-        MPRNG random( Delay );
+        MPRNG random( getpid() );
         for ( ;; ) {
             // yield form 0 to Delay-1 times
             yield( random() % (Delay-1) );
