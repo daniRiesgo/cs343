@@ -45,12 +45,12 @@ _Task Producer {
     size_t Delay;
 
     void main() {
-
-        for ( int i = 1; i <= Produce; i++ ) {
+        size_t i;
+        for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
             yield( prng( Delay ) );
             // produce corresponding item
-            try { buffer->insert( i ); }
+            try { buffer->insert( (int) i ); }
             catch( E ) { i--; }
         }
     }
