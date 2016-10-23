@@ -5,7 +5,8 @@
 #define BUFFER_SIZE 10
 #define PRODUCE 10
 #define DELAY 10
-#define DEBUGOUTPUT
+// #define DEBUGOUTPUT
+#define ERROROUTPUT
 
 using namespace std;
 
@@ -51,7 +52,7 @@ template<typename T> class BoundedBuffer {
             #endif
         }
         else {
-            #ifdef DEBUGOUTPUT
+            #ifdef ERROROUTPUT
                 cout << red << "Buffer: No space to insert, throwing exception." << white << endl;
             #endif
             _Throw E();
@@ -66,7 +67,7 @@ template<typename T> class BoundedBuffer {
             return buffer[ pos-- % size ];
         }
         else {
-            #ifdef DEBUGOUTPUT
+            #ifdef ERROROUTPUT
                 cout << red << "Buffer: Failed to adquire item." << white << endl;
             #endif
             _Throw E();
@@ -115,7 +116,7 @@ _Task Producer {
             }
             catch( E ) {
                 i--;
-                #ifdef DEBUGOUTPUT
+                #ifdef ERROROUTPUT
                     cout << red << "Producer: No space to insert" << white << endl;
                 #endif
             }
@@ -129,7 +130,7 @@ _Task Producer {
                 break;
             }
             catch( E ) {
-                #ifdef DEBUGOUTPUT
+                #ifdef ERROROUTPUT
                     cout << red << "Producer: No space to insert Sentinel, retrying." << white << endl;
                 #endif
             }
@@ -181,7 +182,7 @@ _Task Consumer {
                     break;
                 }
             } catch( E ) {
-                #ifdef DEBUGOUTPUT
+                #ifdef ERROROUTPUT
                     cout << red << "Consumer: No values to get" << white << endl;
                 #endif
             }
