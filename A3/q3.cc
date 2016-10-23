@@ -23,7 +23,7 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : pos(0), items(0), size(size), lock(1)
+      : pos(0), items(0), size(size), , count(0), lock(1)
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -107,7 +107,7 @@ template<typename T> class BoundedBuffer {
     }
   private:
     T *buffer;
-    size_t pos, items, size;
+    size_t pos, items, size, count;
     uLock lock;
 };
 
