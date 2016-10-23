@@ -3,9 +3,9 @@
 #include "ConsoleColor.h"
 
 #define BUFFER_SIZE 10
-#define PRODUCE 1
-#define PRODUCERS 1
-#define CONSUMERS 1
+#define PRODUCE 11
+#define PRODUCERS 5
+#define CONSUMERS 5
 #define DELAY 10
 #define DEBUGOUTPUT
 #define ERROROUTPUT
@@ -37,7 +37,7 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
         if( items < size ) {
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Acquiring lock" << white << endl;
+                cout << green << "Buffer: Acquiring lock for insert" << white << endl;
             #endif
             lock.acquire();
             #ifdef DEBUGOUTPUT
@@ -50,7 +50,7 @@ template<typename T> class BoundedBuffer {
             items++;
             lock.release();
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Lock released" << white << endl;
+                cout << green << "Buffer: Lock released by insert" << white << endl;
             #endif
         }
         else {
@@ -63,13 +63,22 @@ template<typename T> class BoundedBuffer {
     T remove() {
         if( items > 0 ) {
             #ifdef DEBUGOUTPUT
+                cout << green << "Buffer: Acquiring lock for insert" << white << endl;
+            #endif
+            lock.acquire();
+            #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: Adquiring item." << white << endl;
             #endif
             if( buffer[ pos % size ] == SENTINEL ) {
                 return SENTINEL;
             }
             items--;
-            return buffer[ pos-- % size ];
+            int res = buffer[ pos-- % size ];
+            lock.release();
+            #ifdef DEBUGOUTPUT
+                cout << green << "Buffer: Lock released by insert" << white << endl;
+            #endif
+            return res;
         }
         else {
             #ifdef ERROROUTPUT
