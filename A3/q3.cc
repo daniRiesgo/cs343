@@ -46,7 +46,7 @@ template<typename T> class BoundedBuffer {
             #endif
 
             lock.acquire();
-            buffer[ ++back % size ] = elem;
+            buffer[ back++ % size ] = elem;
             items++;
             lock.release();
 
