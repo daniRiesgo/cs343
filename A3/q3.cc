@@ -50,7 +50,7 @@ _Task Producer {
             // yield form 0 to Delay - 1 times
             yield( prng( Delay ) );
             // produce corresponding item
-            try { buffer->insert( (int) i ); }
+            try { buffer.insert( (int) i ); }
             catch( E ) { i--; }
         }
     }
@@ -87,7 +87,7 @@ _Task Consumer {
             yield( prng( Delay ) );
             // produce corresponding item
             try {
-                int value = buffer->remove();
+                int value = buffer.remove();
                 if( value != Sentinel ) sum += value;
                 else break;
             } catch( E ) {}
