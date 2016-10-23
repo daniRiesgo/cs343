@@ -226,17 +226,9 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
-    Producer *prod[ PRODUCERS ];// = malloc( PRODUCERS * sizeof( Producer ) );
-    Consumer *cons[ CONSUMERS ];// = malloc( CONSUMERS * sizeof( Consumer ) );
-    for( size_t i = 0; i < PRODUCERS; i++ ) {
-        prod[ i ] = new Producer( buffer, (const int) PRODUCE, (const int) DELAY );
-    }
+    Producer prod( buffer, (const int) PRODUCE, (const int) DELAY ); ;
     // launch consumers
-    for( size_t i = 0; i < CONSUMERS; i++ ) {
-        cons[ i ] = new Consumer( buffer, (const int) DELAY, (const int) SENTINEL, sum);
-    }
+    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum); }
 
-    for( size_t i = 0; i < PRODUCERS; i++ ) { delete prod[ i ]; }
-    for( size_t i = 0; i < CONSUMERS; i++ ) { delete cons[ i ]; }
-
+    cout << "Main thread created both Producer and Consumer" << endl;
 }
