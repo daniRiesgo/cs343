@@ -8,7 +8,7 @@
 #define PRODUCE 10
 #define BUFFER_SIZE 10
 // #define DEBUGOUTPUT
-#define ERROROUTPUT
+// #define ERROROUTPUT
 #define MAX_INT 2147483647
 
 size_t prods = PRODUCERS;
