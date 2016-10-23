@@ -131,7 +131,7 @@ _Task Producer {
             // yield form 0 to Delay - 1 times
             int times = random() % ( Delay );
             // cout << "random number: " << times << endl;
-            yield( times );
+            yield( 15 );
             // produce corresponding item
             try {
                 buffer.insert( (int) i );
