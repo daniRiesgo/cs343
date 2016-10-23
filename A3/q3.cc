@@ -9,6 +9,7 @@
 #define BUFFER_SIZE 10
 #define DEBUGOUTPUT
 #define ERROROUTPUT
+#define MAX_INT 2147483647
 
 using namespace std;
 
@@ -260,6 +261,7 @@ void uMain::main () {
         size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
+        size_t delay;
 
         switch ( argc ) {
             case 1: break;
@@ -275,7 +277,7 @@ void uMain::main () {
                 break INIT;
         }
 
-        size_t delay = prods + cons;
+        delay = prods + cons;
 
         if( isNegative(cons, "Cons") ) break INIT;
         if( isNegative(prods, "Prods") ) break INIT;
