@@ -280,23 +280,21 @@ void uMain::main () {
         // LAUNCH TASKS
 
             // launch producers
-        for( i = 0; i < prods; i++ ) {
-            producers[ i ] = new Producer( buffer, produce, delay );
-        }
+        for( i = 0; i < prods; i++ ) { producers[ i ] = new Producer( buffer, produce, delay ); }
 
             // launch consumers
-        for( i = 0; i < cons; i++ ) {
-            consumers[ i ] = new Consumer( buffer, delay, (const int) SENTINEL, sum[ i ] );
-        }
+        for( i = 0; i < cons; i++ ) { consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] ); }
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
         for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
-        int total = 0, aim = 0;
-        for( i = 0; i < cons; i++ ) total += sum[ i ];
-        for( i = 0; i < produce; i++) aim += i;
-        aim *= prods;
-        cout << "Sum should be " << aim << ", is " << total << endl;
+        #ifdef DEBUGOUTPUT
+            int total = 0, aim = 0;
+            for( i = 0; i < cons; i++ ) total += sum[ i ];
+            for( i = 0; i < produce; i++) aim += i;
+            aim *= prods;
+            cout << "Sum should be " << aim << ", is " << total << endl;
+        #endif
     }
 }
