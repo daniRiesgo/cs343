@@ -3,7 +3,7 @@
 #include "ConsoleColor.h"
 
 #define BUFFER_SIZE 10
-#define PRODUCE 10
+#define PRODUCE 100
 #define DELAY 10
 // #define DEBUGOUTPUT
 #define ERROROUTPUT
