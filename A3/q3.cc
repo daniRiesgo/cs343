@@ -13,7 +13,7 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : pos(0), items(0), size(size), lock( 0 )
+      : pos(0), items(0), size(size), lock(1)
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -89,7 +89,15 @@ _Task Producer {
             // yield form 0 to Delay - 1 times
             yield( random() % ( Delay-1 ) );
             // produce corresponding item
-            try { buffer.insert( (int) i ); }
+            try {
+                #ifdef DEBUGOUTPUT
+                    cout << "Producer: Inserting item " << i << endl;
+                #endif
+                buffer.insert( (int) i );
+                #ifdef DEBUGOUTPUT
+                    cout << "Producer: Success inserting item " << i << endl;
+                #endif
+            }
             catch( E ) {
                 i--;
                 #ifdef DEBUGOUTPUT
