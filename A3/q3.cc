@@ -91,7 +91,7 @@ _Task Consumer {
         Sentinel( Sentinel )
     {
         buffer = &buffer;
-        *sum = &sum;
+        this.sum = sum;
     }
 };
 
