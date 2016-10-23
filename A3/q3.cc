@@ -39,9 +39,9 @@ template<typename T> class BoundedBuffer {
             lock.acquire();
             #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: inserting ";
-                if( elem == SENTINEL ) cout << "sentinel";
+                if( elem == SENTINEL ) cout << "SENTINEL";
                 else cout << "value " << elem;
-                cout << "in pos " << pos << white << endl;
+                cout << " in pos " << pos << white << endl;
             #endif
             buffer[ ++pos % size ] = elem;
             items++;
