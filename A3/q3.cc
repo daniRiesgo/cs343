@@ -66,7 +66,7 @@ _Task Producer {
 _Task Consumer {
   protected:
 
-    BoundedBuffer<int> *buffer;
+    BoundedBuffer<int> &buffer;
     const int Sentinel;
     size_t Delay;
     int &sum;
@@ -90,7 +90,7 @@ _Task Consumer {
         Delay( Delay ),
         Sentinel( Sentinel )
     {
-        buffer = &buffer;
+        this->buffer = buffer;
         this->sum = sum;
     }
 };
