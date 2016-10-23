@@ -14,15 +14,12 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
 void generateOutput( int *X[], int *Y[], int *Z[], size_t xr, size_t xcyr, size_t yc );
 
 _Task DivideAndConquer {
-
     int **X, **Y, **Z;
     size_t xr, xc, yc;
     size_t rows, cols;
     size_t x, y;
 
-public:
-
-    // constructor
+  public:
     DivideAndConquer( int *Z[], int *X[], size_t xr, size_t xc, int *Y[], size_t yc,
             size_t rows, size_t cols, size_t x, size_t y) :
         X(X), Y(Y), Z(Z),
@@ -30,8 +27,7 @@ public:
         rows(rows), cols(cols),
         x(x), y(y) {}
 
-protected:
-
+  protected:
     void main() {
         if( rows > 1 ) {
             // DIVIDE! Launch 2 tasks, each with half rows in X
@@ -48,9 +44,8 @@ protected:
         } else {
             // multiply a row by a column
             Z[ x ][ y ] = 0;
-            for( size_t i = 0; i < xc; i++ ) {
-                Z[ x ][ y ] += X[ x ][ i ] * Y[ i ][ y ];
-            }
+            for( size_t i = 0; i < xc; i++ ) { Z[ x ][ y ] += X[ x ][ i ] * Y[ i ][ y ]; }
+
         } // if
     } // main
 };
