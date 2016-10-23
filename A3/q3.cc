@@ -112,9 +112,9 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
-    Producer( &buffer, PRODUCE, DELAY );
+    Producer( buffer, PRODUCE, DELAY );
     // launch consumers
-    Consumer( &buffer, DELAY, SENTINEL, *sum);
+    Consumer( buffer, DELAY, SENTINEL, *sum);
 
     printf( "This should be 45: %d\n", sum );
 }
