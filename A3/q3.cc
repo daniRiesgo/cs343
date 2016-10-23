@@ -5,7 +5,7 @@
 
 using namespace std;
 
-MPRNG prng();
+ prng();
 
 _Event E {};
 
@@ -48,7 +48,7 @@ _Task Producer {
         size_t i;
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
-            yield( prng( Delay ) );
+            yield( MPRNG::prng( Delay ) );
             // produce corresponding item
             try { buffer.insert( (int) i ); }
             catch( E ) { i--; }
@@ -84,7 +84,7 @@ _Task Consumer {
         *sum = 0;
         for ( ;; ) {
             // yield form 0 to Delay-1 times
-            yield( prng( Delay ) );
+            yield( MPRNG::prng( Delay ) );
             // produce corresponding item
             try {
                 int value = buffer.remove();
