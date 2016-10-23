@@ -5,8 +5,6 @@
 
 using namespace std;
 
- prng();
-
 _Event E {};
 
 template<typename T> class BoundedBuffer {
@@ -38,6 +36,14 @@ template<typename T> class BoundedBuffer {
 };
 
 _Task Producer {
+  public:
+    Producer( BoundedBuffer<int> &buffer, const int Produce, const int Delay )
+      :
+        buffer( buffer ),
+        Produce( Produce ),
+        Delay( Delay )
+    {}
+
   protected:
 
     BoundedBuffer<int> &buffer;
@@ -55,13 +61,7 @@ _Task Producer {
             catch( E ) { i--; }
         }
     }
-  public:
-    Producer( BoundedBuffer<int> &buffer, const int Produce, const int Delay )
-      :
-        buffer( buffer ),
-        Produce( Produce ),
-        Delay( Delay )
-    {}
+
 };
 
 _Task Consumer {
