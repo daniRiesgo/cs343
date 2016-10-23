@@ -38,8 +38,10 @@ template<typename T> class BoundedBuffer {
             #endif
             lock.acquire();
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: inserting in pos " << pos;
-                cout << " value " << elem << white << endl;
+                cout << green << "Buffer: inserting ";
+                if( elem == SENTINEL ) cout << "sentinel";
+                else cout << "value " << elem;
+                cout << "in pos " << pos << white << endl;
             #endif
             buffer[ ++pos % size ] = elem;
             items++;
@@ -48,7 +50,12 @@ template<typename T> class BoundedBuffer {
                 cout << green << "Buffer: Lock released" << white << endl;
             #endif
         }
-        else _Throw E();
+        else {
+            #ifdef DEBUGOUTPUT
+                cout << red << "Buffer: No space to insert, throwing exception." << white << endl;
+            #endif
+            _Throw E();
+        }
     }
     T remove() {
         if( items > 0 ) {
