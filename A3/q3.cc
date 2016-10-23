@@ -256,6 +256,7 @@ void uMain::main () {
         size_t delay    = DELAY;
 
         switch ( argc ) {
+            case 1: break;
             case 6: delay   = atoi( argv[5] );
             case 5: bufsize = atoi( argv[4] );
             case 4: produce = atoi( argv[3] );
