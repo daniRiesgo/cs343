@@ -293,8 +293,10 @@ void uMain::main () {
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
         for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
-        int total = 0;
+        int total = 0, aim = 0;
         for( i = 0; i < cons; i++ ) total += sum[ i ];
-        cout << "Sum should be " << produce*prods << ", is " << total << endl;
+        for( i = 0; i < produce; i++) aim += i;
+        aim *= prods;
+        cout << "Sum should be " << aim << ", is " << total << endl;
     }
 }
