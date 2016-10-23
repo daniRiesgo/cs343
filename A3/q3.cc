@@ -82,9 +82,10 @@ _Task Consumer {
 
     void main() {
         *sum = 0;
+        MPRNG random( Delay );
         for ( ;; ) {
             // yield form 0 to Delay-1 times
-            yield( MPRNG( Delay ) );
+            yield( random( Delay ) );
             // produce corresponding item
             try {
                 int value = buffer.remove();
