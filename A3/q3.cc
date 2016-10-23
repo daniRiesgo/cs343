@@ -7,7 +7,7 @@
 #define PRODUCERS 3
 #define PRODUCE 10
 #define BUFFER_SIZE 10
-#define DEBUGOUTPUT
+// #define DEBUGOUTPUT
 #define ERROROUTPUT
 #define MAX_INT 2147483647
 
@@ -305,12 +305,12 @@ void uMain::main () {
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
         for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
-        #ifdef DEBUGOUTPUT
+        // #ifdef DEBUGOUTPUT
             int total = 0, aim = 0;
             for( i = 0; i < cons; i++ ) total += sum[ i ];
             for( i = 0; i < produce; i++) aim += i+1;
             aim *= prods;
             cout << "Sum should be " << aim << ", is " << total << endl;
-        #endif
+        // #endif
     }
 }
