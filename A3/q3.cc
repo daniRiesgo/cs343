@@ -77,7 +77,6 @@ _Task Producer {
     {}
 
   protected:
-
     BoundedBuffer<int> &buffer;
     size_t Produce;
     size_t Delay;
@@ -160,8 +159,10 @@ _Task Consumer {
                 #endif
             }
         }
-
-        printf( "This should be 45: %d\n", sum );
+        #ifdef DEBUGOUTPUT
+            int total = 0;
+            for( size_t i = 0; i < PRODUCE; i++ ) total += i;
+            printf( "This should be %d: %d\n", total, sum );
     }
 };
 
