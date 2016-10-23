@@ -46,9 +46,10 @@ _Task Producer {
 
     void main() {
         size_t i;
+        MPRNG random();
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
-            yield( MPRNG( Delay ) );
+            yield( random( Delay ) ) );
             // produce corresponding item
             try { buffer.insert( (int) i ); }
             catch( E ) { i--; }
@@ -81,8 +82,8 @@ _Task Consumer {
     int &sum;
 
     void main() {
-        *sum = 0;
-        MPRNG random( Delay );
+        sum = 0;
+        MPRNG random();
         for ( ;; ) {
             // yield form 0 to Delay-1 times
             yield( random( Delay ) );
