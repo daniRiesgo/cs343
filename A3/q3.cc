@@ -3,7 +3,7 @@
 #include "ConsoleColor.h"
 
 #define BUFFER_SIZE 10
-#define PRODUCE 100
+#define PRODUCE 1
 #define PRODUCERS 10
 #define CONSUMERS 10
 #define DELAY 10
