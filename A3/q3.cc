@@ -136,7 +136,7 @@ template<typename T> class BoundedBuffer {
   private:
     T *buffer;
     size_t front, back, items, size, count;
-    uCondLock lock;
+    uLock lock;
 };
 
 _Task Producer {
@@ -286,11 +286,12 @@ void uMain::main () {
             consumers[ i ] = new Consumer( buffer, delay, (const int) SENTINEL, sum[ i ] );
         }
 
-        delete [] producers;
-        delete [] consumers;
+            // wait for finalizing
+        for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
+        for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
         int total = 0;
         for( i = 0; i < cons; i++ ) total += sum[ i ];
-        cout << "Sum should be " << produce*producers << ", is " << total << endl;
+        cout << "Sum should be " << produce*prods << ", is " << total << endl;
     }
 }
