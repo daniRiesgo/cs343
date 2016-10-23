@@ -1,5 +1,6 @@
 #include <iostream>
 #include "MPRNG.h"
+#include "ConsoleColor.h"
 
 #define BUFFER_SIZE 10
 #define PRODUCE 10
@@ -17,28 +18,28 @@ template<typename T> class BoundedBuffer {
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
-            cout << "Error allocating buffer. Stop." << endl;
+            cout << red << "Error allocating buffer. Stop." << white << endl;
         }
         #ifdef DEBUGOUTPUT
-            cout << "Buffer created, size " << size << endl;
+            cout << green << "Buffer created, size " << size << endl;
         #endif
     }
 
     void insert( T elem ) {
         if( items < size ) {
             #ifdef DEBUGOUTPUT
-                cout << "Buffer: Acquiring lock" << endl;
+                cout << green << "Buffer: Acquiring lock" << white << endl;
             #endif
             lock.acquire();
             #ifdef DEBUGOUTPUT
-                cout << "Buffer: inserting in pos " << pos;
-                cout << " value " << elem << endl;
+                cout << green << "Buffer: inserting in pos " << pos;
+                cout << " value " << elem << white << endl;
             #endif
             buffer[ ++pos % size ] = elem;
             items++;
             lock.release();
             #ifdef DEBUGOUTPUT
-                cout << "Buffer: Lock released" << endl;
+                cout << green << "Buffer: Lock released" << white << endl;
             #endif
         }
         else _Throw E();
@@ -46,14 +47,14 @@ template<typename T> class BoundedBuffer {
     T remove() {
         if( items > 0 ) {
             #ifdef DEBUGOUTPUT
-                cout << "Buffer: Adquiring item " << endl;
+                cout << green << "Buffer: Adquiring item " << white << endl;
             #endif
             items--;
             return buffer[ pos-- % size ];
         }
         else {
             #ifdef DEBUGOUTPUT
-                cout << "Buffer: Failed to adquire item." << endl;
+                cout << red << "Buffer: Failed to adquire item." << white << endl;
             #endif
             _Throw E();
         }
@@ -90,28 +91,31 @@ _Task Producer {
             // produce corresponding item
             try {
                 #ifdef DEBUGOUTPUT
-                    cout << "Producer: Inserting item " << i << endl;
+                    cout << yellow << "Producer: Inserting item " << i << white << endl;
                 #endif
                 buffer.insert( (int) i );
                 #ifdef DEBUGOUTPUT
-                    cout << "Producer: Success inserting item " << i << endl;
+                    cout << yellow << "Producer: Success inserting item " << i << white << endl;
                 #endif
             }
             catch( E ) {
                 i--;
                 #ifdef DEBUGOUTPUT
-                    cout << "Producer: No space to insert" << endl;
+                    cout << red << "Producer: No space to insert" << white << endl;
                 #endif
             }
         }
         for( ;; ) {
             try {
                 buffer.insert( SENTINEL );
+                #ifdef DEBUGOUTPUT
+                    cout << yellow << "Producer: Sentinel inserted. Exiting." << i << white << endl;
+                #endif
                 break;
             }
             catch( E ) {
                 #ifdef DEBUGOUTPUT
-                    cout << "Producer: No space to insert" << endl;
+                    cout << red << "Producer: No space to insert Sentinel, retrying." << white << endl;
                 #endif
             }
         }
@@ -145,29 +149,32 @@ _Task Consumer {
             yield( random() % (Delay-1) );
             // produce corresponding item
             try {
+                #ifdef DEBUGOUTPUT
+                    cout << blue << "Consumer: Trying to consume an item." << white << endl;
+                #endif
                 int value = buffer.remove();
                 if( value != Sentinel ) {
                     sum += value;
                     #ifdef DEBUGOUTPUT
-                        cout << "Consumer: Added value " << value << endl;
+                        cout << blue << "Consumer: Added value " << value << white << endl;
                     #endif
                 }
                 else {
                     #ifdef DEBUGOUTPUT
-                        cout << "Consumer: Read centinel value! Exiting." << endl;
+                        cout << blue << "Consumer: Read centinel value! Exiting." << white << endl;
                     #endif
                     break;
                 }
             } catch( E ) {
                 #ifdef DEBUGOUTPUT
-                    cout << "Consumer: No values to get" << endl;
+                    cout << red << "Consumer: No values to get" << white << endl;
                 #endif
             }
         }
         #ifdef DEBUGOUTPUT
             int total = 0;
             for( size_t i = 0; i < PRODUCE; i++ ) total += i;
-            printf( "This should be %d: %d\n", total, sum );
+            cout << "This should be" << total << ": " << sum << endl;
         #endif
     }
 };
