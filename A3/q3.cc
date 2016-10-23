@@ -92,7 +92,7 @@ template<typename T> class BoundedBuffer {
         }
         else {
             #ifdef ERROROUTPUT
-                cout << red << "Buffer: No space to insert, throwing exception." << white << endl;
+                cout << red << "Buffer: No space to insert, denied call." << white << endl;
             #endif
             _Throw E();
         }
@@ -224,9 +224,6 @@ _Task Consumer {
             yield( random() % (Delay) );
             // produce corresponding item
             try {
-                #ifdef DEBUGOUTPUT
-                    cout << blue << "Consumer: Trying to consume an item." << white << endl;
-                #endif
                 int value = buffer.remove();
                 if( value != Sentinel ) {
                     sum += value;
