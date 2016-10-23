@@ -10,7 +10,7 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : pos(0), items(0), size(size)
+      : pos(0), items(0), size(size), lock( 0 )
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -32,7 +32,7 @@ template<typename T> class BoundedBuffer {
   private:
     T *buffer;
     size_t pos, items, size;
-    // add more members
+    uLock lock;
 };
 
 _Task Producer {
@@ -78,8 +78,8 @@ _Task Consumer {
   protected:
 
     BoundedBuffer<int> &buffer;
-    const int Sentinel;
     size_t Delay;
+    const int Sentinel;
     int &sum;
 
     void main() {
@@ -101,6 +101,8 @@ _Task Consumer {
 void uMain::main () {
 
     BoundedBuffer<int> buffer( BUFFER_SIZE );
+
+
 
     printf("I workaut\n");
 }
