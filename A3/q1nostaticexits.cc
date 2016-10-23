@@ -74,7 +74,7 @@ void do_work( int C1, int C2, int C3, int L1, int L2, volatile int L3 ) {
 
                         k++; // next iteration
 
-                    } // for k
+                    } // while k
 
                     if ( !C1 ) {
                         if ( !C2 ) {
@@ -86,12 +86,12 @@ void do_work( int C1, int C2, int C3, int L1, int L2, volatile int L3 ) {
                         } else { skipK = 0; }
                     }
 
-                } // content of for j
+                } // content of while j
 
                 if( !C3 ) { skipK = 0; }
                 j++; // next iteration
 
-            } // for j
+            } // while j
 
             if( !C1 ) {
                 #ifndef NOOUPUT
@@ -103,7 +103,7 @@ void do_work( int C1, int C2, int C3, int L1, int L2, volatile int L3 ) {
         if ( C2 ) { skipJ = 0; }
         i++; // next iteration
 
-    } // for i
+    } // while i
 
 } // do_work
 

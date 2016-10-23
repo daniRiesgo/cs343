@@ -44,11 +44,11 @@ namespace Color {
 
 using namespace Color;
 
-Modifier red(Color::FG_RED);
-Modifier green(Color::FG_GREEN);
-Modifier blue(Color::FG_BLUE);
-Modifier yellow(Color::FG_YELLOW);
-Modifier white(Color::FG_DEFAULT);
+Modifier red    (Color::FG_RED);
+Modifier green  (Color::FG_GREEN);
+Modifier blue   (Color::FG_BLUE);
+Modifier yellow (Color::FG_YELLOW);
+Modifier white  (Color::FG_DEFAULT);
 
 _Event E {};
 
@@ -68,6 +68,8 @@ template<typename T> class BoundedBuffer {
 
     void insert( T elem ) {
         if( items < size ) {
+            if( elem == SENTINEL && ++count != prods ) return;
+
             #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
@@ -249,7 +251,7 @@ void uMain::main () {
 
     INIT: {
 
-        size_t cons     = CONSUMERS;
+        size_t cons     = atoi("coags");
         size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
