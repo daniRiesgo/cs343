@@ -64,6 +64,15 @@ _Task Producer {
 };
 
 _Task Consumer {
+  public:
+    Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum )
+      :
+        buffer( buffer ),
+        Delay( Delay ),
+        Sentinel( Sentinel ),
+        sum( sum )
+    {}
+
   protected:
 
     BoundedBuffer<int> &buffer;
@@ -79,19 +88,11 @@ _Task Consumer {
             // produce corresponding item
             try {
                 int value = buffer->remove();
-                if( value != Sentinel ) *sum += value;
+                if( value != Sentinel ) sum += value;
                 else break;
             } catch( E ) {}
         }
     }
-  public:
-    Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum )
-      :
-        buffer( buffer ),
-        Delay( Delay ),
-        Sentinel( Sentinel ),
-        sum( sum )
-    {}
 };
 
 void uMain::main () {
