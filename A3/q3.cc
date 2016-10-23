@@ -63,10 +63,17 @@ _Task Producer {
         MPRNG random( Delay );
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
-            yield( random() % (Delay-1) );
+            yield( random() % ( Delay-1 ) );
             // produce corresponding item
             try { buffer.insert( (int) i ); }
             catch( E ) { i--; }
+        }
+        for( ;; ) {
+            try {
+                buffer.insert( SENTINEL );
+                break;
+            }
+            catch( E ) {  }
         }
     }
 
