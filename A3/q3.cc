@@ -63,7 +63,7 @@ template<typename T> class BoundedBuffer {
     T remove() {
         if( items > 0 ) {
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Acquiring lock for insert" << white << endl;
+                cout << green << "Buffer: Acquiring lock for remove" << white << endl;
             #endif
             lock.acquire();
             #ifdef DEBUGOUTPUT
@@ -76,7 +76,7 @@ template<typename T> class BoundedBuffer {
             int res = buffer[ pos-- % size ];
             lock.release();
             #ifdef DEBUGOUTPUT
-                cout << green << "Buffer: Lock released by insert" << white << endl;
+                cout << green << "Buffer: Lock released by remove" << white << endl;
             #endif
             return res;
         }
