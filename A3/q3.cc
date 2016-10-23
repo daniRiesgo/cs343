@@ -292,7 +292,7 @@ void uMain::main () {
         #ifdef DEBUGOUTPUT
             int total = 0, aim = 0;
             for( i = 0; i < cons; i++ ) total += sum[ i ];
-            for( i = 0; i < produce; i++) aim += i;
+            for( i = 0; i < produce; i++) aim += i+1;
             aim *= prods;
             cout << "Sum should be " << aim << ", is " << total << endl;
         #endif
