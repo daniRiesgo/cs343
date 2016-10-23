@@ -1,11 +1,10 @@
 #include <iostream>
+#include <ostream>
+
 #include "MPRNG.h"
-#include "ConsoleColor.h"
 
 #define BUFFER_SIZE 10
 #define PRODUCE 100
-#define PRODUCERS 50
-#define CONSUMERS 10
 #define DELAY 10
 #define DEBUGOUTPUT
 #define ERROROUTPUT
@@ -129,9 +128,7 @@ _Task Producer {
         MPRNG random( getpid() );
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
-            int times = random() % ( Delay );
-            // cout << "random number: " << times << endl;
-            yield( times );
+            yield( random() % ( Delay ) );
             // produce corresponding item
             try {
                 buffer.insert( (int) i );
@@ -221,9 +218,40 @@ void uMain::main () {
     int sum = 0;
 
     // launch producers
-    Producer prod( buffer, (const int) PRODUCE, (const int) DELAY );
+    Producer prod1( buffer, (const int) PRODUCE, (const int) DELAY );
+    Producer prod2( buffer, (const int) PRODUCE, (const int) DELAY );
     // launch consumers
-    Consumer cons( buffer, (const int) DELAY, (const int) SENTINEL, sum);
+    Consumer cons1( buffer, (const int) DELAY, (const int) SENTINEL, sum);
+    Consumer cons2( buffer, (const int) DELAY, (const int) SENTINEL, sum);
 
     cout << "Main thread created both Producer and Consumer" << endl;
+}
+
+/*  The following code was obtained from a topic posted in StackOverflow
+*   It is solely used for colouring the console when debugging.
+*   credit (last check 10-22-2016):
+*   http://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
+*/
+namespace Color {
+    enum Code {
+        FG_RED      = 31,
+        FG_GREEN    = 32,
+        FG_YELLOW   = 33,
+        FG_BLUE     = 34,
+        FG_DEFAULT  = 39,
+        BG_RED      = 41,
+        BG_GREEN    = 42,
+        BG_BLUE     = 44,
+        BG_DEFAULT  = 49
+    };
+    class Modifier {
+        Code code;
+    public:
+        Modifier(Code pCode) : code(pCode) {}
+        friend std::ostream&
+        operator<<(std::ostream& os, const Modifier& mod) {
+            if( mod.code != 39 ) return os << "\033[" << mod.code << "m\033[1m";
+            else return os << "\033[" << mod.code << "m\033[0m";
+        }
+    };
 }
