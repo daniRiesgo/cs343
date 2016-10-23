@@ -3,9 +3,9 @@
 #include "ConsoleColor.h"
 
 #define BUFFER_SIZE 10
-#define PRODUCE 11
-#define PRODUCERS 5
-#define CONSUMERS 5
+#define PRODUCE 100
+#define PRODUCERS 50
+#define CONSUMERS 10
 #define DELAY 10
 #define DEBUGOUTPUT
 #define ERROROUTPUT
@@ -203,11 +203,6 @@ _Task Consumer {
                 #endif
             }
         }
-        // #ifdef DEBUGOUTPUT
-            int total = 0;
-            for( size_t i = 0; i < PRODUCE; i++ ) total += i;
-            cout << "This should be " << total << ": " << sum << endl;
-        // #endif
     }
 };
 
