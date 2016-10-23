@@ -69,7 +69,7 @@ _Task Consumer {
     BoundedBuffer<int> *buffer;
     const int Sentinel;
     size_t Delay;
-    int *sum;
+    int &sum;
 
     void main() {
         *sum = 0;
