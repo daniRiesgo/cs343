@@ -70,7 +70,7 @@ template<typename T> class BoundedBuffer {
 
     void insert( T elem ) {
         if( items < size ) {
-            if( elem == SENTINEL && ++count != PRODUCERS ) return;
+            if( elem == SENTINEL && ++count != prods ) return;
 
             #ifdef DEBUGOUTPUT
                 cout << green << "Buffer: inserting ";
