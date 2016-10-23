@@ -76,9 +76,7 @@ template<typename T> class BoundedBuffer {
                 cout << lgrey << "Buffer: inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
                 else cout << "value " << elem;
-                cout << " in pos " << back << white << endl;
-
-                cout << lgrey << "Buffer: Acquiring lock for insert" << white << endl;
+                cout << " in pos " << back << ". Acquiring lock for that" << white << endl;
             #endif
 
             lock.acquire();
