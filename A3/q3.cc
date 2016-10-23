@@ -73,10 +73,10 @@ template<typename T> class BoundedBuffer {
             if( elem == SENTINEL && ++count != prods ) return;
 
             #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: inserting ";
+                cout << lgrey << "Buffer: Inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
                 else cout << "value " << elem;
-                cout << " in pos " << back << ". Acquiring lock for that" << white << endl;
+                cout << " in pos " << back << ". Acquiring lock for insert." << white << endl;
             #endif
 
             lock.acquire();
