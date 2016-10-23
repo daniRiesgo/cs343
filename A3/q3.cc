@@ -152,7 +152,12 @@ _Task Consumer {
                         cout << "Consumer: Added value " << value << endl;
                     #endif
                 }
-                else break;
+                else {
+                    #ifdef DEBUGOUTPUT
+                        cout << "Consumer: Read centinel value! Exiting." << endl;
+                    #endif
+                    break;
+                }
             } catch( E ) {
                 #ifdef DEBUGOUTPUT
                     cout << "Consumer: No values to get" << endl;
