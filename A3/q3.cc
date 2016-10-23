@@ -95,6 +95,7 @@ _Task Producer {
         Produce( Produce ),
         Delay( Delay )
     {}
+    ~Producer() {}
 
   protected:
     BoundedBuffer<int> &buffer;
