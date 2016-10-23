@@ -115,7 +115,7 @@ _Task Producer {
             try {
                 buffer.insert( SENTINEL );
                 #ifdef DEBUGOUTPUT
-                    cout << yellow << "Producer: Sentinel inserted. Exiting." << i << white << endl;
+                    cout << yellow << "Producer: Sentinel inserted. Exiting." << white << endl;
                 #endif
                 break;
             }
