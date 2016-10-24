@@ -266,7 +266,7 @@ _Task Consumer {
     }
 };
 
-bool isNegative( int value, string name ) {
+bool isNegative( long int value, string name ) {
     if( value > 0 ) return false;
     cout << "'" << name << "' must be a positive integer." << endl;
     return true;
