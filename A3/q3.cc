@@ -274,10 +274,7 @@ _Task Consumer {
 
 bool isInvalid( char *value, string name ) {
     float val = atof(value);
-    if( val < MAX_INT && val > 0 ) {
-        cout << name <<  " is " << val << endl;
-        return false;
-    }
+    if( val < MAX_INT && val > 0 ) { return false; }
     cout << "'" << name << "' must be a positive integer below " << MAX_INT;
     cout << ", was " << val << "." << endl;
     return true;
