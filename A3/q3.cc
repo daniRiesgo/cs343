@@ -102,7 +102,7 @@ template<typename T> class BoundedBuffer {
                 noItems.signal();
             } _Finally { lock.release(); }
         #ifdef NOBUSY
-        } _Finally { barging.signal(); notTheFirst--; }
+        } _Finally { if( --notTheFirst ) barging.signal(); }
         #endif
 
     }
@@ -143,7 +143,7 @@ template<typename T> class BoundedBuffer {
                 noRoom.signal();
             } _Finally { lock.release(); }
         #ifdef NOBUSY
-        } _Finally { barging.signal(); notTheFirst--; }
+    } _Finally { if( --notTheFirst ) barging.signal(); }
         #endif
 
         #ifdef DEBUGOUTPUT
