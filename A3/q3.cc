@@ -316,9 +316,9 @@ void uMain::main () {
         size_t i;
 
         // LAUNCH TASKS
-        #ifdef __U_MULTI__
+        // #ifdef __U_MULTI__
         uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
-        #endif 
+        // #endif
 
             // launch producers
         for( i = 0; i < prods; i++ ) { producers[ i ] = new Producer( buffer, produce, delay ); }
