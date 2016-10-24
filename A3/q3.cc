@@ -143,7 +143,7 @@ template<typename T> class BoundedBuffer {
                 noRoom.signal();
             } _Finally { lock.release(); }
         #ifdef NOBUSY
-    } _Finally { if( --notTheFirst ) barging.signal(); }
+    } _Finally { if( barging.owner ==  ) barging.signal(); }
         #endif
 
         #ifdef DEBUGOUTPUT
@@ -267,7 +267,10 @@ _Task Consumer {
 };
 
 bool isNegative( long int value, string name ) {
-    if( value > 0 && value < MAX_INT ) return false;
+    if( value > 0 && value < MAX_INT ) {
+        cout << name <<  " is " << value << endl;
+        return false;
+    }
     cout << "'" << name << "' must be a positive integer below " << MAX_INT << "." << endl;
     return true;
 }
