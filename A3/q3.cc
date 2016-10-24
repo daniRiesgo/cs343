@@ -273,7 +273,7 @@ _Task Consumer {
 };
 
 bool isNegative( char *value, string name ) {
-    if( sizeof(value) > sizeof(10*sizeof(char)) return false;
+    if( sizeof(value) > sizeof(10*sizeof(char)) ) return false;
     if( atoi(value) > 0 && atoi(value) < MAX_INT ) {
         cout << name <<  " is " << value << endl;
         return false;
