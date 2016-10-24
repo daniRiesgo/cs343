@@ -274,7 +274,7 @@ _Task Consumer {
 
 bool isInvalid( char *value, string name ) {
     int val = atoi(value);
-    if( val = atoi(value) ) {
+    if( val == atoi(value) ) {
         cout << name <<  " is " << val << endl;
         return false;
     }
