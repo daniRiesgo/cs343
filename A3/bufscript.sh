@@ -1,4 +1,7 @@
 # Check bad inputs
+echo "Should output usage message"
+echo ""
+./buffer 1 2 3 4 5 6
 echo ""
 echo "Should warn of bad cons:"
 echo ""
@@ -43,6 +46,7 @@ echo ""
 echo "Should warn of bad prods:"
 echo ""
 ./buffer 5 43222222222222
+echo ""
 echo "Should warn of bad prods+cons:"
 echo ""
 ./buffer 2147483640 40
