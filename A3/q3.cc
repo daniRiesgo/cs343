@@ -266,7 +266,7 @@ _Task Consumer {
     }
 };
 
-bool isNegative( size_t value, string name ) {
+bool isNegative( int value, string name ) {
     if( value > 0 ) return false;
     cout << "'" << name << "' must be a positive integer." << endl;
     return true;
@@ -283,11 +283,26 @@ void uMain::main () {
 
         switch ( argc ) {
             case 1: break;
-            case 6: delay   = atoi( argv[5] );
-            case 5: bufsize = atoi( argv[4] );
-            case 4: produce = atoi( argv[3] );
-            case 3: prods   = atoi( argv[2] );
-            case 2: cons    = atoi( argv[1] );
+            case 6: {
+                if( isNegative( atoi( argv[5] ), "Delays") ) break INIT;
+                delay = atoi( argv[5] );
+            }
+            case 5: {
+                if( isNegative( atoi( argv[4] ), "BufferSize") ) break INIT;
+                bufsize = atoi( argv[4] );
+            }
+            case 4: {
+                if( isNegative( atoi( argv[3] ), "Produce") ) break INIT;
+                produce = atoi( argv[3] );
+            }
+            case 3: {
+                if( isNegative( atoi( argv[2] ), "Prods" ) ) break INIT;
+                prods = atoi( argv[2] );
+            }
+            case 2: {
+                if( isNegative( atoi( argv[1] ), "Cons" ) ) break INIT;
+                cons = atoi( argv[1] );
+            }
             break;
             default:
                 cout << "Usage: " << argv[0] << " [ Cons [ Prods ";
@@ -296,12 +311,6 @@ void uMain::main () {
         }
 
         delay = prods + cons;
-
-        if( isNegative(cons, "Cons") ) break INIT;
-        if( isNegative(prods, "Prods") ) break INIT;
-        if( isNegative(produce, "Produce") ) break INIT;
-        if( isNegative(bufsize, "BufferSize") ) break INIT;
-        if( isNegative(delay, "Delays") ) break INIT;
         if( (cons + prods) > MAX_INT ) {
             cout << "Too many tasks (Producers + Consumers)" << endl;
             break INIT;
