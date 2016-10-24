@@ -100,7 +100,7 @@ template<typename T> class BoundedBuffer {
                 buffer[ back++ % size ] = elem;
                 items++;
                 noItems.signal();
-            } _Finally { if( lock.owner() = uThisTask() ) lock.release(); }
+            } _Finally { if( lock.owner() == uThisTask() ) lock.release(); }
         #ifdef NOBUSY
         } _Finally {
             if( !barging.empty() ) barging.signal();
@@ -144,7 +144,7 @@ template<typename T> class BoundedBuffer {
                 res = buffer[ front++ % size ];
                 items--;
                 noRoom.signal();
-            } _Finally { if( lock.owner() = uThisTask() ) lock.release(); }
+            } _Finally { if( lock.owner() == uThisTask() ) lock.release(); }
         #ifdef NOBUSY
         } _Finally {
             if( !barging.empty() ) barging.signal();
