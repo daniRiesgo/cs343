@@ -273,7 +273,7 @@ _Task Consumer {
 };
 
 bool isInvalid( char *value, string name ) {
-    double val = atod(value);
+    float val = atof(value);
     if( val < MAX_INT && val > 0 ) {
         cout << name <<  " is " << val << endl;
         return false;
