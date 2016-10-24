@@ -272,8 +272,9 @@ _Task Consumer {
     }
 };
 
-bool isNegative( long int value, string name ) {
-    if( value > 0 && value < MAX_INT ) {
+bool isNegative( char *value, string name ) {
+    if( sizeof(value) > sizeof(10*sizeof(char)) return false;
+    if( atoi(value) > 0 && atoi(value) < MAX_INT ) {
         cout << name <<  " is " << value << endl;
         return false;
     }
@@ -293,23 +294,23 @@ void uMain::main () {
         switch ( argc ) {
             case 1: break;
             case 6: {
-                if( isNegative( atoi( argv[5] ), "Delays") ) break INIT;
+                if( isNegative( argv[5], "Delays") ) break INIT;
                 delay = atoi( argv[5] );
             }
             case 5: {
-                if( isNegative( atoi( argv[4] ), "BufferSize") ) break INIT;
+                if( isNegative( argv[4], "BufferSize") ) break INIT;
                 bufsize = atoi( argv[4] );
             }
             case 4: {
-                if( isNegative( atoi( argv[3] ), "Produce") ) break INIT;
+                if( isNegative( argv[3], "Produce") ) break INIT;
                 produce = atoi( argv[3] );
             }
             case 3: {
-                if( isNegative( atoi( argv[2] ), "Prods" ) ) break INIT;
+                if( isNegative( argv[2], "Prods" ) ) break INIT;
                 prods = atoi( argv[2] );
             }
             case 2: {
-                if( isNegative( atoi( argv[1] ), "Cons" ) ) break INIT;
+                if( isNegative( argv[1], "Cons" ) ) break INIT;
                 cons = atoi( argv[1] );
             }
             break;
