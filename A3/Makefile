@@ -18,7 +18,7 @@ EXEC1 = nostaticexits				# 1st executable name
 OBJECTS2 = q2.o # object files forming 2nd executable with prefix "q2"
 EXEC2 = matrixmultiply				# 2nd executable name
 
-OBJECTS3 = q3.o # object files forming 3rd executable with prefix "q3"
+OBJECTS3 = q3nosobusy.o # object files forming 3rd executable with prefix "q3"
 EXEC3 = buffer									# 3rd executable name
 
 OBJECTS = ${OBJECTS1} ${OBJECTS2} ${OBJECTS3}	# all object files
