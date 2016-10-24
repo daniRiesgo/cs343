@@ -59,9 +59,9 @@ template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
       :
-      front(0), back(0), items(0), size(size), count(0), lock(),
+      front(0), back(0), items(0), size(size), count(0), lock()
       #ifdef NOBUSY
-      noItems(), noRoom(), notTheFirst(0)
+      ,noItems(), noRoom(), notTheFirst(0)
       #endif
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
