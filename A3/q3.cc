@@ -331,11 +331,9 @@ void uMain::main () {
         for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
         // #ifdef DEBUGOUTPUT
-            int total = 0, aim = 0;
+            int total = 0;
             for( i = 0; i < cons; i++ ) total += sum[ i ];
-            for( i = 0; i < produce; i++) aim += i+1;
-            aim *= prods;
-            cout << "Sum should be " << aim << ", is " << total << endl;
+            cout << "total: " << total << endl;
         // #endif
     }
 }
