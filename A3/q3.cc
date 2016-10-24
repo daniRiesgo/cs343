@@ -79,34 +79,31 @@ template<typename T> class BoundedBuffer {
         if( elem == SENTINEL && ++count != prods ) { return; }
 
         #ifdef NOBUSY
-        notTheFirst++;
-        #endif
-        lock.acquire();
+        if( notTheFirst++ ) { barging.wait( lock ); }
         try {
-            while( items == size ) {
-                #ifdef ERROROUTPUT
-                    cout << red << "Buffer: No space to insert. Waiting." << white << endl;
-                #endif
-                noRoom.wait( lock );
-            }
-
-            #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: Inserting ";
-                if( elem == SENTINEL ) cout << "SENTINEL";
-                else cout << "value " << elem << white << endl;
-            #endif
-
-            #ifdef NOBUSY
-            if( notTheFirst-1 ) { barging.wait( lock ); }
+        #endif
+            lock.acquire();
             try {
-            #endif
+                while( items == size ) {
+                    #ifdef ERROROUTPUT
+                        cout << red << "Buffer: No space to insert. Waiting." << white << endl;
+                    #endif
+                    noRoom.wait( lock );
+                }
+
+                #ifdef DEBUGOUTPUT
+                    cout << lgrey << "Buffer: Inserting ";
+                    if( elem == SENTINEL ) cout << "SENTINEL";
+                    else cout << "value " << elem << white << endl;
+                #endif
+
                 buffer[ back++ % size ] = elem;
                 items++;
                 noItems.signal();
-            #ifdef NOBUSY
-            } _Finally { barging.signal(); notTheFirst--; }
-            #endif
-        } _Finally { lock.release(); }
+            } _Finally { lock.release(); }
+        #ifdef NOBUSY
+        } _Finally { barging.signal(); notTheFirst--; }
+        #endif
 
     }
     T remove() {
@@ -122,15 +119,13 @@ template<typename T> class BoundedBuffer {
         #endif
 
         int res;
+
         #ifdef NOBUSY
-        notTheFirst++;
-        #endif
-        lock.acquire();
+        if( notTheFirst++ ) { barging.wait( lock ); }
         try {
-            #ifdef NOBUSY
-            if( notTheFirst-1 ) { barging.wait( lock ); }
+        #endif
+            lock.acquire();
             try {
-            #endif
                 // When producers finished, return SENTINEL
                 if( buffer[ front % size ] == SENTINEL ) {
                     #ifdef DEBUGOUTPUT
@@ -146,10 +141,10 @@ template<typename T> class BoundedBuffer {
                 res = buffer[ front++ % size ];
                 items--;
                 noRoom.signal();
-            #ifdef NOBUSY
-            } _Finally { barging.signal(); notTheFirst--; }
-            #endif
-        } _Finally { lock.release(); }
+            } _Finally { lock.release(); }
+        #ifdef NOBUSY
+        } _Finally { barging.signal(); notTheFirst--; }
+        #endif
 
         #ifdef DEBUGOUTPUT
             cout << lgrey << "Buffer: Lock released by remove. ";
