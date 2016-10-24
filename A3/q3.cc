@@ -276,7 +276,7 @@ bool isInvalid( char *value, string name ) {
     float val = atof(value);
     if( val < MAX_INT && val > 0 ) { return false; }
     cout << "'" << name << "' must be a positive integer below " << MAX_INT;
-    cout << ", was " << val << "." << endl;
+    cout << ", was " << value << "." << endl;
     return true;
 }
 
