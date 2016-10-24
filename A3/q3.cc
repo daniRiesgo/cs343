@@ -275,7 +275,8 @@ _Task Consumer {
 bool isNegative( char *value, string name ) {
     if( sizeof(value) > sizeof(10*sizeof(char)) ) return false;
     if( atoi(value) > 0 && atoi(value) < MAX_INT ) {
-        cout << name <<  " is " << value << endl;
+        int val = atoi(value);
+        cout << name <<  " is " << val << endl;
         return false;
     }
     cout << "'" << name << "' must be a positive integer below " << MAX_INT << "." << endl;
