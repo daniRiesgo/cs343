@@ -58,7 +58,11 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : front(0), back(0), items(0), size(size), count(0), lock(), noItems(), noRoom()
+      :
+      front(0), back(0), items(0), size(size), count(0), lock(),
+      #ifdef NOBUSY
+      noItems(), noRoom(), notTheFirst(0)
+      #endif
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -117,6 +121,7 @@ template<typename T> class BoundedBuffer {
             cout << lgrey << "Buffer: Removing item." << white;
         #endif
 
+        int res;
         #ifdef NOBUSY
         notTheFirst++;
         #endif
@@ -138,7 +143,7 @@ template<typename T> class BoundedBuffer {
                     cout << lgrey << " Acquiring lock for remove" << white << endl;
                 #endif
 
-                int res = buffer[ front++ % size ];
+                res = buffer[ front++ % size ];
                 items--;
                 noRoom.signal();
             #ifdef NOBUSY
@@ -161,6 +166,7 @@ template<typename T> class BoundedBuffer {
     uCondLock noItems, noRoom;
     #ifdef NOBUSY
         uCondLock barging;
+        int notTheFirst;
     #endif
 };
 
