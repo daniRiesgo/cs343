@@ -58,7 +58,7 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : front(0), back(0), items(0), size(size), count(0), lock()
+      : front(0), back(0), items(0), size(size), count(0), lock(), noItems(), noRoom()
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -70,78 +70,98 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
-        if( items < size ) {
-            if( elem == SENTINEL && ++count != prods ) return;
+        // When a producer ends, check if it's the last one. Otherwise it shouldn't
+        // affect the consumers.
+        if( elem == SENTINEL && ++count != prods ) { return; }
+
+        #ifdef NOBUSY
+        notTheFirst++;
+        #endif
+        lock.acquire();
+        try {
+            while( items == size ) {
+                #ifdef ERROROUTPUT
+                    cout << red << "Buffer: No space to insert. Waiting." << white << endl;
+                #endif
+                noRoom.wait( lock );
+            }
 
             #ifdef DEBUGOUTPUT
                 cout << lgrey << "Buffer: Inserting ";
                 if( elem == SENTINEL ) cout << "SENTINEL";
-                else cout << "value " << elem;
-                cout << " in pos " << back << ". Acquiring lock for insert." << white << endl;
+                else cout << "value " << elem << white << endl;
             #endif
 
-            lock.acquire();
-            buffer[ back++ % size ] = elem;
-            items++;
-            lock.release();
+            #ifdef NOBUSY
+            if( notTheFirst-1 ) { barging.wait( lock ); }
+            try {
+            #endif
+                buffer[ back++ % size ] = elem;
+                items++;
+                noItems.signal();
+            #ifdef NOBUSY
+            } _Finally { barging.signal(); notTheFirst--; }
+            #endif
+        } _Finally { lock.release(); }
 
-            #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: Lock released by insert" << white << endl;
-            #endif
-        }
-        else {
-            #ifdef ERROROUTPUT
-                cout << red << "Buffer: No space to insert, denied call." << white << endl;
-            #endif
-            _Throw E();
-        }
     }
     T remove() {
-        if( items > 0 ) {
-
-            #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: Removing item." << white;
-            #endif
-
-            // When producer completed, return SENTINEL
-            if( buffer[ front % size ] == SENTINEL ) {
-                #ifdef DEBUGOUTPUT
-                    cout << lgrey << " Returning SENTINEL." << white << endl;
-                #endif
-                return SENTINEL;
-            }
-
-            #ifdef DEBUGOUTPUT
-                cout << lgrey << " Acquiring lock for remove" << white << endl;
-            #endif
-
-            int res;
-            lock.acquire();
-            res = buffer[ front++ % size ];
-            items--;
-            lock.release();
-
-            #ifdef DEBUGOUTPUT
-                cout << lgrey << "Buffer: Lock released by remove. ";
-                cout << "Returning value " << res << white << endl;
-            #endif
-
-            return res;
-        }
-        else {
+        while( items < 0 ) {
             #ifdef ERROROUTPUT
-                cout << red << "Buffer: Failed to adquire item." << white << endl;
+                cout << red << "Buffer: No items ready. Waiting!" << white << endl;
             #endif
-            _Throw E();
+            noItems.wait( lock );
         }
+
+        #ifdef DEBUGOUTPUT
+            cout << lgrey << "Buffer: Removing item." << white;
+        #endif
+
+        #ifdef NOBUSY
+        notTheFirst++;
+        #endif
+        lock.acquire();
+        try {
+            #ifdef NOBUSY
+            if( notTheFirst-1 ) { barging.wait( lock ); }
+            try {
+            #endif
+                // When producers finished, return SENTINEL
+                if( buffer[ front % size ] == SENTINEL ) {
+                    #ifdef DEBUGOUTPUT
+                        cout << lgrey << " Returning SENTINEL." << white << endl;
+                    #endif
+                    return SENTINEL;
+                }
+
+                #ifdef DEBUGOUTPUT
+                    cout << lgrey << " Acquiring lock for remove" << white << endl;
+                #endif
+
+                int res = buffer[ front++ % size ];
+                items--;
+                noRoom.signal();
+            #ifdef NOBUSY
+            } _Finally { barging.signal(); notTheFirst--; }
+            #endif
+        } _Finally { lock.release(); }
+
+        #ifdef DEBUGOUTPUT
+            cout << lgrey << "Buffer: Lock released by remove. ";
+            cout << "Returning value " << res << white << endl;
+        #endif
+
+        return res;
     }
-    ~BoundedBuffer() {
-        free( buffer );
-    }
+    ~BoundedBuffer() { free( buffer ); }
   private:
     T *buffer;
     size_t front, back, items, size, count;
     uOwnerLock lock;
+    uCondLock noItems, noRoom;
+    #ifdef NOBUSY
+        uCondLock barging;
+    #endif
 };
 
 _Task Producer {

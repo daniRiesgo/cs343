@@ -58,7 +58,7 @@ _Event E {};
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
-      : front(0), back(0), items(0), size(size), count(0), lock(), noItems(), noRoom()
+      : front(0), back(0), items(0), size(size), count(0), lock()
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
@@ -70,75 +70,78 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
+        if( items < size ) {
+            if( elem == SENTINEL && ++count != prods ) return;
 
-        lock.acquire();
-        while( items == size ) {
-            #ifdef ERROROUTPUT
-                cout << red << "Buffer: No space to insert. Waiting." << white << endl;
+            #ifdef DEBUGOUTPUT
+                cout << lgrey << "Buffer: Inserting ";
+                if( elem == SENTINEL ) cout << "SENTINEL";
+                else cout << "value " << elem;
+                cout << " in pos " << back << ". Acquiring lock for insert." << white << endl;
             #endif
-            noRoom.wait( lock );
-        }
-        if( elem == SENTINEL && ++count != prods ) {
+
+            lock.acquire();
+            buffer[ back++ % size ] = elem;
+            items++;
             lock.release();
-            return;
+
+            #ifdef DEBUGOUTPUT
+                cout << lgrey << "Buffer: Lock released by insert" << white << endl;
+            #endif
         }
-
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << "Buffer: Inserting ";
-            if( elem == SENTINEL ) cout << "SENTINEL";
-            else cout << "value " << elem << white << endl;
-        #endif
-
-        buffer[ back++ % size ] = elem;
-        items++;
-        noItems.signal();
-        lock.release();
-
+        else {
+            #ifdef ERROROUTPUT
+                cout << red << "Buffer: No space to insert, denied call." << white << endl;
+            #endif
+            _Throw E();
+        }
     }
     T remove() {
-        while( items < 0 ) {
-            #ifdef ERROROUTPUT
-                cout << red << "Buffer: No items ready. Waiting!" << white << endl;
-            #endif
-            noItems.wait( lock );
-        }
+        if( items > 0 ) {
 
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << "Buffer: Removing item." << white;
-        #endif
-
-        lock.acquire();
-        // When producers finished, return SENTINEL
-        if( buffer[ front % size ] == SENTINEL ) {
-            lock.release();
             #ifdef DEBUGOUTPUT
-                cout << lgrey << " Returning SENTINEL." << white << endl;
+                cout << lgrey << "Buffer: Removing item." << white;
             #endif
-            return SENTINEL;
+
+            // When producer completed, return SENTINEL
+            if( buffer[ front % size ] == SENTINEL ) {
+                #ifdef DEBUGOUTPUT
+                    cout << lgrey << " Returning SENTINEL." << white << endl;
+                #endif
+                return SENTINEL;
+            }
+
+            #ifdef DEBUGOUTPUT
+                cout << lgrey << " Acquiring lock for remove" << white << endl;
+            #endif
+
+            int res;
+            lock.acquire();
+            res = buffer[ front++ % size ];
+            items--;
+            lock.release();
+
+            #ifdef DEBUGOUTPUT
+                cout << lgrey << "Buffer: Lock released by remove. ";
+                cout << "Returning value " << res << white << endl;
+            #endif
+
+            return res;
         }
-
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << " Acquiring lock for remove" << white << endl;
-        #endif
-
-        int res = buffer[ front++ % size ];
-        items--;
-        noRoom.signal();
-        lock.release();
-
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << "Buffer: Lock released by remove. ";
-            cout << "Returning value " << res << white << endl;
-        #endif
-
-        return res;
+        else {
+            #ifdef ERROROUTPUT
+                cout << red << "Buffer: Failed to adquire item." << white << endl;
+            #endif
+            _Throw E();
+        }
     }
-    ~BoundedBuffer() { free( buffer ); }
+    ~BoundedBuffer() {
+        free( buffer );
+    }
   private:
     T *buffer;
     size_t front, back, items, size, count;
     uOwnerLock lock;
-    uCondLock noItems, noRoom;
 };
 
 _Task Producer {
