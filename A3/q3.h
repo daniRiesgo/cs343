@@ -64,6 +64,7 @@ _Task Producer {
     ~Producer() {}
 
   protected:
+    virtual void main();
     BoundedBuffer<int> &buffer;
     int Produce;
     int Delay;
@@ -81,7 +82,7 @@ _Task Consumer {
     ~Consumer() {}
 
   protected:
-
+    virtual void main();
     BoundedBuffer<int> &buffer;
     int Delay;
     const int Sentinel;
