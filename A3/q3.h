@@ -20,13 +20,12 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
-        while( items >= size ) ;{}// noRoom.wait( lock ); }
+        while( items == size ) { noRoom.wait( lock ); }
         try {
-            buffer[ back++ % size ] = elem;
-            back = back % size;
             items++;
-            // noItems.signal();
-
+            back = ++back % size;
+            buffer[ back++ % size ] = elem;
+            noItems.signal();
         } _Finally { lock.release(); }
     }
 
@@ -34,13 +33,12 @@ template<typename T> class BoundedBuffer {
 
         int res;
         lock.acquire();
-        while( items <= 0 ) ;{ }//noItems.wait( lock ); }
+        while( items == 0 ) { noItems.wait( lock ); }
         try {
-            // When producers finished, return SENTINEL
-            res = buffer[ front++ % size ];
-            front = front % size;
             items--;
-            // noRoom.signal();
+            front = ++front % size;
+            res = buffer[ front ];
+            noRoom.signal();
         } _Finally { lock.release(); }
 
         return res;
