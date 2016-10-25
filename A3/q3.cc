@@ -275,7 +275,9 @@ _Task Consumer {
 bool isInvalid( char *value, string name ) {
     float val = atof(value);
     if( val < MAX_INT && val > 0 ) { return false; }
-    cout << "'" << name << "' must be a reasonable positive integer, was " << value << "." << endl;
+    cout << "Usage: " << argv[0] << " [ Cons (> 0) [ Prods ";
+    cout << "(> 0) [ Produce (> 0) [ BufferSize (> 0) [ ";
+    cout << "Delay (> 0) ] ] ] ] ]" << endl;
     return true;
 }
 
@@ -312,9 +314,7 @@ void uMain::main () {
             }
             break;
             default:
-                cout << "Usage: " << argv[0] << " [ Cons (> 0) [ Prods ";
-                cout << "(> 0) [ Produce (> 0) [ BufferSize (> 0) [ ";
-                cout << "Delay (> 0) ] ] ] ] ]" << endl;
+                isInvalid( "-1", "");
                 break INIT;
         }
 
