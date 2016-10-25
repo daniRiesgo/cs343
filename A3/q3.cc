@@ -151,10 +151,8 @@ void uMain::main () {
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
-        for( i = 0; i < cons; i++ )  {
-            buffer.insert( SENTINEL );
-            delete consumers[ i ];
-         }
+        for( i = 0; i < cons; i++ ) { buffer.insert( SENTINEL ); }
+        for( i = 0; i < cons; i++ ) { delete consumers[ i ]; }
 
         int total = 0;
         for( i = 0; i < cons; i++ ) total += sum[ i ];
