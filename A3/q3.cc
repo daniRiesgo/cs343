@@ -117,7 +117,7 @@ void uMain::main () {
             default: { badinput = true; }
         }
 
-        delay = prods + cons;
+        if( argc < 6) delay = prods + cons;
         if( delay < 0 ) { badinput = true; }
 
         if( badinput ) {
