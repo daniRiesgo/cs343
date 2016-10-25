@@ -25,7 +25,7 @@ template<typename T> class BoundedBuffer {
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
-            cout << red << "Error allocating buffer. Stop." << white << endl;
+            cout << "Error allocating buffer. Stop." << endl;
         }
     }
 
