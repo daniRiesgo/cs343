@@ -283,6 +283,8 @@ void uMain::main () {
             default: { badinput = true; }
         }
 
+        cout << "parsed args" << endl;
+
         delay = prods + cons;
         if( (cons + prods) > MAX_INT ) { badinput = true; }
 

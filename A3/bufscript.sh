@@ -73,8 +73,8 @@ echo ""
 echo ""
 echo "Total should be 165"
 echo ""
-./buffer
 ./givenbuffer
+./buffer
 echo ""
 echo "Total should be 15150"
 echo ""
