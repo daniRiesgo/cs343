@@ -1,16 +1,16 @@
-echo "student's exec timing"
-time ./matrixmultiply 1 5000 10000
-time ./matrixmultiply 2 5000 10000
-time ./matrixmultiply 4 5000 10000
-time ./matrixmultiply 8 5000 10000
-time ./matrixmultiply 16 5000 10000
-
-echo "given exec timing"
-time ./givenmatrixmultiply 1 5000 10000
-time ./givenmatrixmultiply 2 5000 10000
-time ./givenmatrixmultiply 4 5000 10000
-time ./givenmatrixmultiply 8 5000 10000
-time ./givenmatrixmultiply 16 5000 10000
+# echo "student's exec timing"
+# time ./matrixmultiply 1 5000 10000
+# time ./matrixmultiply 2 5000 10000
+# time ./matrixmultiply 4 5000 10000
+# time ./matrixmultiply 8 5000 10000
+# time ./matrixmultiply 16 5000 10000
+#
+# echo "given exec timing"
+# time ./givenmatrixmultiply 1 5000 10000
+# time ./givenmatrixmultiply 2 5000 10000
+# time ./givenmatrixmultiply 4 5000 10000
+# time ./givenmatrixmultiply 8 5000 10000
+# time ./givenmatrixmultiply 16 5000 10000
 
 echo "bad inputs"
 ./matrixmultiply

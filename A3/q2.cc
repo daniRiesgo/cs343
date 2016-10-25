@@ -133,11 +133,11 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
 int readFile( stringstream *dest, char *filename ) {
     try {
         ifstream file( filename );
+        *dest << file.rdbuf();
+        file.close();
     } catch ( uFile::FileAccess::OpenFailure ) {
         return -1
     }
-    *dest << file.rdbuf();
-    file.close();
     return 0;
 }
 
