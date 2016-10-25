@@ -312,8 +312,9 @@ void uMain::main () {
             }
             break;
             default:
-                cout << "Usage: " << argv[0] << " [ Cons [ Prods ";
-                cout << "[ Produce [ BufferSize [ Delays ] ] ] ] ]" << endl;
+                cout << "Usage: " << argv[0] << " [ Cons (> 0) [ Prods ";
+                cout << "(> 0) [ Produce (> 0) [ BufferSize (> 0) [ ";
+                cout << "Delay (> 0) ] ] ] ] ]" << endl;
                 break INIT;
         }
 
