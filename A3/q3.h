@@ -68,7 +68,7 @@ _Task Producer {
     BoundedBuffer<int> &buffer;
     int Produce;
     int Delay;
-}
+};
 
 _Task Consumer {
   public:
