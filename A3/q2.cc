@@ -114,6 +114,7 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
             *xr   = atoi( argv[ 1 ] );
             *xcyr = atoi( argv[ 2 ] );
             *yc   = atoi( argv[ 3 ] );
+            cout << "xr" << *xr << ", xcyr" << *xcyr << ", yc" << *yc << endl;
             if ( *xr <= 0 ) return -2;
             if ( *xcyr <= 0 ) return -2;
             if ( *yc <= 0 ) return -2;
