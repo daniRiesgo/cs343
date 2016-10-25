@@ -81,10 +81,10 @@ echo ""
 ./givenbuffer 5 3 100
 ./buffer 5 3 100
 echo ""
-echo "Total should be 165"
+echo "Total should be 14985000"
 echo ""
-./givenbuffer 10000 3 10
-./buffer 10000 3 10
+./givenbuffer 20 30 1000
+./buffer 20 30 1000
 echo ""
 echo "Total should be 60000"
 echo ""
