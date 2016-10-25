@@ -6,3 +6,5 @@ buffer
 nostaticexits
 ImplKind
 *DS_Store
+.h
+q3buffer
