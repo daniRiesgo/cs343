@@ -74,14 +74,14 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         #ifdef NOBUSY
-        barging.wait( lock );
+        // barging.wait( lock );
         // try {
         #endif
             lock.acquire();
 
             try {
                 #ifdef NOBUSY
-                barging.signal();
+                if( !barging.empty() ) barging.signal();
                 #endif
                 while( items == size ) {
                     #ifdef ERROROUTPUT
@@ -118,15 +118,14 @@ template<typename T> class BoundedBuffer {
         int res;
 
         #ifdef NOBUSY
-        barging.wait( lock );
+        // barging.wait( lock );
         // try {
         #endif
             lock.acquire();
 
-
             try {
                 #ifdef NOBUSY
-                barging.signal();
+                if( !barging.empty() ) barging.signal();
                 #endif
                 // When producers finished, return SENTINEL
                 if( buffer[ front % size ] == SENTINEL ) {
