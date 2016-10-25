@@ -1,3 +1,5 @@
+#include <iostream>
+#include <ostream>
 #include "q3.h"
 
 #define CONSUMERS 5
