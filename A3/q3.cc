@@ -13,64 +13,28 @@
 
 using namespace std;
 
-_Task Producer {
-  public:
-    Producer( BoundedBuffer<int> &buffer, const int Produce, const int Delay )
-      :
-        buffer( buffer ),
-        Produce( Produce ),
-        Delay( Delay )
-    {}
-    ~Producer() {}
-
-  protected:
-    BoundedBuffer<int> &buffer;
-    int Produce;
-    int Delay;
-
-    void main() {
-        int i;
-        for ( i = 1; i <= Produce; i++ ) {
-            // yield form 0 to Delay - 1 times
-            yield( MPRNG()(0,Delay-1));
-            // produce corresponding item
-            buffer.insert( (int) i );
-        }
-        buffer.insert( SENTINEL );
+void Producer::main() {
+    int i;
+    for ( i = 1; i <= Produce; i++ ) {
+        // yield form 0 to Delay - 1 times
+        yield( MPRNG()(0,Delay-1));
+        // produce corresponding item
+        buffer.insert( (int) i );
     }
+    buffer.insert( SENTINEL );
+}
 
-};
-
-_Task Consumer {
-  public:
-    Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum )
-      :
-        buffer( buffer ),
-        Delay( Delay ),
-        Sentinel( Sentinel ),
-        sum( sum )
-    {}
-    ~Consumer() {}
-
-  protected:
-
-    BoundedBuffer<int> &buffer;
-    int Delay;
-    const int Sentinel;
-    int &sum;
-
-    void main() {
-        sum = 0;
-        for ( ;; ) {
-            // yield form 0 to Delay-1 times
-            yield( MPRNG()(0,Delay-1));
-            // produce corresponding item
-            int value = buffer.remove();
-            if( value != Sentinel ) { sum += value; }
-            else { break; }
-        }
+void Consumer::main() {
+    sum = 0;
+    for ( ;; ) {
+        // yield form 0 to Delay-1 times
+        yield( MPRNG()(0,Delay-1));
+        // produce corresponding item
+        int value = buffer.remove();
+        if( value != Sentinel ) { sum += value; }
+        else { break; }
     }
-};
+}
 
 bool isInvalid( char *value, string name ) {
     float val = atof(value);

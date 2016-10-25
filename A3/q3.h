@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#ifdef BUSY
+
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
@@ -52,4 +52,38 @@ template<typename T> class BoundedBuffer {
     uOwnerLock lock;
     uCondLock noItems, noRoom;
 };
-#endif
+
+_Task Producer {
+  public:
+    Producer( BoundedBuffer<int> &buffer, const int Produce, const int Delay )
+      :
+        buffer( buffer ),
+        Produce( Produce ),
+        Delay( Delay )
+    {}
+    ~Producer() {}
+
+  protected:
+    BoundedBuffer<int> &buffer;
+    int Produce;
+    int Delay;
+}
+
+_Task Consumer {
+  public:
+    Consumer( BoundedBuffer<int> &buffer, const int Delay, const int Sentinel, int &sum )
+      :
+        buffer( buffer ),
+        Delay( Delay ),
+        Sentinel( Sentinel ),
+        sum( sum )
+    {}
+    ~Consumer() {}
+
+  protected:
+
+    BoundedBuffer<int> &buffer;
+    int Delay;
+    const int Sentinel;
+    int &sum;
+};
