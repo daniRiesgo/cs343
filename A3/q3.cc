@@ -291,23 +291,23 @@ void uMain::main () {
         switch ( argc ) {
             case 1: break;
             case 6: {
-                if( isInvalid( argv[5], "Delays") ) {badinput = true;break};
+                if( isInvalid( argv[5], "Delays") ) {badinput = true;break;}
                 delay = atoi( argv[5] );
             }
             case 5: {
-                if( isInvalid( argv[4], "BufferSize") ) {badinput = true;break};
+                if( isInvalid( argv[4], "BufferSize") ) {badinput = true;break;}
                 bufsize = atoi( argv[4] );
             }
             case 4: {
-                if( isInvalid( argv[3], "Produce") ) {badinput = true;break};
+                if( isInvalid( argv[3], "Produce") ) {badinput = true;break;}
                 produce = atoi( argv[3] );
             }
             case 3: {
-                if( isInvalid( argv[2], "Prods" ) ) {badinput = true;break};
+                if( isInvalid( argv[2], "Prods" ) ) {badinput = true;break;}
                 prods = atoi( argv[2] );
             }
             case 2: {
-                if( isInvalid( argv[1], "Cons" ) ) {badinput = true;break};
+                if( isInvalid( argv[1], "Cons" ) ) {badinput = true;break;}
                 cons = atoi( argv[1] );
             }
             break;
