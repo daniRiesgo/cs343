@@ -186,18 +186,10 @@ _Task Producer {
             // yield form 0 to Delay - 1 times
             yield( random() % ( Delay ) );
             // produce corresponding item
-            try {
-                buffer.insert( (int) i );
-                #ifdef DEBUGOUTPUT
-                    cout << yellow << "Producer: Success inserting item " << i << white << endl;
-                #endif
-            }
-            catch( E ) {
-                i--;
-                #ifdef ERROROUTPUT
-                    cout << red << "Producer: No room for new items. Retrying..." << white << endl;
-                #endif
-            }
+            buffer.insert( (int) i );
+            #ifdef DEBUGOUTPUT
+                cout << yellow << "Producer: Success inserting item " << i << white << endl;
+            #endif
         }
         #ifdef DEBUGOUTPUT
             cout << yellow << "Producer: Job done! Exiting." << white << endl;
