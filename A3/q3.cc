@@ -132,6 +132,7 @@ template<typename T> class BoundedBuffer {
                     #ifdef DEBUGOUTPUT
                         cout << lgrey << " Returning SENTINEL." << white << endl;
                     #endif
+                    lock.release();
                     return SENTINEL;
                 }
 
@@ -142,7 +143,7 @@ template<typename T> class BoundedBuffer {
                 res = buffer[ front++ % size ];
                 items--;
                 noRoom.signal();
-            } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
+            } _Finally { lock.release(); }
 
 
         #ifdef DEBUGOUTPUT
@@ -223,24 +224,17 @@ _Task Consumer {
             // yield form 0 to Delay-1 times
             yield( random() % (Delay) );
             // produce corresponding item
-            try {
-                int value = buffer.remove();
-                if( value != Sentinel ) {
-                    sum += value;
-                    #ifdef DEBUGOUTPUT
-                        cout << blue << "Consumer: Added value " << value << white << endl;
-                    #endif
-                }
-                else {
-                    #ifdef DEBUGOUTPUT
-                        cout << blue << "Consumer: Read sentinel value! Exiting." << white << endl;
-                    #endif
-                    break;
-                }
-            } catch( E ) {
-                #ifdef ERROROUTPUT
-                    cout << red << "Consumer: No values to get. Retrying..." << white << endl;
+            int value = buffer.remove();
+            if( value != Sentinel ) {
+                sum += value;
+                #ifdef DEBUGOUTPUT
+                    cout << blue << "Consumer: Added value " << value << white << endl;
                 #endif
+            } else {
+                #ifdef DEBUGOUTPUT
+                    cout << blue << "Consumer: Read sentinel value! Exiting." << white << endl;
+                #endif
+                break;
             }
         }
     }
