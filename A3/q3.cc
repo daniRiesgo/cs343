@@ -43,7 +43,7 @@ namespace Color {
     };
 }
 
-size_t prods = PRODUCERS;
+// size_t prods = PRODUCERS;
 using namespace Color;
 
 Modifier red    (Color::FG_RED);
@@ -67,9 +67,6 @@ template<typename T> class BoundedBuffer {
         if( buffer == nullptr ) {
             cout << red << "Error allocating buffer. Stop." << white << endl;
         }
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << "Buffer created, size " << size << white << endl;
-        #endif
     }
 
     void insert( T elem ) {
@@ -77,7 +74,7 @@ template<typename T> class BoundedBuffer {
 
         lock.acquire();
         try {
-            while( items == size ) { noRoom.wait( lock ); }
+            while( items >= size ) { noRoom.wait( lock ); }
 
             buffer[ back++ % size ] = elem;
             back = back % size;
@@ -93,8 +90,6 @@ template<typename T> class BoundedBuffer {
         try {
             while( items <= 0 ) { noItems.wait( lock ); }
             // When producers finished, return SENTINEL
-            if( buffer[ front % size ] == SENTINEL ) { return SENTINEL; }
-
             res = buffer[ front++ % size ];
             front = front % size;
             items--;
@@ -109,10 +104,6 @@ template<typename T> class BoundedBuffer {
     size_t front, back, items, size, count;
     uOwnerLock lock;
     uCondLock noItems, noRoom;
-    #ifdef NOBUSY
-        uCondLock barging;
-        bool wantIn;
-    #endif
 };
 
 _Task Producer {
@@ -187,7 +178,7 @@ void uMain::main () {
     INIT: {
 
         size_t cons     = CONSUMERS;
-        // size_t prods    = PRODUCERS;
+        size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
         size_t delay;
@@ -253,8 +244,10 @@ void uMain::main () {
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
-        buffer.insert( SENTINEL );
-        for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
+        for( i = 0; i < cons; i++ )  {
+            buffer.insert( SENTINEL );
+            delete consumers[ i ];
+         }
 
         int total = 0;
         for( i = 0; i < cons; i++ ) total += sum[ i ];
