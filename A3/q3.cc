@@ -18,10 +18,7 @@ template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
       :
-      front(0), back(0), items(0), size(size), count(0), lock()
-      #ifdef NOBUSY
-      ,noItems(), noRoom(), wantIn(false)
-      #endif
+      front(0), back(0), items(0), size(size), count(0), lock(), noItems(), noRoom()
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
         if( buffer == nullptr ) {
