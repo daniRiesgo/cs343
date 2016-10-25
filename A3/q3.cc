@@ -286,7 +286,7 @@ void uMain::main () {
         cout << "parsed args" << endl;
 
         delay = prods + cons;
-        if( (cons + prods) > MAX_INT ) { badinput = true; }
+        if( delay < 0 ) { badinput = true; }
 
         if( badinput ) {
             cout << "Usage: " << argv[0] << " [ Cons (> 0) [ Prods ";
@@ -302,6 +302,8 @@ void uMain::main () {
         Consumer *consumers[ cons ];
         int sum[ cons ];
         size_t i;
+
+        cout << cons << " " << prods << " " << produce << " " << bufsize << " " << delay << endl;
 
         // LAUNCH TASKS
         #ifdef __U_MULTI__
@@ -320,10 +322,8 @@ void uMain::main () {
         buffer.insert( SENTINEL );
         for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
-        // #ifdef DEBUGOUTPUT
-            int total = 0;
-            for( i = 0; i < cons; i++ ) total += sum[ i ];
-            cout << "total: " << total << endl;
-        // #endif
+        int total = 0;
+        for( i = 0; i < cons; i++ ) total += sum[ i ];
+        cout << "total: " << total << endl;
     }
 }
