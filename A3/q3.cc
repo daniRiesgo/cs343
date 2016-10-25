@@ -75,80 +75,31 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
         if( elem == SENTINEL && ++count < prods ) return;
 
-        #ifdef NOBUSY
-        // barging.wait( lock );
-        // try {
-        #endif
-            lock.acquire();
+        lock.acquire();
+        try {
+            while( items == size ) { noRoom.wait( lock ); }
 
-            try {
-                #ifdef NOBUSY
-                if( !barging.empty() ) barging.signal();
-                #endif
-                while( items == size ) {
-                    #ifdef ERROROUTPUT
-                        cout << red << "Buffer: No space to insert. Waiting." << white << endl;
-                    #endif
-                    noRoom.wait( lock );
-                }
+            buffer[ back++ % size ] = elem;
+            back = back % size;
+            items++;
+            noItems.signal();
 
-                #ifdef DEBUGOUTPUT
-                    cout << lgrey << "Buffer: Inserting ";
-                    if( elem == SENTINEL ) cout << "SENTINEL";
-                    else cout << "value " << elem << white << endl;
-                #endif
-
-                buffer[ back++ % size ] = elem;
-                back = back % size;
-                items++;
-                noItems.signal();
-            } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
-
-
+        } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
     }
     T remove() {
-        while( items < 0 ) {
-            #ifdef ERROROUTPUT
-                cout << red << "Buffer: No items ready. Waiting!" << white << endl;
-            #endif
-            noItems.wait( lock );
-        }
-
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << "Buffer: Removing item." << white;
-        #endif
 
         int res;
-
-        #ifdef NOBUSY
-        if( wantIn ) barging.wait( lock );
-
-        // try {
-        #endif
         lock.acquire();
-
         try {
-            #ifdef NOBUSY
-            if( !barging.empty() ) barging.signal();
-            #endif
+            while( items <= 0 ) { noItems.wait( lock ); }
             // When producers finished, return SENTINEL
             if( buffer[ front % size ] == SENTINEL ) { return SENTINEL; }
-
-            #ifdef DEBUGOUTPUT
-                cout << lgrey << " Acquiring lock for remove" << white << endl;
-            #endif
 
             res = buffer[ front++ % size ];
             front = front % size;
             items--;
             noRoom.signal();
         } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
-
-
-        #ifdef DEBUGOUTPUT
-            cout << lgrey << "Buffer: Lock released by remove. ";
-            cout << "Returning value " << res << white << endl;
-        #endif
 
         return res;
     }
@@ -187,14 +138,8 @@ _Task Producer {
             yield( random() % ( Delay ) );
             // produce corresponding item
             buffer.insert( (int) i );
-            #ifdef DEBUGOUTPUT
-                cout << yellow << "Producer: Success inserting item " << i << white << endl;
-            #endif
         }
         buffer.insert( SENTINEL );
-        #ifdef DEBUGOUTPUT
-            cout << yellow << "Producer: Job done! Exiting." << white << endl;
-        #endif
     }
 
 };
@@ -225,17 +170,8 @@ _Task Consumer {
             yield( random() % (Delay) );
             // produce corresponding item
             int value = buffer.remove();
-            if( value != Sentinel ) {
-                sum += value;
-                #ifdef DEBUGOUTPUT
-                    cout << blue << "Consumer: Added value " << value << white << endl;
-                #endif
-            } else {
-                #ifdef DEBUGOUTPUT
-                    cout << blue << "Consumer: Read sentinel value! Exiting." << white << endl;
-                #endif
-                break;
-            }
+            if( value != Sentinel ) { sum += value; }
+            else { break; }
         }
     }
 };
@@ -314,8 +250,6 @@ void uMain::main () {
             if( i < prods ) producers[ i ] = new Producer( buffer, produce, delay );
             if( i < cons ) consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
         }
-
-        std::cout << "Launched" << std::endl;
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
