@@ -139,7 +139,7 @@ void uMain::main () {
 
         // LAUNCH TASKS
         #ifdef __U_MULTI__
-        uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
+        // uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
         #endif
 
             // launch producers
