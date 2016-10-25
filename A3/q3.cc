@@ -12,8 +12,6 @@
 #endif
 #define MAX_INT 2147483647
 
-size_t prods = PRODUCERS;
-
 using namespace std;
 
 /*  The following code was obtained from a topic posted in StackOverflow
@@ -59,9 +57,9 @@ template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
       :
-      front(0), back(0), items(0), size(size), count(0), lock()
+      front(0), back(0), items(0), size(size), lock()
       #ifdef NOBUSY
-      ,noItems(), noRoom(), notTheFirst(0)
+      ,noItems(), noRoom(), wantIn(false)//, notTheFirst(0)
       #endif
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
@@ -74,15 +72,14 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
-        // When a producer ends, check if it's the last one. Otherwise it shouldn't
-        // affect the consumers.
-        if( elem == SENTINEL && ++count != prods ) { return; }
 
         #ifdef NOBUSY
-        if( notTheFirst++ ) { barging.wait( lock ); }
+        if( barging.empty() ) wantIn = true;
+        if( wantIn ) { barging.wait( lock ); }
         try {
         #endif
             lock.acquire();
+            if( barging.empty() ) wantIn = false;
             try {
                 while( items == size ) {
                     #ifdef ERROROUTPUT
@@ -103,8 +100,7 @@ template<typename T> class BoundedBuffer {
             } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
         #ifdef NOBUSY
         } _Finally {
-            if( !barging.empty() ) barging.signal();
-            notTheFirst--;
+            barging.signal();
         }
         #endif
 
@@ -124,10 +120,12 @@ template<typename T> class BoundedBuffer {
         int res;
 
         #ifdef NOBUSY
-        if( notTheFirst++ ) { barging.wait( lock ); }
+        if( barging.empty() ) wantIn = true;
+        if( wantIn ) { barging.wait( lock ); }
         try {
         #endif
             lock.acquire();
+            if( barging.empty() ) wantIn = false;
             try {
                 // When producers finished, return SENTINEL
                 if( buffer[ front % size ] == SENTINEL ) {
@@ -147,8 +145,8 @@ template<typename T> class BoundedBuffer {
             } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
         #ifdef NOBUSY
         } _Finally {
-            if( !barging.empty() ) barging.signal();
-            notTheFirst--;
+            barging.signal();
+            // notTheFirst--;
         }
         #endif
 
@@ -162,12 +160,12 @@ template<typename T> class BoundedBuffer {
     ~BoundedBuffer() { free( buffer ); }
   private:
     T *buffer;
-    size_t front, back, items, size, count;
+    size_t front, back, items, size;
     uOwnerLock lock;
     uCondLock noItems, noRoom;
     #ifdef NOBUSY
         uCondLock barging;
-        int notTheFirst;
+        bool wantIn;
     #endif
 };
 
@@ -206,20 +204,9 @@ _Task Producer {
                 #endif
             }
         }
-        for( ;; ) {
-            try {
-                buffer.insert( SENTINEL );
-                #ifdef DEBUGOUTPUT
-                    cout << yellow << "Producer: Sentinel inserted. Exiting." << white << endl;
-                #endif
-                break;
-            }
-            catch( E ) {
-                #ifdef ERROROUTPUT
-                    cout << red << "Producer: No space to insert Sentinel. Retrying..." << white << endl;
-                #endif
-            }
-        }
+        #ifdef DEBUGOUTPUT
+            cout << yellow << "Producer: Job done! Exiting." << white << endl;
+        #endif
     }
 
 };
@@ -283,6 +270,7 @@ void uMain::main () {
     INIT: {
 
         size_t cons     = CONSUMERS;
+        size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
         size_t delay;
@@ -345,6 +333,7 @@ void uMain::main () {
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
+        buffer.insert( SENTINEL );
         for( i = 0; i < cons; i++ )  { delete consumers[ i ]; }
 
         // #ifdef DEBUGOUTPUT
