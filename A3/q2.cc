@@ -59,7 +59,7 @@ void uMain::main() {
         // ARGUMENT PARSING
         if( parseArgs( argc, argv, &xfile, &yfile, &xr, &xcyr, &yc ) ) break INIT;
 
-        uProcessor p[xrows - 1] __attribute__ (( unused ));
+        uProcessor p[x - 1] __attribute__ (( unused ));
         // MATRIX INITIALIZATION
             // create the three matrices to be used with the given dimensions
         int *X[ xr ], *Y[ xcyr ], *Z[ xr ];
