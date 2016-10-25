@@ -143,7 +143,7 @@ template<typename T> class BoundedBuffer {
                 res = buffer[ front++ % size ];
                 items--;
                 noRoom.signal();
-            } _Finally { lock.release(); }
+            } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
 
 
         #ifdef DEBUGOUTPUT
