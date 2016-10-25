@@ -7,9 +7,9 @@
 #define PRODUCERS 3
 #define PRODUCE 10
 #define BUFFER_SIZE 10
-#ifdef DEBUGOUTPUT
-    #define ERROROUTPUT
-#endif
+#define DEBUGOUTPUT
+#define ERROROUTPUT
+// #endif
 #define MAX_INT 2147483647
 
 using namespace std;
@@ -119,33 +119,28 @@ template<typename T> class BoundedBuffer {
         int res;
 
         #ifdef NOBUSY
-        // barging.wait( lock );
+        if( wantIn ) barging.wait( lock );
+
         // try {
         #endif
-            lock.acquire();
+        lock.acquire();
 
-            try {
-                #ifdef NOBUSY
-                if( !barging.empty() ) barging.signal();
-                #endif
-                // When producers finished, return SENTINEL
-                if( buffer[ front % size ] == SENTINEL ) {
-                    #ifdef DEBUGOUTPUT
-                        cout << lgrey << " Returning SENTINEL." << white << endl;
-                    #endif
-                    lock.release();
-                    return SENTINEL;
-                }
+        try {
+            #ifdef NOBUSY
+            if( !barging.empty() ) barging.signal();
+            #endif
+            // When producers finished, return SENTINEL
+            if( buffer[ front % size ] == SENTINEL ) { return SENTINEL; }
 
-                #ifdef DEBUGOUTPUT
-                    cout << lgrey << " Acquiring lock for remove" << white << endl;
-                #endif
+            #ifdef DEBUGOUTPUT
+                cout << lgrey << " Acquiring lock for remove" << white << endl;
+            #endif
 
-                res = buffer[ front++ % size ];
-                front = front % size;
-                items--;
-                noRoom.signal();
-            } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
+            res = buffer[ front++ % size ];
+            front = front % size;
+            items--;
+            noRoom.signal();
+        } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
 
 
         #ifdef DEBUGOUTPUT
@@ -310,7 +305,7 @@ void uMain::main () {
 
             // launch producers
         size_t procs = prods > cons ? prods : cons;
-        for( i = 0; i < procs; i++ ) { 
+        for( i = 0; i < procs; i++ ) {
             if( i < prods ) producers[ i ] = new Producer( buffer, produce, delay );
             if( i < cons ) consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
         }
