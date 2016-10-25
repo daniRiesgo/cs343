@@ -75,11 +75,14 @@ template<typename T> class BoundedBuffer {
 
         #ifdef NOBUSY
         barging.wait( lock );
-        try {
+        // try {
         #endif
             lock.acquire();
-            if( barging.empty() ) wantIn = false;
+
             try {
+                #ifdef NOBUSY
+                barging.signal();
+                #endif
                 while( items == size ) {
                     #ifdef ERROROUTPUT
                         cout << red << "Buffer: No space to insert. Waiting." << white << endl;
@@ -97,11 +100,7 @@ template<typename T> class BoundedBuffer {
                 items++;
                 noItems.signal();
             } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
-        #ifdef NOBUSY
-        } _Finally {
-            barging.signal();
-        }
-        #endif
+
 
     }
     T remove() {
@@ -119,14 +118,16 @@ template<typename T> class BoundedBuffer {
         int res;
 
         #ifdef NOBUSY
-        bool iOwnIt = false;
         barging.wait( lock );
-
-        try {
+        // try {
         #endif
             lock.acquire();
-            if( barging.empty() ) wantIn = false;
+
+
             try {
+                #ifdef NOBUSY
+                barging.signal();
+                #endif
                 // When producers finished, return SENTINEL
                 if( buffer[ front % size ] == SENTINEL ) {
                     #ifdef DEBUGOUTPUT
@@ -143,11 +144,7 @@ template<typename T> class BoundedBuffer {
                 items--;
                 noRoom.signal();
             } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
-        #ifdef NOBUSY
-        } _Finally {
-            barging.signal();
-        }
-        #endif
+
 
         #ifdef DEBUGOUTPUT
             cout << lgrey << "Buffer: Lock released by remove. ";
