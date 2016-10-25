@@ -143,10 +143,11 @@ void uMain::main () {
         #endif
 
             // launch producers
-        int procs = prods > cons ? prods : cons;
-        for( i = 0; i < procs; i++ ) {
-            if( i < prods ) producers[ i ] = new Producer( buffer, produce, delay );
-            if( i < cons ) consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
+        for( i = 0; i < prods; i++ ) {
+            producers[ i ] = new Producer( buffer, produce, delay );
+        }
+        for( i = 0; i < cons; i++ ) {
+            consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
         }
 
             // wait for finalizing
