@@ -315,7 +315,7 @@ void uMain::main () {
             break;
             default:
                 string inv = "-1";
-                isInvalid( inv, "");
+                isInvalid( inv.c_str(), "");
                 break INIT;
         }
 
