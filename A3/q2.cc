@@ -21,19 +21,19 @@ _Task DivideAndConquer {
 
   public:
     DivideAndConquer( int *Z[], int *X[], size_t xr, size_t xc, int *Y[], size_t yc,
-            size_t rows, size_t cols, size_t x, size_t y) :
+            size_t rows, size_t x ) :
         X(X), Y(Y), Z(Z),
         xr(xr), xc(xc), yc(yc),
-        rows(rows), cols(cols),
-        x(x), y(y) {}
+        rows(rows),
+        x(x) {}
 
   protected:
     void main() {
         if( rows > 1 ) {
             // DIVIDE! Launch 2 tasks, each with half rows in X
             size_t odd = rows%2 == 0 ? 0 : 1;
-            DivideAndConquer t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, cols, x, y );
-            DivideAndConquer t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, cols, x + (size_t) rows/2, y );
+            DivideAndConquer t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, x );
+            DivideAndConquer t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, x + (size_t) rows/2 );
 
         } else {
             for( size_t i = 0; i < yc; i++ ) {
