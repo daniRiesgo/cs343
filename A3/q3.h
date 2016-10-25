@@ -20,28 +20,27 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
+        while( items == size ) { noRoom.wait( lock ); }
         try {
-            while( items >= size ) { noRoom.wait( lock ); }
-
             buffer[ back++ % size ] = elem;
             back = back % size;
             items++;
             noItems.signal();
 
-        } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
+        } _Finally { lock.release(); }
     }
     T remove() {
 
         int res;
         lock.acquire();
+        while( items == 0 ) { noItems.wait( lock ); }
         try {
-            while( items <= 0 ) { noItems.wait( lock ); }
             // When producers finished, return SENTINEL
             res = buffer[ front++ % size ];
             front = front % size;
             items--;
             noRoom.signal();
-        } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
+        } _Finally { lock.release(); }
 
         return res;
     }
