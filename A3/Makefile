@@ -4,7 +4,7 @@ OUTPUT:=DEBUGOUTPUT
 OUTPUT:=NOOUTPUT
 OPT:= #O2
 
-CXX = u++ -multi# compiler
+CXX = u++ #-multi# compiler
 CXXFLAGS = -g -Wall -Wno-unused-label ${OPT} -MMD -std=c++11 \
 		-DSENTINEL=${SENTINEL} -D${OUTPUT} -D${KIND}# compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
