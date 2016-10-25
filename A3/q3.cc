@@ -283,8 +283,6 @@ void uMain::main () {
             default: { badinput = true; }
         }
 
-        cout << "parsed args" << endl;
-
         delay = prods + cons;
         if( delay < 0 ) { badinput = true; }
 
@@ -309,6 +307,8 @@ void uMain::main () {
         #ifdef __U_MULTI__
         uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
         #endif
+
+        cout << "made it through" << endl;
 
             // launch producers
         size_t procs = prods > cons ? prods : cons;
