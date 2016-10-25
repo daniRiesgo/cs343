@@ -70,7 +70,6 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
-        if( elem == SENTINEL && ++count < prods ) return;
 
         lock.acquire();
         try {
