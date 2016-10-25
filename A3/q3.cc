@@ -30,10 +30,9 @@ _Task Producer {
 
     void main() {
         int i;
-        MPRNG random( getpid() );
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
-            yield( random() % ( Delay ) );
+            yield( MPRNG()(0,Delay-1));
             // produce corresponding item
             buffer.insert( (int) i );
         }
@@ -62,10 +61,9 @@ _Task Consumer {
 
     void main() {
         sum = 0;
-        MPRNG random( getpid() );
         for ( ;; ) {
             // yield form 0 to Delay-1 times
-            yield( random() % (Delay) );
+            yield( MPRNG()(0,Delay-1));
             // produce corresponding item
             int value = buffer.remove();
             if( value != Sentinel ) { sum += value; }
@@ -139,7 +137,7 @@ void uMain::main () {
 
         // LAUNCH TASKS
         #ifdef __U_MULTI__
-        // uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
+        uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
         #endif
 
             // launch producers
