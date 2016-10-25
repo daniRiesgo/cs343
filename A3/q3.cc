@@ -309,10 +309,11 @@ void uMain::main () {
         // #endif
 
             // launch producers
-        for( i = 0; i < prods; i++ ) { producers[ i ] = new Producer( buffer, produce, delay ); }
-
-            // launch consumers
-        for( i = 0; i < cons; i++ ) { consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] ); }
+        size_t procs = prods > cons ? prods : cons;
+        for( i = 0; i < procs; i++ ) { 
+            if( i < prods ) producers[ i ] = new Producer( buffer, produce, delay );
+            if( i < cons ) consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
+        }
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
