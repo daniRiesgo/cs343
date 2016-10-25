@@ -136,7 +136,7 @@ int readFile( stringstream *dest, char *filename ) {
         *dest << file.rdbuf();
         file.close();
     } catch ( uFile::FileAccess::OpenFailure ) {
-        return -1
+        return -1;
     }
     return 0;
 }
