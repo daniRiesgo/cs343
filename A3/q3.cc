@@ -7,9 +7,9 @@
 #define PRODUCERS 3
 #define PRODUCE 10
 #define BUFFER_SIZE 10
-#define DEBUGOUTPUT
-#define ERROROUTPUT
-// #endif
+#ifdef DEBUGOUTPUT
+    #define ERROROUTPUT
+#endif
 #define MAX_INT 2147483647
 
 using namespace std;
@@ -43,6 +43,7 @@ namespace Color {
     };
 }
 
+size_t prods = PRODUCERS;
 using namespace Color;
 
 Modifier red    (Color::FG_RED);
@@ -57,9 +58,9 @@ template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
       :
-      front(0), back(0), items(0), size(size), lock()
+      front(0), back(0), items(0), size(size), lock(), count(0)
       #ifdef NOBUSY
-      ,noItems(), noRoom(), wantIn(false)//, notTheFirst(0)
+      ,noItems(), noRoom(), wantIn(false)
       #endif
     {
         buffer = ( T* ) malloc( size * sizeof( T ) );
@@ -72,6 +73,7 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
+        if( item == SENTINEL && ++count < prods ) return;
 
         #ifdef NOBUSY
         // barging.wait( lock );
@@ -153,7 +155,7 @@ template<typename T> class BoundedBuffer {
     ~BoundedBuffer() { free( buffer ); }
   private:
     T *buffer;
-    size_t front, back, items, size;
+    size_t front, back, items, size, count;
     uOwnerLock lock;
     uCondLock noItems, noRoom;
     #ifdef NOBUSY
@@ -189,6 +191,7 @@ _Task Producer {
                 cout << yellow << "Producer: Success inserting item " << i << white << endl;
             #endif
         }
+        buffer.insert( SENTINEL );
         #ifdef DEBUGOUTPUT
             cout << yellow << "Producer: Job done! Exiting." << white << endl;
         #endif
@@ -248,7 +251,7 @@ void uMain::main () {
     INIT: {
 
         size_t cons     = CONSUMERS;
-        size_t prods    = PRODUCERS;
+        // size_t prods    = PRODUCERS;
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
         size_t delay;
