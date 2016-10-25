@@ -57,7 +57,11 @@ void uMain::main() {
 
     INIT: {
         // ARGUMENT PARSING
-        if( parseArgs( argc, argv, &xfile, &yfile, &xr, &xcyr, &yc ) ) break INIT;
+        if( parseArgs( argc, argv, &xfile, &yfile, &xr, &xcyr, &yc ) ) {
+            cout << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
+            cout << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
+            break INIT;
+        }
 
         uProcessor p[xr - 1] __attribute__ (( unused ));
         // MATRIX INITIALIZATION
@@ -116,13 +120,12 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
             *xr   = atoi( argv[ 1 ] );
             *xcyr = atoi( argv[ 2 ] );
             *yc   = atoi( argv[ 3 ] );
+            if ( *xr <= 0 ) return -2;
+            if ( *xcyr <= 0 ) return -2;
+            if ( *yc <= 0 ) return -2;
             break;
         }
-        default: {
-            cout << "Usage: " << argv[0] << " xrows (> 0)  xycols (> 0)  ";
-            cout << "ycols (> 0)  [ x-matrix-file  y-matrix-file ]" << endl;
-            return -1;
-        }
+        default: { return -3; }
     }
     return 0;
 }
@@ -138,10 +141,7 @@ int readFile( stringstream *dest, char *filename ) {
     if ( file ) {
         *dest << file.rdbuf();
         file.close();
-    } else {
-        cout << "Error! Could not open input file \"" << filename << "\"" << endl;
-        return -1;
-    }
+    } else { return -1; }
     return 0;
 }
 
