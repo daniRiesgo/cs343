@@ -1,1 +1,5 @@
 to be checked: bad inputs ( command line, in matrix file )
+
+matrixmultiply 5.719s - 4.307s - 5.889s - 5.273s
+
+givenmatrixmultiply avg ( 0.252s - 0.034s - 0.061s - 0.051s )
