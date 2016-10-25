@@ -1,7 +1,8 @@
 #include <iostream>
 #include <ostream>
-
 #include "MPRNG.h"
+
+using namespace std;
 
 #ifdef BUSY
 template<typename T> class BoundedBuffer {
