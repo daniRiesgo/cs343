@@ -2,9 +2,9 @@ SENTINEL:=-1
 KIND:=BUSY
 OUTPUT:=DEBUGOUTPUT
 OUTPUT:=NOOUTPUT
-OPT:= #-multi
+OPT:= #O2
 
-CXX = u++ # compiler
+CXX = u++ -multi# compiler
 CXXFLAGS = -g -Wall -Wno-unused-label ${OPT} -MMD -std=c++11 \
 		-DSENTINEL=${SENTINEL} -D${OUTPUT} -D${KIND}# compiler flags
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
@@ -31,17 +31,17 @@ EXECS = ${EXEC1} ${EXEC2} ${EXEC3}		# all executables
 
 all : ${EXECS}					# build all executables
 
-# q1.o : q1.cc					# change compiler 1st executable, ADJUST SUFFIX (.cc)
-# 	g++ ${CXXFLAGS} -c $< -o $@
-#
-# q1%.o : q1%.cc					# change compiler 1st executable, ADJUST SUFFIX (.cc)
-# 	g++ ${CXXFLAGS} -c $< -o $@
-#
-# ${EXEC01} : ${OBJECTS01}
-# 	g++ ${CXXFLAGS} $^ -o $@
-#
-# ${EXEC1} : ${OBJECTS1}
-# 	g++ ${CXXFLAGS} $^ -o $@
+q1.o : q1.cc					# change compiler 1st executable, ADJUST SUFFIX (.cc)
+	g++ ${CXXFLAGS} -c $< -o $@
+
+q1%.o : q1%.cc					# change compiler 1st executable, ADJUST SUFFIX (.cc)
+	g++ ${CXXFLAGS} -c $< -o $@
+
+${EXEC01} : ${OBJECTS01}
+	g++ ${CXXFLAGS} $^ -o $@
+
+${EXEC1} : ${OBJECTS1}
+	g++ ${CXXFLAGS} $^ -o $@
 
 ${EXEC2} : ${OBJECTS2}				# link step
 	${CXX} ${CXXFLAGS} $^ -o $@
