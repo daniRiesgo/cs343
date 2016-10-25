@@ -275,9 +275,6 @@ _Task Consumer {
 bool isInvalid( char *value, string name ) {
     float val = atof(value);
     if( val < MAX_INT && val > 0 ) { return false; }
-    cout << "Usage: " << argv[0] << " [ Cons (> 0) [ Prods ";
-    cout << "(> 0) [ Produce (> 0) [ BufferSize (> 0) [ ";
-    cout << "Delay (> 0) ] ] ] ] ]" << endl;
     return true;
 }
 
@@ -289,40 +286,42 @@ void uMain::main () {
         size_t produce  = PRODUCE;
         size_t bufsize  = BUFFER_SIZE;
         size_t delay;
+        bool badinput = false;
 
         switch ( argc ) {
             case 1: break;
             case 6: {
-                if( isInvalid( argv[5], "Delays") ) break INIT;
+                if( isInvalid( argv[5], "Delays") ) badinput = true;break;
                 delay = atoi( argv[5] );
             }
             case 5: {
-                if( isInvalid( argv[4], "BufferSize") ) break INIT;
+                if( isInvalid( argv[4], "BufferSize") ) badinput = true;break;
                 bufsize = atoi( argv[4] );
             }
             case 4: {
-                if( isInvalid( argv[3], "Produce") ) break INIT;
+                if( isInvalid( argv[3], "Produce") ) badinput = true;break;
                 produce = atoi( argv[3] );
             }
             case 3: {
-                if( isInvalid( argv[2], "Prods" ) ) break INIT;
+                if( isInvalid( argv[2], "Prods" ) ) badinput = true;break;
                 prods = atoi( argv[2] );
             }
             case 2: {
-                if( isInvalid( argv[1], "Cons" ) ) break INIT;
+                if( isInvalid( argv[1], "Cons" ) ) badinput = true;break;
                 cons = atoi( argv[1] );
             }
             break;
             default:
-                string inv = "-1";
-                isInvalid( inv.c_str(), "");
-                break INIT;
+                badinput = true;break;
         }
 
         delay = prods + cons;
-        if( (cons + prods) > MAX_INT ) {
-            cout << "Too many tasks (Producers + Consumers)" << endl;
-            break INIT;
+        if( (cons + prods) > MAX_INT ) { badinput = true; }
+
+        if( badinput ) {
+            cout << "Usage: " << argv[0] << " [ Cons (> 0) [ Prods ";
+            cout << "(> 0) [ Produce (> 0) [ BufferSize (> 0) [ ";
+            cout << "Delay (> 0) ] ] ] ] ]" << endl;
         }
 
         // INITIALIZE ENVIRONMENT
