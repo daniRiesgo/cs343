@@ -14,46 +14,6 @@
 
 using namespace std;
 
-/*  The following code was obtained from a topic posted in StackOverflow
-*   It is solely used for colouring the console when debugging.
-*   credit (last check 10-22-2016):
-*   http://stackoverflow.com/questions/2616906/how-do-i-output-coloured-text-to-a-linux-terminal
-*/
-namespace Color {
-    enum Code {
-        FG_RED      = 31,
-        FG_LGRAY    = 37,
-        FG_YELLOW   = 33,
-        FG_BLUE     = 34,
-        FG_DEFAULT  = 39,
-        BG_RED      = 41,
-        BG_LGRAY    = 42,
-        BG_BLUE     = 44,
-        BG_DEFAULT  = 49
-    };
-    class Modifier {
-        Code code;
-    public:
-        Modifier(Code pCode) : code(pCode) {}
-        friend std::ostream&
-        operator<<(std::ostream& os, const Modifier& mod) {
-            if( mod.code != 39 ) return os << "\033[" << mod.code << "m\033[1m";
-            else return os << "\033[" << mod.code << "m\033[0m";
-        }
-    };
-}
-
-// size_t prods = PRODUCERS;
-using namespace Color;
-
-Modifier red    (Color::FG_RED);
-Modifier lgrey  (Color::FG_LGRAY);
-Modifier blue   (Color::FG_BLUE);
-Modifier yellow (Color::FG_YELLOW);
-Modifier white  (Color::FG_DEFAULT);
-
-_Event E {};
-
 template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
@@ -100,7 +60,7 @@ template<typename T> class BoundedBuffer {
     ~BoundedBuffer() { free( buffer ); }
   private:
     T *buffer;
-    size_t front, back, items, size, count;
+    int front, back, items, size, count;
     uOwnerLock lock;
     uCondLock noItems, noRoom;
 };
@@ -117,11 +77,11 @@ _Task Producer {
 
   protected:
     BoundedBuffer<int> &buffer;
-    size_t Produce;
-    size_t Delay;
+    int Produce;
+    int Delay;
 
     void main() {
-        size_t i;
+        int i;
         MPRNG random( getpid() );
         for ( i = 1; i <= Produce; i++ ) {
             // yield form 0 to Delay - 1 times
@@ -148,7 +108,7 @@ _Task Consumer {
   protected:
 
     BoundedBuffer<int> &buffer;
-    size_t Delay;
+    int Delay;
     const int Sentinel;
     int &sum;
 
@@ -176,11 +136,11 @@ void uMain::main () {
 
     INIT: {
 
-        size_t cons     = CONSUMERS;
-        size_t prods    = PRODUCERS;
-        size_t produce  = PRODUCE;
-        size_t bufsize  = BUFFER_SIZE;
-        size_t delay;
+        int cons     = CONSUMERS;
+        int prods    = PRODUCERS;
+        int produce  = PRODUCE;
+        int bufsize  = BUFFER_SIZE;
+        int delay;
         bool badinput = false;
 
         switch ( argc ) {
@@ -225,7 +185,7 @@ void uMain::main () {
         Producer *producers[ prods ];
         Consumer *consumers[ cons ];
         int sum[ cons ];
-        size_t i;
+        int i;
 
         cout << cons << " " << prods << " " << produce << " " << bufsize << " " << delay << endl;
 
@@ -235,7 +195,7 @@ void uMain::main () {
         #endif
 
             // launch producers
-        size_t procs = prods > cons ? prods : cons;
+        int procs = prods > cons ? prods : cons;
         for( i = 0; i < procs; i++ ) {
             if( i < prods ) producers[ i ] = new Producer( buffer, produce, delay );
             if( i < cons ) consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
