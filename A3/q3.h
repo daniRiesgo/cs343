@@ -20,7 +20,10 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
-        while( items == size ) { noRoom.wait( lock ); }
+        while( items == size ) {
+            if( !noItems.empty() ) break;
+            noRoom.wait( lock );
+        }
         try {
             back++;
             back = back % size;
@@ -34,7 +37,10 @@ template<typename T> class BoundedBuffer {
 
         int res;
         lock.acquire();
-        while( items == 0 ) { noItems.wait( lock ); }
+        while( items == 0 ) {
+            if( !noRoom.empty() ) break;
+            noItems.wait( lock );
+        }
         try {
             front++;
             front = front % size;
