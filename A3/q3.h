@@ -22,7 +22,7 @@ template<typename T> class BoundedBuffer {
         lock.acquire();
         while( items == size ) { noRoom.wait( lock ); }
         try {
-            back++
+            back++;
             back = back % size;
             buffer[ back ] = elem;
             items++;
