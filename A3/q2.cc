@@ -185,7 +185,7 @@ int fillMatrixFromFile( int *dest[], size_t rows, size_t cols, stringstream *fil
 */
 void matrixmultiply( int *Z[], int *X[], unsigned int xr, unsigned int xc, int *Y[], unsigned int yc ) {
     // Create the task to start dividing and conquering!
-    DivideAndConquer exec( Z, X, xr, xc, Y, yc, xr, yc, 0, 0 );
+    DivideAndConquer exec( Z, X, xr, xc, Y, yc, xr, 0 );
 }
 
 /*
