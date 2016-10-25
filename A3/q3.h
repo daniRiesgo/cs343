@@ -72,6 +72,7 @@ template<typename T> class BoundedBuffer {
         lock.acquire();
         if( goingToSignal ) {
             barging.wait( lock );
+            goingToSignal = false;
         }
         while( items == size ) { noRoom.wait( lock ); }
         try {
@@ -92,6 +93,7 @@ template<typename T> class BoundedBuffer {
         lock.acquire();
         if( goingToSignal ) {
             barging.wait( lock );
+            goingToSignal = false;
         }
         while( items == 0 ) { noItems.wait( lock ); }
         try {
