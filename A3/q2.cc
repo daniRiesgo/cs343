@@ -35,18 +35,22 @@ _Task DivideAndConquer {
             DivideAndConquer t1( Z, X, xr, xc, Y, yc, (size_t) rows/2, cols, x, y );
             DivideAndConquer t2( Z, X, xr, xc, Y, yc, (size_t) rows/2 + odd, cols, x + (size_t) rows/2, y );
 
-        } else if( cols > 1 ) {
+        } else /*if( cols > 1 )*/ {
             // DIVIDE! Launch 2 tasks, each with half cols in Y
-            size_t odd = cols%2 == 0 ? 0 : 1;
-            { DivideAndConquer t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y ); }
-            {DivideAndConquer t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2); }
+            // size_t odd = cols%2 == 0 ? 0 : 1;
 
-        } else {
+            for( size_t i = 0; i < yc; i++ ) {
+                Z[ x ][ i ] = 0;
+                for( size_t j = 0; j < xc; j++ ) { Z[ x ][ i ] += X[ x ][ j ] * Y[ j ][ y ]; }
+            }
+            // { DivideAndConquer t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y ); }
+            // { DivideAndConquer t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2); }
+
+        } //else {
             // multiply a row by a column
-            Z[ x ][ y ] = 0;
-            for( size_t i = 0; i < xc; i++ ) { Z[ x ][ y ] += X[ x ][ i ] * Y[ i ][ y ]; }
 
-        } // if
+
+        //} // if
     } // main
 };
 
