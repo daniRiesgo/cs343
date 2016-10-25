@@ -38,8 +38,8 @@ _Task DivideAndConquer {
         } else if( cols > 1 ) {
             // DIVIDE! Launch 2 tasks, each with half cols in Y
             size_t odd = cols%2 == 0 ? 0 : 1;
-            DivideAndConquer t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y );
-            DivideAndConquer t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2);
+            { DivideAndConquer t1( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2, x, y ); }
+            {DivideAndConquer t2( Z, X, xr, xc, Y, yc, rows, (size_t) cols/2 + odd, x, y + (size_t) cols/2); }
 
         } else {
             // multiply a row by a column
