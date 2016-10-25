@@ -1,5 +1,20 @@
-to be checked: bad inputs ( command line, in matrix file )
+Data shows a clear improvement in execution times. Whilst performing double operations every time we double the rows, real execution time only slightly increases. We can see how user time acts accordingly to logic and doubles, but it gets divided over the number of used cores.
+One interesting observation is the fact that user time not only doubles, but also increases a bit for every extra row. We attribute this to the task creation time, which needs to allocate a thread into stack and run it.
 
-matrixmultiply 5.719s - 4.307s - 5.889s - 5.273s
+RAW DATA:
 
-givenmatrixmultiply avg ( 0.252s - 0.034s - 0.061s - 0.051s )
+Our executable
+
+1 core - real: 0m5.260s | user: 0m4.838s
+2 cores - real: 0m6.170s | user: 0m10.749s
+4 cores - real: 0m8.217s | user: 0m28.221s
+8 cores - real: 0m8.642s | user: 0m58.206s
+16 cores - real: 0m9.653s | user: 2m6.378s
+
+Given executable
+
+1 core - real: 0m7.479s | user: 0m7.137s
+2 cores - real: 0m7.353s | user: 0m13.853s
+4 cores - real: 0m7.704s | user: 0m27.415s
+8 cores - real: 0m8.479s | user: 1m0.844s
+16 cores - real: 0m9.868s | user: 2m13.321s
