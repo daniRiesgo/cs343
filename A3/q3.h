@@ -20,7 +20,7 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
-        while( items == size ) {}// noRoom.wait( lock ); }
+        while( items >= size ) {}// noRoom.wait( lock ); }
         try {
             buffer[ back++ % size ] = elem;
             back = back % size;
@@ -34,7 +34,7 @@ template<typename T> class BoundedBuffer {
 
         int res;
         lock.acquire();
-        while( items == 0 ) { }//noItems.wait( lock ); }
+        while( items <= 0 ) { }//noItems.wait( lock ); }
         try {
             // When producers finished, return SENTINEL
             res = buffer[ front++ % size ];
