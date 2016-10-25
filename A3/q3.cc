@@ -58,7 +58,7 @@ template<typename T> class BoundedBuffer {
   public:
     BoundedBuffer( const unsigned int size )
       :
-      front(0), back(0), items(0), size(size), lock(), count(0)
+      front(0), back(0), items(0), size(size), count(0), lock()
       #ifdef NOBUSY
       ,noItems(), noRoom(), wantIn(false)
       #endif
@@ -73,7 +73,7 @@ template<typename T> class BoundedBuffer {
     }
 
     void insert( T elem ) {
-        if( item == SENTINEL && ++count < prods ) return;
+        if( elem == SENTINEL && ++count < prods ) return;
 
         #ifdef NOBUSY
         // barging.wait( lock );
