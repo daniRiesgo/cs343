@@ -1,1 +1,18 @@
 NO IMPRIMIR Sum should be[...]
+
+original: avg 1m16.2315s ( 1m14.835s - 1m16.515s - 1m17.698s - 1m15.878s )
+total: -1544692296
+
+q3 NOBUSY
+0m14.005s - 0m13.948s - 0m13.876s - 0m14.087s
+total: -1520456964
+total: -1518051004
+total: -1521673864
+total: -1524063609
+
+q3 BUSY
+0m14.105s - 0m14.085s - 0m14.223s - 0m14.118s
+total: -1511481330
+total: -1515081988
+total: -1519279295
+total: -1525252476
