@@ -308,14 +308,14 @@ void uMain::main () {
         uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
         #endif
 
-        cout << "made it through" << endl;
-
             // launch producers
         size_t procs = prods > cons ? prods : cons;
         for( i = 0; i < procs; i++ ) {
             if( i < prods ) producers[ i ] = new Producer( buffer, produce, delay );
             if( i < cons ) consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
         }
+
+        std::cout << "Launched" << std::endl;
 
             // wait for finalizing
         for( i = 0; i < prods; i++ ) { delete producers[ i ]; }
