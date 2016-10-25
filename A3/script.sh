@@ -1,11 +1,14 @@
-./matrixmultiply 8 8 8
-./givenmatrixmultiply 8 8 8
+time./matrixmultiply 8 8 8
+time./givenmatrixmultiply 8 8 8
 
-./matrixmultiply 3 4 4 3x4.mat 4x4.mat
-./givenmatrixmultiply 3 4 4 3x4.mat 4x4.mat
+time./matrixmultiply 3 4 4 3x4.mat 4x4.mat
+time ./givenmatrixmultiply 3 4 4 3x4.mat 4x4.mat
 
-./matrixmultiply 4 4 4 4x4.mat 4x4.mat
-./givenmatrixmultiply 4 4 4 4x4.mat 4x4.mat
+time ./matrixmultiply 4 4 4 4x4.mat 4x4.mat
+time ./givenmatrixmultiply 4 4 4 4x4.mat 4x4.mat
 
-./matrixmultiply 4 3 3 4x3.mat 3x3.mat
-./givenmatrixmultiply 4 3 3 4x3.mat 3x3.mat
+time ./matrixmultiply 4 3 3 4x3.mat 3x3.mat
+time ./givenmatrixmultiply 4 3 3 4x3.mat 3x3.mat
+
+time ./matrixmultiply
+time ./givenmatrixmultiply
