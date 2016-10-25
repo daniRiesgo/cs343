@@ -74,8 +74,12 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         #ifdef NOBUSY
+        bool iOwnIt = false;
         if( barging.empty() ) wantIn = true;
-        if( wantIn ) { barging.wait( lock ); }
+        if( wantIn ) {
+            barging.wait( lock );
+            iOwnIt = true;
+        }
         try {
         #endif
             lock.acquire();
@@ -100,7 +104,7 @@ template<typename T> class BoundedBuffer {
             } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
         #ifdef NOBUSY
         } _Finally {
-            barging.signal();
+            if( iOwnIt ) barging.signal();
         }
         #endif
 
@@ -120,8 +124,12 @@ template<typename T> class BoundedBuffer {
         int res;
 
         #ifdef NOBUSY
+        bool iOwnIt = false;
         if( barging.empty() ) wantIn = true;
-        if( wantIn ) { barging.wait( lock ); }
+        if( wantIn ) {
+            barging.wait( lock );
+            iOwnIt = true;
+        }
         try {
         #endif
             lock.acquire();
@@ -145,8 +153,7 @@ template<typename T> class BoundedBuffer {
             } _Finally { if( lock.owner() == &uThisTask() ) lock.release(); }
         #ifdef NOBUSY
         } _Finally {
-            barging.signal();
-            // notTheFirst--;
+            if( iOwnIt ) barging.signal();
         }
         #endif
 
