@@ -111,13 +111,12 @@ int parseArgs( int argc, char *argv[], stringstream *xfile,
             if( readFile( yfile, argv[ 5 ] ) ) return -1;
         }
         case 4: { // when number of arguments is correct
+            if ( atoi( argv[ 1 ] ) <= 0 ) return -2;
+            if ( atoi( argv[ 2 ] ) <= 0 ) return -2;
+            if ( atoi( argv[ 3 ] ) <= 0 ) return -2;
             *xr   = atoi( argv[ 1 ] );
             *xcyr = atoi( argv[ 2 ] );
             *yc   = atoi( argv[ 3 ] );
-            cout << "xr" << *xr << ", xcyr" << *xcyr << ", yc" << *yc << endl;
-            if ( *xr <= 0 ) return -2;
-            if ( *xcyr <= 0 ) return -2;
-            if ( *yc <= 0 ) return -2;
             break;
         }
         default: { return -3; }
