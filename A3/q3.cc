@@ -1,7 +1,4 @@
-#include <iostream>
-#include <ostream>
-
-#include "MPRNG.h"
+#include "q3.h"
 
 #define CONSUMERS 5
 #define PRODUCERS 3
