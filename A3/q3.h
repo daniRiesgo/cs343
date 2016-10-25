@@ -11,7 +11,7 @@ template<typename T> class BoundedBuffer {
       :
       front(0), back(0), items(0), size(size)
     {
-        buffer = ( T* ) malloc( size * sizeof( T ) );
+        buffer = new arr;
         if( buffer == nullptr ) {
             cout << "Error allocating buffer. Stop." << endl;
         }
@@ -20,10 +20,7 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
-        while( items == size ) {
-            if( !noItems.empty() ) break;
-            noRoom.wait( lock );
-        }
+        while( items == size ) { noRoom.wait( lock ); }
         try {
             back++;
             back = back % size;
@@ -37,10 +34,7 @@ template<typename T> class BoundedBuffer {
 
         int res;
         lock.acquire();
-        while( items == 0 ) {
-            if( !noRoom.empty() ) break;
-            noItems.wait( lock );
-        }
+        while( items == 0 ) { noItems.wait( lock ); }
         try {
             front++;
             front = front % size;
@@ -76,12 +70,18 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
+        if( goingToSignal ) {
+            barging.wait();
+        }
         while( items == size ) { noRoom.wait( lock ); }
         try {
+
             buffer[ back++ % size ] = elem;
             back = back % size;
             items++;
+            if( !noItems.empty() ) goingToSignal = true;
             noItems.signal();
+            barging.signal();
 
         } _Finally { lock.release(); }
     }
@@ -90,14 +90,18 @@ template<typename T> class BoundedBuffer {
 
         int res;
         lock.acquire();
-        if( goingToSignal )
+        if( goingToSignal ) {
+            barging.wait();
+        }
         while( items == 0 ) { noItems.wait( lock ); }
         try {
             // When producers finished, return SENTINEL
             res = buffer[ front++ % size ];
             front = front % size;
             items--;
+            if( !noItems.empty() ) goingToSignal = true;
             noRoom.signal();
+            barging.signal();
         } _Finally { lock.release(); }
 
         return res;
