@@ -10,17 +10,7 @@
 
 using namespace std;
 
-BoundedBuffer::BoundedBuffer( const unsigned int size )
-  :
-  front(0), back(0), items(0), size(size)
-{
-    buffer = ( int* ) malloc( size * sizeof(int) );
-    if( buffer == nullptr ) {
-        cout << "Error allocating buffer. Stop." << endl;
-    }
-}
-
-void BoundedBuffer::insert( T elem ) {
+void BoundedBuffer::insert( int elem ) {
 
     lock.acquire();
     while( items == size ) { noRoom.wait( lock ); }
@@ -33,7 +23,7 @@ void BoundedBuffer::insert( T elem ) {
     } _Finally { lock.release(); }
 }
 
-T BoundedBuffer::remove() {
+int BoundedBuffer::remove() {
 
     int res;
     lock.acquire();
