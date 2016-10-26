@@ -93,8 +93,6 @@ void uMain::main () {
         int sum[ cons ];
         int i;
 
-        cout << cons << " " << prods << " " << produce << " " << bufsize << " " << delay << endl;
-
         // LAUNCH TASKS
         #ifdef __U_MULTI__
         uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
