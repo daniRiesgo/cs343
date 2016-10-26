@@ -10,6 +10,45 @@
 
 using namespace std;
 
+BoundedBuffer::BoundedBuffer( const unsigned int size )
+  :
+  front(0), back(0), items(0), size(size)
+{
+    buffer = ( int* ) malloc( size * sizeof(int) );
+    if( buffer == nullptr ) {
+        cout << "Error allocating buffer. Stop." << endl;
+    }
+}
+
+void BoundedBuffer::insert( T elem ) {
+
+    lock.acquire();
+    while( items == size ) { noRoom.wait( lock ); }
+    try {
+        back++;
+        back = back % size;
+        buffer[ back ] = elem;
+        items++;
+        noItems.signal();
+    } _Finally { lock.release(); }
+}
+
+T BoundedBuffer::remove() {
+
+    int res;
+    lock.acquire();
+    while( items == 0 ) { noItems.wait( lock ); }
+    try {
+        front++;
+        front = front % size;
+        res = buffer[ front ];
+        items--;
+        noRoom.signal();
+    } _Finally { lock.release(); }
+
+    return res;
+}
+
 void Producer::main() {
     int i;
     for ( i = 1; i <= Produce; i++ ) {
