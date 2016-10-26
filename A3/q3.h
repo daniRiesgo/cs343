@@ -11,7 +11,7 @@ template<typename T> class BoundedBuffer {
       :
       front(0), back(0), items(0), size(size)
     {
-        buffer = new arr;
+        buffer = ( T* ) malloc( size * sizeof(T) );
         if( buffer == nullptr ) {
             cout << "Error allocating buffer. Stop." << endl;
         }
