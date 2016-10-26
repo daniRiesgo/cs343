@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include "q3.h"
+#include "q3buffer.h"
 
 #define CONSUMERS 5
 #define PRODUCERS 3
@@ -9,35 +10,6 @@
 #define MAX_INT 2147483647
 
 using namespace std;
-
-void BoundedBuffer::insert( int elem ) {
-
-    lock.acquire();
-    while( items == size ) { noRoom.wait( lock ); }
-    try {
-        back++;
-        back = back % size;
-        buffer[ back ] = elem;
-        items++;
-        noItems.signal();
-    } _Finally { lock.release(); }
-}
-
-int BoundedBuffer::remove() {
-
-    int res;
-    lock.acquire();
-    while( items == 0 ) { noItems.wait( lock ); }
-    try {
-        front++;
-        front = front % size;
-        res = buffer[ front ];
-        items--;
-        noRoom.signal();
-    } _Finally { lock.release(); }
-
-    return res;
-}
 
 void Producer::main() {
     int i;
