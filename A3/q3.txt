@@ -1,8 +1,14 @@
+BUSY IMPLEMENTATION
 Results show some unexpected behaviors. Firstly, multi-processor execution (real concurrency) doesn't seem to help
 but delay the execution of our program. Sticking to the no-multi executable, optimizations cause an improvement in
 performance. The same does not happen when talking about the -multi executable, which doubles its user and real
 execution times with the optimizations, even though that initial time was much higher than such of the no-multi
 version.
+
+NOBUSY IMPLEMENTATION
+Results show that the execution time of this implementation is much more variable than that with the busy
+implementation. 
+
 
 RAW DATA: # command ~time ./buffer 50 55 10000 30 10, 4 times each
 
@@ -36,3 +42,33 @@ real: 0m12.460s - user: 0m49.026s
 real: 0m13.518s - user: 0m53.206s
 real: 0m12.255s - user: 0m48.699s
 real: 0m16.482s - user: 1m5.774s
+
+---- q3 NOBUSY -----
+
+-- Without -multi flag
+
+No optimizations
+real: 0m2.501s - user: 0m2.460s
+real: 0m1.682s - user: 0m1.642s
+real: 0m1.475s - user: 0m1.444s
+real: 0m2.719s - user: 0m2.670s
+
+With optimizations
+real: 0m1.253s - user: 0m1.214s
+real: 0m0.684s - user: 0m0.651s
+real: 0m2.426s - user: 0m2.386s
+real: 0m2.459s - user: 0m2.394s
+
+-- With -multi flag
+
+No optimizations
+real: 0m9.683s - user: 0m38.434s
+real: 0m20.806s - user: 1m22.992s
+real: 0m17.842s - user: 1m11.184s
+real: 0m19.571s - user: 1m17.979s
+
+With optimizations
+real: 0m11.249s - user: 0m44.749s
+real: 0m6.947s - user: 0m27.500s
+real: 0m12.734s - user: 0m50.808s
+real: 0m7.265s - user: 0m28.898s
