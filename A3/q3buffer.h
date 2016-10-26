@@ -72,7 +72,7 @@ template<typename T> class BoundedBuffer {
         if( goingToSignal ) { barging.wait( lock ); }
 
         while( items == size ) { noRoom.wait( lock ); }
-        if( !noRoom.empty() ) goingToSignal = true;
+        if( !noRoom.count() ) goingToSignal = true;
 
         try {
 
@@ -85,7 +85,7 @@ template<typename T> class BoundedBuffer {
         } _Finally {
             lock.release();
             barging.broadcast();
-            if( noRoom.empty() ) goingToSignal = false;
+            if( noRoom.count() ) goingToSignal = false;
         }
     }
 
@@ -96,7 +96,7 @@ template<typename T> class BoundedBuffer {
         if( goingToSignal ) { barging.wait( lock ); }
 
         while( items == 0 ) { noItems.wait( lock ); }
-        if( !noItems.empty() ) goingToSignal = true;
+        if( noItems.count() ) goingToSignal = true;
 
         try {
             res = buffer[ front++ % size ];
@@ -108,7 +108,7 @@ template<typename T> class BoundedBuffer {
         } _Finally {
             lock.release();
             barging.broadcast();
-            if( noItems.empty() ) goingToSignal = false;
+            if( noItems.count() ) goingToSignal = false;
         }
 
         return res;
