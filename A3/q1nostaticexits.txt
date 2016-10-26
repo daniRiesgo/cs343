@@ -1,6 +1,10 @@
-Gathered data shows an increment of 95% (without compiler optimizations) or 292% (enabling compiler optimizations) in CPU user time when removing static exits in do_work() function. This clearly shows the advantage of these static exits, which avoid the unnecessary extra looping executed in the implemented version.
+Gathered data shows an increment of 95% (without compiler optimizations) or 292% (enabling compiler optimizations)
+in CPU user time when removing static exits in do_work() function. This clearly shows the advantage of these static
+exits, which avoid the unnecessary extra looping executed in the implemented version.
 
-Compiler optimizations considerably affect execution time of do_work(), reducing such of both original and modified versions in 29.5 and 59.4% respectively. It seems like the compiler also notices the inefficiency of the modified version.
+Compiler optimizations considerably affect execution time of do_work(), reducing such of both original and modified
+versions in 29.5 and 59.4% respectively. It seems like the compiler also notices the inefficiency of the modified
+version.
 
 RAW DATA:
 

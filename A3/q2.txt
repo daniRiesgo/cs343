@@ -1,5 +1,8 @@
-Data shows a clear improvement in execution times. Whilst performing double operations every time we double the rows, real execution time only slightly increases. We can see how user time acts accordingly to logic and doubles, but it gets divided over the number of used cores.
-One interesting observation is the fact that user time not only doubles, but also increases a bit for every extra row. We attribute this to the task creation time, which needs to allocate a thread into stack and run it.
+Data shows a clear improvement in execution times. Whilst performing double operations every time we double the
+rows, real execution time only slightly increases. We can see how user time acts accordingly to logic and doubles,
+but it gets divided over the number of used cores.
+One interesting observation is the fact that user time not only doubles, but also increases a bit for every extra
+row. We attribute this to the task creation time, which needs to allocate a thread into stack and run it.
 
 RAW DATA:
 

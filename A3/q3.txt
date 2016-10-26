@@ -1,5 +1,11 @@
 
+
+RAW DATA:
+
 ---- q3 BUSY -----
+
+-- Without -multi flag
+
 No optimizations
 real: 0m2.512s - user: 0m2.444s
 real: 0m1.221s - user: 0m1.203s
@@ -11,3 +17,18 @@ real: 0m1.422s - user: 0m1.402s
 real: 0m0.639s - user: 0m0.626s
 real: 0m1.221s - user: 0m1.196s
 real: 0m0.829s - user: 0m0.814s
+
+
+-- With -multi flag
+
+With no optimizations
+real: 0m5.954s - user: 0m23.639s
+real: 0m5.373s - user: 0m21.326s
+real: 0m12.687s - user: 0m50.454s
+real: 0m5.854s - user: 0m22.841s
+
+With optimizations
+real: 0m12.460s - user: 0m49.026s
+real: 0m13.518s - user: 0m53.206s
+real: 0m12.255s - user: 0m48.699s
+real: 0m16.482s - user: 1m5.774s
