@@ -81,8 +81,10 @@ template<typename T> class BoundedBuffer {
             items++;
 
             noItems.signal();
-            barging.signal();
-            goingToSignal = false;
+            if( goingToSignal ) {
+                barging.signal();
+                goingToSignal = false;
+            }
 
         } _Finally { lock.release(); }
     }
@@ -102,9 +104,10 @@ template<typename T> class BoundedBuffer {
             items--;
 
             noRoom.signal();
-            barging.signal();
-            goingToSignal = false;
-
+            if( goingToSignal ) {
+                barging.signal();
+                goingToSignal = false;
+            }
 
         } _Finally { lock.release(); }
 
