@@ -6,9 +6,6 @@
 #define PRODUCERS 3
 #define PRODUCE 10
 #define BUFFER_SIZE 10
-#ifdef DEBUGOUTPUT
-    #define ERROROUTPUT
-#endif
 #define MAX_INT 2147483647
 
 using namespace std;
@@ -17,7 +14,7 @@ void Producer::main() {
     int i;
     for ( i = 1; i <= Produce; i++ ) {
         // yield form 0 to Delay - 1 times
-        yield( MPRNG()(0,Delay-1));
+        yield( MPRNG( getpid() )(0,Delay-1));
         // produce corresponding item
         buffer.insert( (int) i );
     }
@@ -28,7 +25,7 @@ void Consumer::main() {
     sum = 0;
     for ( ;; ) {
         // yield form 0 to Delay-1 times
-        yield( MPRNG()(0,Delay-1));
+        yield( MPRNG( getpid() )(0,Delay-1));
         // produce corresponding item
         int value = buffer.remove();
         if( value != Sentinel ) { sum += value; }
@@ -106,10 +103,10 @@ void uMain::main () {
 
             // launch producers
         for( i = 0; i < prods; i++ ) {
-            producers[ i ] = new Producer( buffer, produce, 1 );
+            producers[ i ] = new Producer( buffer, produce, delay );
         }
         for( i = 0; i < cons; i++ ) {
-            consumers[ i ] = new Consumer( buffer, 1, SENTINEL, sum[i] );
+            consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
         }
 
             // wait for finalizing
