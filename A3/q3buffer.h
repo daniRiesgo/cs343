@@ -81,10 +81,12 @@ template<typename T> class BoundedBuffer {
             items++;
 
             noItems.signal();
+
+        } _Finally {
+            lock.release();
             while( !barging.empty() ) barging.signal();
             if( noRoom.empty() ) goingToSignal = false;
-
-        } _Finally { lock.release(); }
+        }
     }
 
     T remove() {
@@ -102,10 +104,12 @@ template<typename T> class BoundedBuffer {
             items--;
 
             noRoom.signal();
+
+        } _Finally {
+            lock.release();
             while( !barging.empty() ) barging.signal();
             if( noItems.empty() ) goingToSignal = false;
-
-        } _Finally { lock.release(); }
+        }
 
         return res;
     }
