@@ -1,6 +1,6 @@
+Results show some unexpected behaviors. Firstly, multi-processor execution (real concurrency) doesn't seem to help but delay the execution of our program. Sticking to the no-multi executable, optimizations cause an improvement in performance. The same does not happen when talking about the -multi executable, which doubles its user and real execution times with the optimizations, even though that initial time was much higher than such of the no-multi version.
 
-
-RAW DATA:
+RAW DATA: # command ~time ./buffer 50 55 10000 30 10, 4 times each
 
 ---- q3 BUSY -----
 
