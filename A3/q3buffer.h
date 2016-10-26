@@ -70,7 +70,7 @@ template<typename T> class BoundedBuffer {
 
         lock.acquire();
         if( goingToSignal ) { barging.wait( lock ); }
-        goingToSignal = true;
+        if( !noRoom.empty() ) goingToSignal = true;
 
         while( items == size ) { noRoom.wait( lock ); }
 
@@ -81,7 +81,7 @@ template<typename T> class BoundedBuffer {
             items++;
 
             noItems.signal();
-            if( !noRoom.empty() ) {
+            if( noRoom.empty() ) {
                 barging.signal();
                 goingToSignal = false;
             }
@@ -94,17 +94,17 @@ template<typename T> class BoundedBuffer {
         int res;
         lock.acquire();
         if( goingToSignal ) { barging.wait( lock ); }
-        goingToSignal = true;
+        if( !noItems.empty() ) goingToSignal = true;
 
         while( items == 0 ) { noItems.wait( lock ); }
+
         try {
-            // When producers finished, return SENTINEL
             res = buffer[ front++ % size ];
             front = front % size;
             items--;
 
             noRoom.signal();
-            if( !noItems.empty() ) {
+            if( noItems.empty() ) {
                 barging.signal();
                 goingToSignal = false;
             }
