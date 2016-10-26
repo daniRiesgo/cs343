@@ -11,7 +11,7 @@ template<typename T> class BoundedBuffer {
       :
       front(0), back(0), items(0), size(size)
     {
-        buffer = ( T* ) malloc( size * sizeof(T) );
+        buffer = ( int* ) malloc( size * sizeof(int) );
         if( buffer == nullptr ) {
             cout << "Error allocating buffer. Stop." << endl;
         }
@@ -47,7 +47,7 @@ template<typename T> class BoundedBuffer {
     }
     ~BoundedBuffer() { free( buffer ); }
   private:
-    T *buffer;
+    int *buffer;
     int front, back, items, size;
     uOwnerLock lock;
     uCondLock noItems, noRoom;

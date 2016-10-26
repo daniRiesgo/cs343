@@ -88,5 +88,5 @@ echo ""
 echo ""
 echo "Total should be 60000"
 echo ""
-./givenbuffer 1 10000 3 30000
-./buffer 1 10000 3 30000
+# ./givenbuffer 1 10000 3 30000
+# ./buffer 1 10000 3 30000
