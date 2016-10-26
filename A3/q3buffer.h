@@ -69,7 +69,7 @@ template<typename T> class BoundedBuffer {
     void insert( T elem ) {
 
         lock.acquire();
-        // if( goingToSignal ) { barging.wait( lock ); }
+        if( goingToSignal ) { barging.wait( lock ); }
 
         while( items == size ) { noRoom.wait( lock ); }
         if( !noRoom.empty() ) goingToSignal = true;
@@ -83,7 +83,7 @@ template<typename T> class BoundedBuffer {
             noItems.signal();
             if( goingToSignal ) {
                 if( noRoom.empty() ) goingToSignal = false;
-                barging.signal();
+                while( !barging.empty() ) barging.signal();
             }
 
         } _Finally { lock.release(); }
@@ -93,7 +93,7 @@ template<typename T> class BoundedBuffer {
 
         int res;
         lock.acquire();
-        // if( goingToSignal ) { barging.wait( lock ); }
+        if( goingToSignal ) { barging.wait( lock ); }
 
         while( items == 0 ) { noItems.wait( lock ); }
         if( !noItems.empty() ) goingToSignal = true;
@@ -106,7 +106,7 @@ template<typename T> class BoundedBuffer {
             noRoom.signal();
             if( goingToSignal ) {
                 if( noItems.empty() ) goingToSignal = false;
-                barging.signal();
+                while( !barging.empty() ) barging.signal();
             }
 
         } _Finally { lock.release(); }
