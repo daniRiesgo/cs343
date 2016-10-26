@@ -12,7 +12,7 @@ MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 OBJECTS01 = q1.o			# optional build of given program
 EXEC01 = staticexits				# 0th executable name
 
-OBJECTS1 = q1.o
+OBJECTS1 = q1nostaticexits.o
 EXEC1 = nostaticexits				# 1st executable name
 
 OBJECTS2 = q2.o # object files forming 2nd executable with prefix "q2"
