@@ -1,7 +1,6 @@
 #include <iostream>
 #include <ostream>
 #include "q3.h"
-#include "q3buffer.h"
 
 #define CONSUMERS 5
 #define PRODUCERS 3
