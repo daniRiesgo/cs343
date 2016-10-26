@@ -79,7 +79,7 @@ template<typename T> class BoundedBuffer {
             buffer[ back++ % size ] = elem;
             back = back % size;
             items++;
-            if( !noItems.empty() ) goingToSignal = true;
+            if( !noRoom.empty() ) goingToSignal = true;
             if( goingToSignal ) barging.signal();
             noItems.signal();
 

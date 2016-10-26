@@ -2,7 +2,7 @@ SENTINEL:=-1
 KIND:=NOBUSY
 OUTPUT:=DEBUGOUTPUT
 OUTPUT:=NOOUTPUT
-OPT:= #O2
+OPT:= #-O2
 
 CXX = u++ #-multi# compiler
 CXXFLAGS = -g -Wall -Wno-unused-label ${OPT} -MMD -std=c++11 \
