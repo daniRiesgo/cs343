@@ -106,10 +106,10 @@ void uMain::main () {
 
             // launch producers
         for( i = 0; i < prods; i++ ) {
-            producers[ i ] = new Producer( buffer, produce, delay );
+            producers[ i ] = new Producer( buffer, produce, 1 );
         }
         for( i = 0; i < cons; i++ ) {
-            consumers[ i ] = new Consumer( buffer, delay, SENTINEL, sum[i] );
+            consumers[ i ] = new Consumer( buffer, 1, SENTINEL, sum[i] );
         }
 
             // wait for finalizing
