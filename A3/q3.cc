@@ -14,18 +14,17 @@ void Producer::main() {
     int i;
     for ( i = 1; i <= Produce; i++ ) {
         // yield form 0 to Delay - 1 times
-        yield( MPRNG( getpid() )(0,Delay-1));
+        yield( MPRNG( getpid() )(0, Delay-1) );
         // produce corresponding item
         buffer.insert( (int) i );
     }
-    buffer.insert( SENTINEL );
 }
 
 void Consumer::main() {
     sum = 0;
     for ( ;; ) {
         // yield form 0 to Delay-1 times
-        yield( MPRNG( getpid() )(0,Delay-1));
+        yield( MPRNG( getpid() )(0 ,Delay-1) );
         // produce corresponding item
         int value = buffer.remove();
         if( value != Sentinel ) { sum += value; }
