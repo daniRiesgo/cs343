@@ -7,7 +7,14 @@ version.
 
 NOBUSY IMPLEMENTATION
 Results show that the execution time of this implementation is much more variable than that with the busy
-implementation. 
+implementation. As it uses an extra lock in order to be more fair than the busy one, we can expect a delay in some
+executions. However, both implementations behave similarly.
+
+MULTIPROCESSOR EXECUTION DECREASE IN PERFORMANCE
+This is a fact that has drawn our attention. In this case, we can observe a big negative impact when using
+different processors in the execution time. Probably, this impact is due to the fact that the processors have to
+access the same data and this data transfer between CPUs takes much longer than the computations itself, making
+the whole process slower.
 
 
 RAW DATA: # command ~time ./buffer 50 55 10000 30 10, 4 times each
