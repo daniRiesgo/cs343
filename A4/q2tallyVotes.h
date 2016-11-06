@@ -32,7 +32,7 @@ _Task Voter {
     Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer );
 };
 
-_Cormonitor Printer {      // chose one of the two kinds of type constructor
+_Monitor Printer {      // chose one of the two kinds of type constructor
   public:
     Printer( unsigned int voters );
     void print( unsigned int id, Voter::States state );
