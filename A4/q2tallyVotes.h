@@ -30,14 +30,21 @@ _Cormonitor TallyVotes : public uBarrier {
 };
 
 _Task Voter {
-    Printer &printer;
-    TallyVotes &tallier;
-    uint id;
-    void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
                   Complete = 'C', Finished = 'F' };
-    Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer );
+    Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer )
+      : id(id)
+      , tallier(voteTallier)
+      , printer(printer)
+      {
+          main();
+      };
+  protected:
+      Printer &printer;
+      TallyVotes &tallier;
+      uint id;
+      void main();
 };
 
 _Monitor Printer {      // chose one of the two kinds of type constructor
