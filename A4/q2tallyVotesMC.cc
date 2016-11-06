@@ -15,7 +15,7 @@ bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed )
 //    // • print finish message
 // }
 
-TallyVotes::Tour Voter::vote( unsigned int id, TallyVotes::Tour ballot ) {
+TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return TallyVotes::Tour::Picture;
 }
 
