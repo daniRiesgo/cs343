@@ -19,7 +19,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return TallyVotes::Tour::Picture;
 }
 
-void Printer::main( unsigned int voters ) {
+void Printer::main() {
     for( uint i = 0; i < voters; ++i ) {
         cout << "Voter" << setw(3) << i;
     }
