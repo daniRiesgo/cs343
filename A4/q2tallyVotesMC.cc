@@ -35,14 +35,10 @@ void uMain::main() {
         if( !checkInput( argv, argc, g, v, seed ) ) break L1;
 
         Printer p( v );
-        TallyVotes tb( g, (int&)p );
+        TallyVotes tb( g, p );
         Voter *voters[v];
-        TallyVotes::Tour ballot;
 
-        for( size_t i; i < v; ++i ) {
-            // ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
-            voters[i] = new Voter( i, tb, (int&)p );
-        }
+        for( size_t i; i < v; ++i ) { voters[i] = new Voter( i, tb, p ); }
 
         for( size_t i; i < v; ++i ) { delete voters[i]; }
     }
