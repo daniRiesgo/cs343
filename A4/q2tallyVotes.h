@@ -51,8 +51,10 @@ _Task Voter {
 _Monitor Printer {      // chose one of the two kinds of type constructor
     void main();
   public:
-    Printer( unsigned int voters );
+    Printer( unsigned int voters ) : voters(voters) {};
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
     void print( unsigned int id, Voter::States state, unsigned int numBlocked );
+  protected:
+    uint voters;
 };
