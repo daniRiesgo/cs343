@@ -1,3 +1,8 @@
+#include <iostream>
+#include <ostream>
+
+using namespace std;
+
 #if defined( IMPLTYPE_MC )            // mutex/condition solution
 // includes for this kind of vote-tallier
 class TallyVotes {
