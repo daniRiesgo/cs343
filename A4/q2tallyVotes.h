@@ -31,6 +31,8 @@ _Cormonitor TallyVotes : public uBarrier {
 
 _Task Voter {
     Printer &printer;
+    TallyVotes &tallier;
+    uint id;
     void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',

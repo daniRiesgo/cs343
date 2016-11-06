@@ -5,6 +5,12 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
+Voter::Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer )
+  : id(id)
+  , tallier(voteTallier)
+  , printer(printer)
+  {}
+
 void Voter::main() {
     cout << "wow voter " << id << " was created" << endl;
    // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
