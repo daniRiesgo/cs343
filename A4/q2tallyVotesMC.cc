@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ifstream>
 #include "q2tallyVotes.h"
 #include "MPRNG.h"
 
