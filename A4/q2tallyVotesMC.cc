@@ -29,7 +29,6 @@ void Printer::main() {
     }
 }
 
-Printer::Printer( unsigned int voters );
 void Printer::print( unsigned int id, Voter::States state ) {
     cout << "printer prints id " << id << " state " << state << endl;
 }
