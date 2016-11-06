@@ -44,7 +44,7 @@ _Task Voter {
         };
 };
 
-_Monitor Printer {      // chose one of the two kinds of type constructor
+_Cormonitor Printer {      // chose one of the two kinds of type constructor
     void main();
   public:
     Printer( unsigned int voters ) { main(); };
