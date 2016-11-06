@@ -1,4 +1,4 @@
-#include "q2TallyVotes.h"
+#include "q2tallyVotes.h"
 
 TallyVotes::TallyVotes( unsigned int group, Printer &printer ) {
 
