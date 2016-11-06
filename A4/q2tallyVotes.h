@@ -24,17 +24,32 @@ _Cormonitor TallyVotes : public uBarrier {
     #error unsupported voter type
 #endif
     // common declarations
+    uint group;
+    Printer &printer;
     void main();
   public:                             // common interface
-    TallyVotes( unsigned int group, Printer &printer ) { main(); };
+    TallyVotes( unsigned int group, Printer &printer )
+      : group(group)
+      , printer(printer)
+      {
+          main();
+      };
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
 };
 
 _Task Voter {
+    uint id;
+    Printer &printer;
     void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
                   Complete = 'C', Finished = 'F' };
-    Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer ) { main(); };
+    Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer )
+        : id(id)
+        , vote(voteTallier)
+        , printer(printer)
+        {
+            main();
+        };
 };
