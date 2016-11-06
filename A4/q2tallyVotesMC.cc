@@ -1,17 +1,10 @@
 #include "q2tallyVotes.h"
 #include "MPRNG.h"
 
-using namespace TallyVotes;
-
-TallyVotes::TallyVotes( unsigned int group, Printer &printer ) {
-
-}
-
-Voter::Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer ) {
-    cout << 'wow voter ' << id << ' was created' << endl;
-}
+using namespace std;
 
 void Voter::main() {
+    cout << 'wow voter ' << id << ' was created' << endl;
    // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
    // • print start message
    // • yield once using yield( times )
@@ -24,7 +17,7 @@ Tour Voter::vote( unsigned int id, Tour ballot ) {
     return Tour::Picture;
 }
 
-Printer::Printer( unsigned int voters ) {
+void Printer::main( unsigned int voters ) {
     for( uint i = 0; i < voters; ++i ) {
         cout << "Voter" << setw(3) << i;
     }
@@ -65,5 +58,5 @@ void uMain::main() {
     }
 
     for( size_t i; i < v; ++i ) { delete voters[i]; }
-    
+
 }
