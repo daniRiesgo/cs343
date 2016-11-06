@@ -3,6 +3,8 @@
 
 using namespace std;
 
+_Monitor Printer;
+
 #if defined( IMPLTYPE_MC )            // mutex/condition solution
 // includes for this kind of vote-tallier
 class TallyVotes {
