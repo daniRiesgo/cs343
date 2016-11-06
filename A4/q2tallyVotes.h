@@ -1,13 +1,3 @@
-_Monitor Printer {      // chose one of the two kinds of type constructor
-    void main();
-  public:
-    Printer( unsigned int voters ) { main(); };
-    ~Printer();
-    void print( unsigned int id, Voter::States state );
-    void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
-    void print( unsigned int id, Voter::States state, unsigned int numBlocked );
-};
-
 #if defined( IMPLTYPE_MC )            // mutex/condition solution
 // includes for this kind of vote-tallier
 class TallyVotes {
@@ -52,4 +42,14 @@ _Task Voter {
         {
             main();
         };
+};
+
+_Monitor Printer {      // chose one of the two kinds of type constructor
+    void main();
+  public:
+    Printer( unsigned int voters ) { main(); };
+    ~Printer();
+    void print( unsigned int id, Voter::States state );
+    void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
+    void print( unsigned int id, Voter::States state, unsigned int numBlocked );
 };
