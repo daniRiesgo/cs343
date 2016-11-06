@@ -1,0 +1,6 @@
+*.d
+*.o
+ImplKind
+ImplType
+new
+vote
