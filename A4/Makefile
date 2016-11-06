@@ -5,7 +5,7 @@ CXX =u++# compiler
 CXXFLAGS =-g -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -DIMPLKIND_${KIND} -DIMPLTYPE_${TYPE}
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
-OBJECTS01 = q1new.o				# optional build of given program
+OBJECTS01 = q1.o # optional build of given program
 EXEC01 = new
 
 OBJECTS2 = q2TallyVotes.o q2TallyVotes${TYPE}.o # list of object files for question 1 prefixed with "q2"
