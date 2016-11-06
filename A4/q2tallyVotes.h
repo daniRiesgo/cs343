@@ -44,11 +44,14 @@ _Task Voter {
         };
 };
 
-_Cormonitor Printer {      // chose one of the two kinds of type constructor
+_Monitor Printer {      // chose one of the two kinds of type constructor
     void main();
   public:
     Printer( unsigned int voters ) { main(); };
-    ~Printer();
+    ~Printer() {
+        cout << "=================" << endl;
+        cout << "All tours started" << endl;
+    };
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
     void print( unsigned int id, Voter::States state, unsigned int numBlocked );

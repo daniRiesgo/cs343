@@ -29,38 +29,24 @@ void Printer::main( unsigned int voters ) {
         cout << setw(8) << "=======";
     }
 }
-Printer::~Printer() {
-    cout << "=================" << endl;
-    cout << "All tours started" << endl;
-}
-
-void Printer::print( unsigned int id, Voter::States state ) {
-
-}
-
-void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
-
-}
-
-void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
-
-}
 
 void uMain::main() {
-    uint v, g, seed;
-    if( !checkInput( argv, argc, g, v, seed ) ) exit( EXIT_FAILURE );
+    L1: {
+        uint v, g, seed;
+        if( !checkInput( argv, argc, g, v, seed ) ) break L1;
 
-    Printer p( v );
-    TallyVotes tb( g, (int&)p );
-    Voter *voters[v];
-    TallyVotes::Tour ballot;
+        Printer p( v );
+        TallyVotes tb( g, (int&)p );
+        Voter *voters[v];
+        TallyVotes::Tour ballot;
 
-    for( size_t i; i < v; ++i ) {
-        ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
-        voters[i] = new Voter( i, ballot, (int&)p );
+        for( size_t i; i < v; ++i ) {
+            ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+            voters[i] = new Voter( i, ballot, (int&)p );
+        }
+
+        for( size_t i; i < v; ++i ) { delete voters[i]; }
     }
-
-    for( size_t i; i < v; ++i ) { delete voters[i]; }
 
 }
 
