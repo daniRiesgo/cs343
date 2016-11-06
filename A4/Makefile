@@ -8,13 +8,13 @@ MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 OBJECTS01 = q1new.o				# optional build of given program
 EXEC01 = new
 
-OBJECTS2 = #q2tallyVotes${TYPE}.o # list of object files for question 1 prefixed with "q2"
+OBJECTS2 = q2TallyVotes.o q2TallyVotes${TYPE}.o # list of object files for question 1 prefixed with "q2"
 
 EXEC2 = vote
 
-OBJECTS = ${OBJECTS2}				# all object files
-DEPENDS = ${OBJECTS:.o=.d}			# substitute ".o" with ".d"
-EXECS = ${EXEC2}				# all executables
+OBJECTS = ${OBJECTS2} # all object files
+DEPENDS = ${OBJECTS:.o=.d} # substitute ".o" with ".d"
+EXECS = ${EXEC2} # all executables
 
 #############################################################
 

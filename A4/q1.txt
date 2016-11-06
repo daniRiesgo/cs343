@@ -1,4 +1,5 @@
-The following table shows the relative differences with respect to scaling the number of tasks for each of the versions:
+The following table shows the relative differences with respect to scaling the number of tasks for each of
+the versions:
 
 <VERS>  1T:2T:4T      1T:2T:4T
 STACK   1:2:4   user, 1:1:1     real
@@ -6,9 +7,17 @@ DARRAY  1:16:85 user, 1:8:22    real
 VECTOR1 1:9:47  user, 1:4.5:12  real
 VECTOR2 1:12:47 user, 1:6:12  real
 
-We can see how the STACK version takes full advantage of the scaling, allowing every task execute in every core in parallel, with no efficiency loss, whilst the rest of the versions (specially DARRAY) not only have no improvement at all but also increase the time a single task would employ in doing the job. This is because accesses to memory are very inefficient when the pointers are not shared. We can see how resource sharing efficiency is directly proportional to task-increasing efficiency.
+We can see how the STACK version takes full advantage of the scaling, allowing every task execute in every
+core in parallel, with no efficiency loss, whilst the rest of the versions (specially DARRAY) not only
+have no improvement at all but also increase the time a single task would employ in doing the job. This is
+because accesses to memory are very inefficient when the pointers are not shared. We can see how resource
+sharing efficiency is directly proportional to task-increasing efficiency.
 
-When comparing versions, we see how STACK implementation also wins clearly, followed by DARRAY and VECTOR1 (pretty close one another) and finally VECTOR2. In this case, it is the memory layout the one defining how fast the accesses are to memory: STACK uses full preallocation, VECTOR1 and DARRAY use partial allocation (only first dimension is preallocated) and VECTOR2 uses full dynamic allocation, having all data spread around the memory and causing many more page fails.
+When comparing versions, we see how STACK implementation also wins clearly, followed by DARRAY and VECTOR1
+(pretty close one another) and finally VECTOR2. In this case, it is the memory layout the one defining how
+fast the accesses are to memory: STACK uses full preallocation, VECTOR1 and DARRAY use partial allocation
+(only first dimension is preallocated) and VECTOR2 uses full dynamic allocation, having all data spread
+around the memory and causing many more page fails.
 
 RAW TEST RESULTS, all of them performed with times=10000000:
 

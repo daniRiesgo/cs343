@@ -6,5 +6,7 @@ do
     do
         time -f "%Uu %Ss %E" ./new $t 10000000
         time -f "%Uu %Ss %E" ./new $t 10000000
+        time -f "%Uu %Ss %E" ./new $t 10000000
+        time -f "%Uu %Ss %E" ./new $t 10000000
     done
 done
