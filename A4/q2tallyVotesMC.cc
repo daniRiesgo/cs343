@@ -49,13 +49,13 @@ void uMain::main() {
     if( !checkInput( argv, argc, g, v, seed ) ) exit( EXIT_FAILURE );
 
     Printer p( v );
-    TallyVotes tb( g, p );
+    TallyVotes tb( g, &p );
     Voter *voters[v];
     TallyVotes::Tour ballot;
 
     for( size_t i; i < v; ++i ) {
         ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
-        voters[i] = new Voter( i, ballot,  p );
+        voters[i] = new Voter( i, ballot,  &p );
     }
 
     for( size_t i; i < v; ++i ) { delete voters[i]; }
