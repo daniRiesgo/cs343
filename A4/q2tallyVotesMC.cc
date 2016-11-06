@@ -40,8 +40,8 @@ void uMain::main() {
         TallyVotes::Tour ballot;
 
         for( size_t i; i < v; ++i ) {
-            ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
-            voters[i] = new Voter( i, ballot, (int&)p );
+            // ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+            voters[i] = new Voter( i, tb, (int&)p );
         }
 
         for( size_t i; i < v; ++i ) { delete voters[i]; }
