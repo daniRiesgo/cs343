@@ -33,6 +33,7 @@ _Task Voter {
 };
 
 _Monitor Printer {      // chose one of the two kinds of type constructor
+    void main() {};
   public:
     Printer( unsigned int voters );
     void print( unsigned int id, Voter::States state );
