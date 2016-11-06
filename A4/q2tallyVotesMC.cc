@@ -5,29 +5,40 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-// void Voter::main() {
-//     cout << "wow voter " << id << " was created" << endl;
-//    // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-//    // • print start message
-//    // • yield once using yield( times )
-//    // • vote (once only)
-//    // • yield once
-//    // • print finish message
-// }
+void Voter::main() {
+    cout << "wow voter " << id << " was created" << endl;
+   // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
+   // • print start message
+   // • yield once using yield( times )
+   // • vote (once only)
+   // • yield once
+   // • print finish message
+}
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return TallyVotes::Tour::Picture;
 }
 
-// void Printer::main( unsigned int voters ) {
-//     for( uint i = 0; i < voters; ++i ) {
-//         cout << "Voter" << setw(3) << i;
-//     }
-//     cout << endl;
-//     for( uint i = 0; i < voters; ++i ) {
-//         cout << setw(8) << "=======";
-//     }
-// }
+void Printer::main( unsigned int voters ) {
+    for( uint i = 0; i < voters; ++i ) {
+        cout << "Voter" << setw(3) << i;
+    }
+    cout << endl;
+    for( uint i = 0; i < voters; ++i ) {
+        cout << setw(8) << "=======";
+    }
+}
+
+Printer::Printer( unsigned int voters );
+void Printer::print( unsigned int id, Voter::States state ) {
+    cout << "printer prints id " << id << " state " << state << endl;
+}
+void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
+    cout << "printer prints id " << id << " state " << state << " vote " << vote << endl;
+}
+void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
+    cout << "printer prints id " << id << " state " << state << " numBlocked " << numBlocked << endl;
+}
 
 void uMain::main() {
     L1: {
