@@ -4,7 +4,7 @@
 using namespace std;
 
 void Voter::main() {
-    cout << 'wow voter ' << id << ' was created' << endl;
+    cout << "wow voter " << id << " was created" << endl;
    // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
    // • print start message
    // • yield once using yield( times )
@@ -13,7 +13,7 @@ void Voter::main() {
    // • print finish message
 }
 
-Tour Voter::vote( unsigned int id, TallyVotes::Tour ballot ) {
+TallyVotes::Tour Voter::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return TallyVotes::Tour::Picture;
 }
 
@@ -45,7 +45,7 @@ void Printer::print( unsigned int id, Voter::States state, unsigned int numBlock
 
 void uMain::main() {
     uint v, g, seed;
-    checkInput( argv, argc, g, v, seed );
+    if( !checkInput( argv, argc, g, v, seed ) ) exit( EXIT_FAILURE );
 
     Printer p( v );
     TallyVotes tb( g, p );
@@ -54,9 +54,20 @@ void uMain::main() {
 
     for( size_t i; i < v; ++i ) {
         ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
-        voters[i] = new Voter( i, ballot );
+        voters[i] = new Voter( i, ballot,  p );
     }
 
     for( size_t i; i < v; ++i ) { delete voters[i]; }
 
+}
+
+bool checkInput( const char **argv, const int argc, uint & g, uint & v, uint & seed ) {
+    seed = argc == 4 ? argv( atoi( argv[3]) ) : getpid();
+    g = argc == 4 || argc == 3 ? argv( atoi( argv[4]) ) : 3;
+    v = argc >= 2 || argc <= 4 argv( atoi( argv[1]) ) : 6;
+    if( argv > 4 ) {
+        cerr << "Usage: vote [ V [ G [ Seed ] ] ]" << endl;
+        return false;
+    }
+    return true;
 }
