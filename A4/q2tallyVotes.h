@@ -19,6 +19,7 @@ _Cormonitor TallyVotes : public uBarrier {
     #error unsupported voter type
 #endif
     // common declarations
+    void main() {};
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer );
     enum Tour { Picture, Statue };
@@ -26,6 +27,7 @@ _Cormonitor TallyVotes : public uBarrier {
 };
 
 _Task Voter {
+    void main() {};
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
                   Complete = 'C', Finished = 'F' };
