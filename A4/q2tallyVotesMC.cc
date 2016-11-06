@@ -29,7 +29,7 @@ void Printer::main( unsigned int voters ) {
 }
 Printer::~Printer() {
     cout << '=================' << endl;
-    cout << 'All tours started'
+    cout << 'All tours started' << endl;
 }
 
 void Printer::print( unsigned int id, Voter::States state ) {
