@@ -22,7 +22,7 @@ _Cormonitor TallyVotes : public uBarrier {
 #endif
     // common declarations
     Printer &printer;
-    void main() {};
+    void main();
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer );
     enum Tour { Picture, Statue };
@@ -31,7 +31,7 @@ _Cormonitor TallyVotes : public uBarrier {
 
 _Task Voter {
     Printer &printer;
-    void main() {};
+    void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
                   Complete = 'C', Finished = 'F' };
@@ -39,7 +39,7 @@ _Task Voter {
 };
 
 _Monitor Printer {      // chose one of the two kinds of type constructor
-    void main() {};
+    void main();
   public:
     Printer( unsigned int voters );
     void print( unsigned int id, Voter::States state );
