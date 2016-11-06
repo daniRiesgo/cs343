@@ -15,7 +15,7 @@ _Cormonitor TallyVotes : public uBarrier {
 #endif
     // common declarations
     uint group;
-    Printer &printer;
+    Printer & printer;
     void main();
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
@@ -30,7 +30,7 @@ _Cormonitor TallyVotes : public uBarrier {
 
 _Task Voter {
     uint id;
-    Printer &printer;
+    Printer & printer;
     void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
