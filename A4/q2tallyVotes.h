@@ -19,44 +19,22 @@ _Cormonitor TallyVotes : public uBarrier {
     #error unsupported voter type
 #endif
     // common declarations
-    uint group;
-    Printer & printer;
-    void main();
   public:                             // common interface
-    TallyVotes( unsigned int group, Printer &printer )
-      : group(group)
-      , printer(printer)
-      {
-          main();
-      };
+    TallyVotes( unsigned int group, Printer &printer );
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
 };
 
 _Task Voter {
-    uint id;
-    Printer & printer;
-    void main();
   public:
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
                   Complete = 'C', Finished = 'F' };
-    Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer )
-        : id(id)
-        , vote(voteTallier)
-        , printer(printer)
-        {
-            main();
-        };
+    Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer );
 };
 
-_Monitor Printer {      // chose one of the two kinds of type constructor
-    void main();
+_Monitor / _Cormonitor Printer {      // chose one of the two kinds of type constructor
   public:
-    Printer( unsigned int voters ) { main(); };
-    ~Printer() {
-        cout << "=================" << endl;
-        cout << "All tours started" << endl;
-    };
+    Printer( unsigned int voters );
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
     void print( unsigned int id, Voter::States state, unsigned int numBlocked );
