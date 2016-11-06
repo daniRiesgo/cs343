@@ -1,11 +1,3 @@
-_Monitor / _Cormonitor Printer {      // chose one of the two kinds of type constructor
-  public:
-    Printer( unsigned int voters );
-    void print( unsigned int id, Voter::States state );
-    void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
-    void print( unsigned int id, Voter::States state, unsigned int numBlocked );
-};
-
 #if defined( IMPLTYPE_MC )            // mutex/condition solution
 // includes for this kind of vote-tallier
 class TallyVotes {
@@ -33,4 +25,12 @@ _Task Voter {
     enum States { Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b',
                   Complete = 'C', Finished = 'F' };
     Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer );
+};
+
+_Monitor / _Cormonitor Printer {      // chose one of the two kinds of type constructor
+  public:
+    Printer( unsigned int voters );
+    void print( unsigned int id, Voter::States state );
+    void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
+    void print( unsigned int id, Voter::States state, unsigned int numBlocked );
 };
