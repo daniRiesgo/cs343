@@ -1,4 +1,7 @@
 #include "q2tallyVotes.h"
+#include "MPRNG.h"
+
+using namespace TallyVotes;
 
 TallyVotes::TallyVotes( unsigned int group, Printer &printer ) {
 
@@ -62,7 +65,5 @@ void uMain::main() {
     }
 
     for( size_t i; i < v; ++i ) { delete voters[i]; }
-
-    delete tb;
-    delete p;
+    
 }
