@@ -38,9 +38,9 @@ void uMain::main() {
         TallyVotes tb( g, p );
         Voter *voters[v];
 
-        for( size_t i; i < v; ++i ) { voters[i] = new Voter( i, tb, p ); }
+        for( size_t i = 0; i < v; ++i ) { voters[i] = new Voter( i, tb, p ); }
 
-        for( size_t i; i < v; ++i ) { delete voters[i]; }
+        for( size_t i = 0; i < v; ++i ) { delete voters[i]; }
     }
 
 }
