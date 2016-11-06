@@ -24,12 +24,12 @@ void Printer::main( unsigned int voters ) {
     }
     cout << endl;
     for( uint i = 0; i < voters; ++i ) {
-        cout << setw(8) << '=======';
+        cout << setw(8) << "=======";
     }
 }
 Printer::~Printer() {
-    cout << '=================' << endl;
-    cout << 'All tours started' << endl;
+    cout << "=================" << endl;
+    cout << "All tours started" << endl;
 }
 
 void Printer::print( unsigned int id, Voter::States state ) {
