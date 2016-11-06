@@ -1,49 +1,85 @@
-TEST RESULTS:
+The following table shows the relative differences with respect to scaling the number of tasks for each of the versions:
+
+<VERS>  1T:2T:4T      1T:2T:4T
+STACK   1:2:4   user, 1:1:1     real
+DARRAY  1:16:85 user, 1:8:22    real
+VECTOR1 1:9:47  user, 1:4.5:12  real
+VECTOR2 1:12:47 user, 1:6:12  real
+
+We can see how the STACK version takes full advantage of the scaling, allowing every task execute in every core in parallel, with no efficiency loss, whilst the rest of the versions (specially DARRAY) not only have no improvement at all but also increase the time a single task would employ in doing the job. This is because accesses to memory are very inefficient when the pointers are not shared. We can see how resource sharing efficiency is directly proportional to task-increasing efficiency.
+
+When comparing versions, we see how STACK implementation also wins clearly, followed by DARRAY and VECTOR1 (pretty close one another) and finally VECTOR2. In this case, it is the memory layout the one defining how fast the accesses are to memory: STACK uses full preallocation, VECTOR1 and DARRAY use partial allocation (only first dimension is preallocated) and VECTOR2 uses full dynamic allocation, having all data spread around the memory and causing many more page fails.
+
+RAW TEST RESULTS, all of them performed with times=10000000:
 
 KIND = "STACK"
 
 --- 1 task
 0.97u 0.00s 0:00.97
 0.96u 0.00s 0:00.97
+0.95u 0.00s 0:00.96
+0.95u 0.00s 0:00.96
 --- 2 tasks
 1.92u 0.00s 0:00.97
 1.91u 0.00s 0:00.96
+1.91u 0.00s 0:00.96
+1.91u 0.00s 0:00.95
 --- 4 tasks
 3.84u 0.00s 0:00.97
 3.88u 0.01s 0:01.02
+3.85u 0.00s 0:00.98
+3.83u 0.00s 0:00.96
 
 KIND = "VECTOR2"
 
 --- 1 task
 13.91u 0.04s 0:13.95
 13.90u 0.02s 0:13.91
+13.95u 0.01s 0:13.96
+13.56u 0.01s 0:13.56
 --- 2 tasks
 168.86u 0.26s 1:24.77
 173.48u 0.23s 1:26.80
+99.08u 0.07s 0:49.68
+170.96u 0.23s 1:25.52
 --- 4 tasks
 677.53u 1.64s 2:50.54
 661.65u 1.85s 2:46.54
+673.75u 1.67s 2:49.27
+649.49u 1.48s 2:43.19
 
 KIND = "VECTOR1"
 
 --- 1 task
 3.56u 0.00s 0:03.56
 3.56u 0.00s 0:03.56
+3.51u 0.03s 0:03.55
+3.54u 0.01s 0:03.55
 --- 2 tasks
 33.84u 0.06s 0:16.96
 31.45u 0.07s 0:15.77
+34.29u 0.07s 0:17.16
+29.18u 0.11s 0:14.66
 --- 4 tasks
 167.56u 0.27s 0:42.52
 158.03u 0.28s 0:41.19
+164.33u 0.46s 0:42.49
+162.53u 0.47s 0:42.55
 
 KIND = "DARRAY"
 
 --- 1 task
 2.00u 0.00s 0:02.01
 2.03u 0.00s 0:02.03
+2.04u 0.01s 0:02.05
+2.02u 0.01s 0:02.04
 --- 2 tasks
 33.83u 0.03s 0:16.93
 32.73u 0.03s 0:16.37
+31.20u 0.04s 0:15.68
+33.65u 0.03s 0:16.90
 --- 4 tasks
 172.93u 0.27s 0:43.38
 172.68u 0.34s 0:44.28
+159.45u 0.32s 0:41.73
+169.26u 0.32s 0:43.20
