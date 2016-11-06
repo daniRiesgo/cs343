@@ -4,6 +4,8 @@
 
 using namespace std;
 
+bool checkInput( const char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
+
 void Voter::main() {
     cout << "wow voter " << id << " was created" << endl;
    // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
