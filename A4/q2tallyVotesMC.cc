@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool checkInput( const char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
+bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
 void Voter::main() {
     cout << "wow voter " << id << " was created" << endl;
@@ -64,7 +64,7 @@ void uMain::main() {
 
 }
 
-bool checkInput( const char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
+bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
     seed = argc == 4 ?           atoi( argv[3] ) : getpid();
     g = argc == 4 || argc == 3 ? atoi( argv[2] ) : 3;
     v = argc >= 2 || argc <= 4 ? atoi( argv[1] ) : 6;
