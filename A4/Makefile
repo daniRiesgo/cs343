@@ -1,8 +1,8 @@
 KIND:=STACK
 TYPE:=MC
 
-CXX = u++					# compiler
-CXXFLAGS = -g -multi -Wall -Wno-unused-label -MMD -O2 -DIMPLKIND_${KIND} -DIMPLTYPE_${TYPE}
+CXX =u++# compiler
+CXXFLAGS =-g -multi -Wall -Wno-unused-label -MMD -O2 -DIMPLKIND_${KIND} -DIMPLTYPE_${TYPE}
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
 OBJECTS01 = q1new.o				# optional build of given program
