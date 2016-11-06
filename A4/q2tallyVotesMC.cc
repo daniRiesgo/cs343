@@ -13,8 +13,8 @@ void Voter::main() {
    // • print finish message
 }
 
-Tour Voter::vote( unsigned int id, Tour ballot ) {
-    return Tour::Picture;
+Tour Voter::vote( unsigned int id, TallyVotes::Tour ballot ) {
+    return TallyVotes::Tour::Picture;
 }
 
 void Printer::main( unsigned int voters ) {
@@ -50,10 +50,10 @@ void uMain::main() {
     Printer p( v );
     TallyVotes tb( g, p );
     Voter *voters[v];
-    Tour ballot;
+    TallyVotes::Tour ballot;
 
     for( size_t i; i < v; ++i ) {
-        ballot = MPRNG( seed )() % 2 ? Tour::Picture : Tour::Statue;
+        ballot = MPRNG( seed )() % 2 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
         voters[i] = new Voter( i, ballot );
     }
 
