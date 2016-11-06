@@ -1,5 +1,3 @@
-#include <iostream>
-#include <ostream>
 #include "q2tallyVotes.h"
 #include "MPRNG.h"
 
@@ -7,29 +5,29 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-void Voter::main() {
-    cout << "wow voter " << id << " was created" << endl;
-   // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   // • print start message
-   // • yield once using yield( times )
-   // • vote (once only)
-   // • yield once
-   // • print finish message
-}
+// void Voter::main() {
+//     cout << "wow voter " << id << " was created" << endl;
+//    // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
+//    // • print start message
+//    // • yield once using yield( times )
+//    // • vote (once only)
+//    // • yield once
+//    // • print finish message
+// }
 
 TallyVotes::Tour Voter::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return TallyVotes::Tour::Picture;
 }
 
-void Printer::main( unsigned int voters ) {
-    for( uint i = 0; i < voters; ++i ) {
-        cout << "Voter" << setw(3) << i;
-    }
-    cout << endl;
-    for( uint i = 0; i < voters; ++i ) {
-        cout << setw(8) << "=======";
-    }
-}
+// void Printer::main( unsigned int voters ) {
+//     for( uint i = 0; i < voters; ++i ) {
+//         cout << "Voter" << setw(3) << i;
+//     }
+//     cout << endl;
+//     for( uint i = 0; i < voters; ++i ) {
+//         cout << setw(8) << "=======";
+//     }
+// }
 
 void uMain::main() {
     L1: {
