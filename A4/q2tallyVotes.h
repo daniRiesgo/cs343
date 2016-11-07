@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include <iomanip>
+#include "MPRNG.h"
 
 using namespace std;
 
@@ -9,7 +10,13 @@ _Monitor Printer;
 #if defined( IMPLTYPE_MC )            // mutex/condition solution
 // includes for this kind of vote-tallier
 class TallyVotes {
-    // private declarations for this kind of vote-tallier
+    // private declarations for MC
+    vector<uint> voted;
+    uOwnerLock lock;
+    uCondLock voters, bargers;
+    bool signaling;
+
+
 #elif defined( IMPLTYPE_SEM )         // semaphore solution
 // includes for this kind of vote-tallier
 class TallyVotes {
@@ -18,19 +25,31 @@ class TallyVotes {
 // includes for this kind of vote-tallier
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
+    void main();
 #else
     #error unsupported voter type
 #endif
     // common declarations
-    uint group;
+    uint groupsize, currentGroup;
     Printer &printer;
-    void main();
+    vector<int> result;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
-      : group(group)
+      : groupsize(group)
       , printer(printer)
+      #if defined( IMPLTYPE_MC )
+      , signaling(false)
+      , currentGroup(0)
+      #elif defined( IMPLTYPE_SEM )
+      #elif defined( IMPLTYPE_BAR )
+      #endif
       {
+          result.push_back(0);
+          #if defined( IMPLTYPE_MC )
+          voted.push_back(0);
+          #elif defined( IMPLTYPE_BAR )
           main();
+          #endif
       };
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
@@ -54,6 +73,7 @@ _Task Voter {
 };
 
 _Monitor Printer {      // chose one of the two kinds of type constructor
+    vector<id, Voter::States> states;
     void main();
     uint voters;
   public:
