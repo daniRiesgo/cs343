@@ -82,11 +82,12 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
 void Printer::main() {
     for( uint i = 0; i < voters; ++i ) {
-        cout << "Voter" << i << (i != voters-1 ? '\t' : endl);
+        cout << "Voter" << i << (i != voters-1 ? "\t" : "\n");
     }
     for( uint i = 0; i < voters; ++i ) {
-        cout << "=======" << (i != voters-1 ? '\t' : endl);
+        cout << "=======" << (i != voters-1 ? "\t" : "");
     }
+    cout << endl;
 }
 
 // Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b', Complete = 'C', Finished = 'F'
@@ -100,11 +101,11 @@ void Printer::printAndFlush() {
                 break;
             }
             case 'B': case 'U': {
-                cout << (char) data[i].state << ' ' << data[i].numBlocked;
+                cout << (char) data[i].state << " " << data[i].numBlocked;
                 break;
             }
             case 'V': {
-                cout << (char) data[i].state << ' ' << data[i].vote ? 'p' : 's';
+                cout << (char) data[i].state << " " << data[i].vote ? "p" : "s";
                 break;
             }
         }
