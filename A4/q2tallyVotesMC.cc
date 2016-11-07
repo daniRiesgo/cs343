@@ -35,7 +35,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
             signaling = false;
             voters.wait( lock );
             if( --voted[currentGroup-1] ) voters.signal();
-            printer.print( id, Voter::States::Unblock, (unsigned int) voted[currentGroup] );
+            printer.print( id, Voter::States::Unblock, (unsigned int) voted[currentGroup-1] );
         }
 
     } _Finally { // exit critical block
