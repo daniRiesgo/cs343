@@ -9,7 +9,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     // print vote
     printer.print( id, Voter::States::Vote, ballot );
     // wait for the rest
-    if( uBarrier::waiters()+1 < uBarrier::total(); ) { // if blocking, print blocking
+    if( uBarrier::waiters()+1 < uBarrier::total() ) { // if blocking, print blocking
         printer.print( id, Voter::States::Block, uBarrier::waiters()+1 );
         block();
         printer.print( id, Voter::States::Unblock, uBarrier::waiters() );
