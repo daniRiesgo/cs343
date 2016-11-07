@@ -11,7 +11,9 @@ uint seed = 0;
 void Voter::main() {
 
    // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   yield( MPRNG(seed)() % 20 );
+   int times = MPRNG(seed)() % 20;
+   cout << "yielding " << times << " times" << endl;
+   yield( times );
 
    // Print start message
    printer.print( id, Voter::States::Start );
