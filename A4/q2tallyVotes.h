@@ -93,7 +93,7 @@ _Monitor Printer {      // chose one of the two kinds of type constructor
         main();
     };
     ~Printer() {
-        cout << "=================" << endl << "All tours started"
+        cout << "=================" << endl << "All tours started" << endl;
     };
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
