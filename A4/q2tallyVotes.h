@@ -31,7 +31,6 @@ _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
     void main();
     int result;
-    uint voted;
 #else
     #error unsupported voter type
 #endif
@@ -48,7 +47,6 @@ _Cormonitor TallyVotes : public uBarrier {
       #elif defined( IMPLTYPE_BAR )
       uBarrier( group ),
       result(0),
-      voted(0),
       #endif
       printer(printer)
 
