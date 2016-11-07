@@ -1,4 +1,5 @@
 #include "q2tallyVotes.h"
+#include <uCobegin.h>
 
 // #define VERBOSE
 
@@ -198,19 +199,19 @@ void uMain::main() {
         // uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
         // #endif
 
-        for( uint i = 0; i < v; ++i ) {
-            voters[i] = new Voter( i, tb, p );
+        COFOR( i, 0, v,
+            Voter( i, tb, p );
             #ifdef VERBOSE
             cout << "Voter " << i << " initialized" << endl;
             #endif
-        }
-
-        for( uint i = 0; i < v; ++i ) {
-            delete voters[i];
-            #ifdef VERBOSE
-            cout << "Voter " << i << " finished" << endl;
-            #endif
-        }
+        );
+        // 
+        // for( uint i = 0; i < v; ++i ) {
+        //     delete voters[i];
+        //     #ifdef VERBOSE
+        //     cout << "Voter " << i << " finished" << endl;
+        //     #endif
+        // }
     }
     #ifdef VERBOSE
     cout << "Exiting program" << endl;
