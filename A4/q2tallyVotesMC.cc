@@ -24,6 +24,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         if(voted[currentGroup] == groupsize) {
             printer.print( id, Voter::States::Complete );
             currentGroup++;
+            --voted[currentGroup];
             voted.push_back(0);
             result.push_back(0);
             voters.signal();
