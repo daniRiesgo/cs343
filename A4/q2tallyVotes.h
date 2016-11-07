@@ -41,15 +41,16 @@ _Cormonitor TallyVotes : public uBarrier {
     TallyVotes( unsigned int group, Printer &printer )
       :
       #if defined( IMPLTYPE_MC )
-       signaling(false),
-       currentGroup(0),
+      groupsize(group),
+      signaling(false),
+      currentGroup(0),
       #elif defined( IMPLTYPE_SEM )
       #elif defined( IMPLTYPE_BAR )
+      uBarrier( group ),
       result(0),
       voted(0),
       #endif
-      groupsize(group)
-      , printer(printer)
+      printer(printer)
 
       {
           #if defined( IMPLTYPE_MC )
