@@ -16,10 +16,12 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     }
     else { // if last, release the Paco
         printer.print( id, Voter::States::Complete );
+        res = result;
+        result = 0;
         block();
     }
 
-    return result > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    return res > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
 
