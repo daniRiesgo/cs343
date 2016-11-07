@@ -26,7 +26,7 @@ class TallyVotes {
 #include <uSemaphore.h>
 class TallyVotes {
     // private declarations for this kind of vote-tallier
-    Tour res;
+    int res;
     uSemaphore lock;
     uBarrier barrier;
     int result;
