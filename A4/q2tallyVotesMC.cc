@@ -123,12 +123,17 @@ void uMain::main() {
 }
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
+    cout << "Entering input check." << endl;
     seed = argc == 4 ?           atoi( argv[3] ) : getpid();
+    cout << "Seed set to " << seed << endl;
     g = argc == 4 || argc == 3 ? atoi( argv[2] ) : 3;
-    v = argc >= 2 || argc <= 4 ? atoi( argv[1] ) : 6;
+    cout << "G set to " << g << endl;
+    v = argc >= 2 && argc <= 4 ? atoi( argv[1] ) : 6;
+    cout << "v set to " << v << endl;
     if( argc > 4 ) {
         cerr << "Usage: vote [ V [ G [ Seed ] ] ]" << endl;
         return false;
     }
+    cout << "Successfully exiting input check" << endl;
     return true;
 }
