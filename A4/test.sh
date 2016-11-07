@@ -1,5 +1,4 @@
-if $1="MC"
-do
+if [ "$1" = "MC" ]; then
     make
     echo "Check bad inputs"
 
@@ -15,7 +14,7 @@ do
     ./vote 9 0
     echo "seed < 0   -> expected usage message"
     ./vote 9 -3 -23
-done
+fi;
 
 make clean
 make vote TYPE=$1
