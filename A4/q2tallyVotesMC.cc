@@ -9,7 +9,7 @@ MPRNG rand();
 void Voter::main() {
 
    // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   yield( rand(0,20) );
+   yield( rand() % 20 );
 
    // Print start message
    printer.print( id, 'S' );
@@ -63,7 +63,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
             printer.print( id, 'B', voted );
             voters.wait( lock );
             if( --voted[currentGroup-1] ) voters.signal();
-            printer.print( id, 'U', (unsigned int) voted[currentGroup] );
+            printer.print( id, 'U', (unsigned int) voted.at[currentGroup] );
         }
 
     } _Finally { // exit critical block

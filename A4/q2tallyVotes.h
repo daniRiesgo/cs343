@@ -74,7 +74,6 @@ _Task Voter {
 };
 
 _Monitor Printer {      // chose one of the two kinds of type constructor
-    vector<id, Voter::States> states;
     void main();
     uint voters;
   public:
