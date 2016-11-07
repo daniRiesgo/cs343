@@ -93,7 +93,7 @@ _Monitor Printer {      // chose one of the two kinds of type constructor
         main();
     };
     ~Printer() {
-        for( size_t i = 0; i < voters; ++i ) delete data[i];
+        // for( size_t i = 0; i < voters; ++i ) delete data[i];
     };
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );

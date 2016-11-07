@@ -96,12 +96,12 @@ void Printer::printAndFlush() {
                 break;
             }
             case 'B': case 'U': {
-                string out(data[i].state + ' ' + data[i].numBlocked);
+                string out = data[i].state + ' ' + data[i].numBlocked;
                 cout << out;
                 break;
             }
             case 'V': {
-                string out(data[i].state + ' ' + (data[i].vote ? 'p' : 's'));
+                string out = data[i].state + ' ' + (data[i].vote ? 'p' : 's');
                 cout << out;
                 break;
             }
