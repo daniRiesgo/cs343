@@ -1,4 +1,4 @@
-#include "q2tallyVotes.c"
+#include "q2tallyVotes.cc"
 #include <uCobegin.h>
 
 using namespace std;
