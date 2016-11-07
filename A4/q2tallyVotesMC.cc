@@ -81,7 +81,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 void Printer::main() {
     for( uint i = 0; i < voters; ++i ) {
         string out = "Voter";
-        out += itoa(i);
+        out += to_string(i);
         int spaces = 8-out.length();
         for(int i = 0; i<spaces; ++i) out += " ";
         cout << out;
