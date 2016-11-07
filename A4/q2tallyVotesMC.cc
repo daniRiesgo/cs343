@@ -64,6 +64,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         }
         else {
             printer.print( id, Voter::States::Block, voted[currentGroup] );
+            cout << "Pero llego" << endl;
             bargers.broadcast();
             signaling = false;
             voters.wait( lock );
