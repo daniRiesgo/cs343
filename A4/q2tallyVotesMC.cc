@@ -79,9 +79,15 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 }
 
 void Printer::main() {
-    for( uint i = 0; i < voters; ++i ) { cout << "Voter" << setw(3) << i; }
+    for( uint i = 0; i < voters; ++i ) {
+        string out = "Voter ";
+        out += i;
+        int spaces = 8-out.length();
+        for(int i = 0; i<spaces; ++i) out += " ";
+        cout << out;
+    }
     cout << endl;
-    for( uint i = 0; i < voters; ++i ) { cout << setw(8) << "======="; }
+    for( uint i = 0; i < voters; ++i ) { cout << "======= "; }
     cout << endl;
 }
 
