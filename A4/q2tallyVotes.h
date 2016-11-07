@@ -12,7 +12,6 @@ _Cormonitor Printer;
 // includes for this kind of vote-tallier
 class TallyVotes {
     // private declarations for MC
-    vector<uint> voted;
     uOwnerLock lock;
     uCondLock voters, bargers;
     bool signaling;
@@ -34,7 +33,8 @@ _Cormonitor TallyVotes : public uBarrier {
     uint groupsize;
     Printer &printer;
     uint currentGroup;
-    vector<int> result;
+    vector<long int> result;
+    vector<uint> voted;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
       :
@@ -49,9 +49,7 @@ _Cormonitor TallyVotes : public uBarrier {
 
       {
           result.push_back(0);
-          #if defined( IMPLTYPE_MC )
           voted.push_back(0);
-          #endif
       };
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
@@ -95,3 +93,97 @@ _Cormonitor Printer {      // chose one of the two kinds of type constructor
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
     void print( unsigned int id, Voter::States state, unsigned int numBlocked );
 };
+
+MPRNG myrand;
+
+void Voter::main() {
+
+   // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
+   yield( myrand() % 20 );
+
+   // Print start message
+   printer.print( id, Voter::States::Start );
+
+   // Yield once
+   yield(1);
+
+   // Vote (once only)
+   TallyVotes::Tour vote = myrand() % 2
+        ? TallyVotes::Tour::Picture
+        : TallyVotes::Tour::Statue;
+
+   vote = tallier.vote( id, vote );
+
+   // Yield once
+   yield(1);
+
+   // Print finish message
+   printer.print( id, Voter::States::Finished, vote );
+
+}
+
+void Printer::main() {
+    for( uint i = 0; i < voters; ++i ) {
+        cout << "Voter" << i << (i != voters-1 ? "\t" : "\n");
+    }
+    for( uint i = 0; i < voters; ++i ) {
+        cout << "=======" << (i != voters-1 ? "\t" : "");
+    }
+    cout << endl;
+}
+
+void Printer::printAndFlush() {
+    for( uint i = 0; i < voters; ++i ) {
+        switch (data[i].state) {
+            case 'S': case 'b': case 'C': {
+                cout << data[i].state;
+                break;
+            }
+            case 'B': case 'U': {
+                cout << (char) data[i].state << " " << data[i].numBlocked;
+                break;
+            }
+            case 'V': {
+                cout << "V " << data[i].vote == TallyVotes::Tour::Picture ? "p" : "s";
+                break;
+            }
+        }
+        if( i != voters-1 ) cout << '\t';
+        data[i].state = 'N';
+    }
+    cout << endl;
+}
+
+void Printer::print( unsigned int id, Voter::States state ) {
+    #ifdef VERBOSE
+    cout << "printer prints id " << id << " state " << (char) state << endl;
+    #endif
+
+    if( data[id].state != 'N' ) printAndFlush();
+    data[id].state = state;
+}
+
+void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
+
+    if( data[id].state != 'N' ) printAndFlush();
+    else if( state == Voter::States::Finished ) {
+        for( uint i = 0; i < voters; ++i ) {
+            if( i == id ) cout << "F " << (vote ? 'p' : 's');
+            else cout << "...";
+            if( i != voters-1 ) cout << "\t";
+            else cout << endl;
+        }
+        return;
+    }
+
+    data[id].state = state;
+    data[id].vote = vote;
+}
+
+void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
+
+    if( data[id].state != 'N' ) printAndFlush();
+    data[id].state = state;
+    data[id].numBlocked = numBlocked;
+
+}
