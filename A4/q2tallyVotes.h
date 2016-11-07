@@ -22,10 +22,11 @@ _Cormonitor TallyVotes : public uBarrier {
     #error unsupported voter type
 #endif
     // common declarations
+    uint group;
     Printer &printer;
     void main();
   public:                             // common interface
-    TallyVotes( unsigned int group, Printer &printer );
+    TallyVotes( unsigned int group, Printer &printer ) : group(group), printer(printer);
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
 };
