@@ -26,7 +26,6 @@ class TallyVotes {
 #include <uSemaphore.h>
 class TallyVotes {
     // private declarations for this kind of vote-tallier
-    int res;
     uSemaphore lock;
     uBarrier barrier;
     int result;
@@ -35,7 +34,6 @@ class TallyVotes {
 #include <uBarrier.h>
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
-    Tour res;
     int result;
 #else
     #error unsupported voter type
@@ -50,12 +48,10 @@ _Cormonitor TallyVotes : public uBarrier {
       signaling(false),
       currentGroup(0),
       #elif defined( IMPLTYPE_SEM )
-      res(0),
       lock( 1 ),
       barrier( group ),
       result(0),
       #elif defined( IMPLTYPE_BAR )
-      res(0),
       uBarrier( group ),
       result(0),
       #endif
