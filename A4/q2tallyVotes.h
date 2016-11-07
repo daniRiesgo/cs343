@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include <iomanip>
+#include <vector>
 #include "MPRNG.h"
 
 using namespace std;
