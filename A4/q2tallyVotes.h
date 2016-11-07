@@ -51,6 +51,7 @@ _Cormonitor TallyVotes : public uBarrier {
           result.push_back(0);
           #if defined( IMPLTYPE_MC )
           voted.push_back(0);
+          #endif
       };
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
