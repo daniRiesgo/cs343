@@ -82,15 +82,11 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
 void Printer::main() {
     for( uint i = 0; i < voters; ++i ) {
-        string out = "Voter";
-        out += to_string(i);
-        int spaces = 8-out.length();
-        for(int i = 0; i<spaces; ++i) out += " ";
-        cout << out;
+        cout << "Voter" << i << (i != voters-1 ? '\t' : endl);
     }
-    cout << endl;
-    for( uint i = 0; i < voters; ++i ) { cout << "======= "; }
-    cout << endl;
+    for( uint i = 0; i < voters; ++i ) {
+        cout << "=======" << (i != voters-1 ? '\t' : endl);
+    }
 }
 
 // Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b', Complete = 'C', Finished = 'F'
@@ -100,35 +96,19 @@ void Printer::printAndFlush() {
         cout << setw(8);
         switch (data[i].state) {
             case 'S': case 'b': case 'C': {
-                string out = "";
-                out += data[i].state;
-                int spaces = 8-out.length();
-                for(int i = 0; i<spaces; ++i) out += " ";
-                cout << out;
+                cout << data[i].state;
                 break;
             }
             case 'B': case 'U': {
-                string out = "";
-                out += data[i].state;
-                out += ' ';
-                out += data[i].numBlocked;
-                int spaces = 8-out.length();
-                for(int i = 0; i<spaces; ++i) out += " ";
-                cout << out;
+                cout << (char) data[i].state << ' ' << data[i].numBlocked;
                 break;
             }
             case 'V': {
-                string out = "";
-                out += data[i].state;
-                out += ' ';
-                out += data[i].vote ? 'p' : 's';
-                int spaces = 8-out.length();
-                for(int i = 0; i<spaces; ++i) out += " ";
-                cout << out;
+                cout << (char) data[i].state << ' ' << data[i].vote ? 'p' : 's';
                 break;
             }
-            default: cout << "        ";
         }
+        cout << '\t';
         data[i].state = 'N';
     }
     cout << endl;
@@ -150,10 +130,11 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote
     if( data[id].state != 'N' ) printAndFlush();
     else if( state == Voter::States::Finished ) {
         for( uint i = 0; i < voters; ++i ) {
-            if( i == id ) cout << "F " << (vote ? 'p' : 's') << "     ";
-            else cout << "...     ";
+            if( i == id ) cout << "F " << (vote ? 'p' : 's');
+            else cout << "...";
+            if( i != voters-1 ) cout << "\t";
+            else cout << endl;
         }
-        cout << endl;
         return;
     }
 
