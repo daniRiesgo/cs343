@@ -76,7 +76,7 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote
     }
     if( state == Voter::States::Finished ) {
         for( uint i = 0; i < voters; ++i ) {
-            if( i == id ) cout << "F " << (vote ? 'p' : 's');
+            if( i == id ) cout << "F " << (vote == TallyVotes::Tour::Picture ? 'p' : 's');
             else cout << "...";
             if( i != voters-1 ) cout << "\t";
             else cout << endl;
