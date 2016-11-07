@@ -94,7 +94,6 @@ void Printer::main() {
 
 void Printer::printAndFlush() {
     for( uint i = 0; i < voters; ++i ) {
-        cout << setw(8);
         switch (data[i].state) {
             case 'S': case 'b': case 'C': {
                 cout << data[i].state;
