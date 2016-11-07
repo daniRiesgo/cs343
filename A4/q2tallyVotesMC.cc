@@ -34,15 +34,15 @@ void Voter::main() {
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if(signaling) { // prevent barging
-
-        printer.print( id, 'b' ); // announce blocking preventing barging
-        bargers.wait(); // wait for the signal, barger!
-
-    } else { signaling = true; }
-
-    lock.adquire(); // enter critical block
+    lock.acquire(); // enter critical block
     try {
+        if( signaling ) { // prevent barging
+
+            printer.print( id, 'b' ); // announce blocking preventing barging
+            bargers.wait( lock ); // wait for the signal, barger!
+
+        }
+        signaling = true;
 
         // register vote
         result[currentGroup] += ballot == TallyVotes::Tour::Picture ? +1 : -1;
@@ -51,26 +51,28 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         // print vote
         printer.print( id, 'V', ballot );
 
+        // syncronize voters so that all get the same result
+        if(voted[currentGroup] == groupsize) {
+            printer.print( id, Voter::States::Complete );
+            currentGroup++;
+            voted.push_back(0);
+            result.push_back(0);
+            voters.signal();
+        }
+        else {
+            printer.print( id, 'B', voted );
+            voters.wait( lock );
+            if( --voted[currentGroup-1] ) voters.signal();
+            printer.print( id, 'U', (unsigned int) voted[currentGroup] );
+        }
+
     } _Finally { // exit critical block
         bargers.broadcast();
         lock.release();
         signaling = false;
     }
 
-    // syncronize voters so that all get the same result
-    if(voted == groupsize) {
-        printer.print( id, 'C' );
-        currentGroup++;
-        voted.push_back(0);
-        result.push_back(0);
-        voters.signal();
-    }
-    else {
-        printer.print( id, 'B', voted );
-        voters.wait();
-        if( --voted[currentGroup-1] ) voters.signal();
-        printer.print( id, 'U', voted[currentGroup] );
-    }
+
 
     return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
