@@ -85,14 +85,67 @@ void Printer::main() {
     cout << endl;
 }
 
+// Start = 'S', Vote = 'V', Block = 'B', Unblock = 'U', Barging = 'b', Complete = 'C', Finished = 'F'
+
+void Printer::printAndFlush() {
+    for( uint i = 0; i < voters; ++i ) {
+        cout << setw(8);
+        switch (data[i]->state) {
+            case 'S': case 'b': case 'C': {
+                cout << (char) data[i]->state;
+                break;
+            }
+            case 'B': case 'U': {
+                string out(data[i]->state + ' ' + data[i]->numBlocked);
+                cout << out;
+                break;
+            }
+            case 'V': {
+                string out(data[i]->state + ' ' + (data[i]->vote ? 'p' : 's'));
+                cout << out;
+                break;
+            }
+            default: cout << " ";
+        }
+        data[i]->state = 'N';
+    }
+    cout << endl;
+}
+
 void Printer::print( unsigned int id, Voter::States state ) {
+    #ifdef VERBOSE
     cout << "printer prints id " << id << " state " << (char) state << endl;
+    #endif
+
+    if( data[id]->state != 'N' ) printAndFlush();
+    data[id]->state = state;
 }
 void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
+    #ifdef VERBOSE
     cout << "printer prints id " << id << " state " << (char) state << " vote " << vote << endl;
+    #endif
+
+    if( data[id]->state != 'N' ) printAndFlush();
+    else if( state == Voter::States::Finished ) {
+        for( uint i = 0; i < voters; ++i ) {
+            cout << setw(8);
+            if( i == id ) cout << "F " << (vote ? 'p' : 's');
+            else cout << "...";
+        }
+        cout << endl;
+        return;
+    }
+
+    data[id]->state = state;
+    data[id]->vote = vote;
 }
 void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
+    #ifdef VERBOSE
     cout << "printer prints id " << id << " state " << (char) state << " numBlocked " << numBlocked << endl;
+    #endif
+
+    if( data[id]->state != 'N' ) printAndFlush();
+    data[id]->numBlocked = numBlocked;
 }
 
 void uMain::main() {

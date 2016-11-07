@@ -78,9 +78,22 @@ _Task Voter {
 
 _Monitor Printer {      // chose one of the two kinds of type constructor
     void main();
-    uint voters;
+    void printAndFlush();
+    struct col {
+        char state;
+        TallyVotes::Tour vote;
+        uint numBlocked;
+    };
+    col *data;
   public:
-    Printer( unsigned int voters ) : voters(voters) {};
+    Printer( unsigned int voters ) : voters(voters)
+    {
+        data = new col[voters];
+        main();
+    };
+    ~Printer() {
+        delete data[];
+    };
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
     void print( unsigned int id, Voter::States state, unsigned int numBlocked );
