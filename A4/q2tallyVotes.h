@@ -22,8 +22,13 @@ class TallyVotes {
 
 #elif defined( IMPLTYPE_SEM )         // semaphore solution
 // includes for this kind of vote-tallier
+#include <uBarrier.h>
+#include <uSemaphore.h>
 class TallyVotes {
     // private declarations for this kind of vote-tallier
+    uSemaphore lock;
+    uBarrier barrier;
+    int result;
 #elif defined( IMPLTYPE_BAR )         // barrier solution
 // includes for this kind of vote-tallier
 #include <uBarrier.h>
@@ -43,6 +48,9 @@ _Cormonitor TallyVotes : public uBarrier {
       signaling(false),
       currentGroup(0),
       #elif defined( IMPLTYPE_SEM )
+      lock( 1 ),
+      barrier( group ),
+      result(0),
       #elif defined( IMPLTYPE_BAR )
       uBarrier( group ),
       result(0),
