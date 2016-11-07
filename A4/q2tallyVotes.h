@@ -143,7 +143,7 @@ void Printer::printAndFlush() {
                 break;
             }
             case 'V': {
-                cout << "V " << (data[i].vote == TallyVotes::Tour::Picture) ? "p" : "s";
+                cout << "V " << ( data[i].vote == TallyVotes::Tour::Picture ? "p" : "s" );
                 break;
             }
         }
