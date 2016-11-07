@@ -96,7 +96,7 @@ void Printer::printAndFlush() {
                 break;
             }
             case 'B': case 'U': {
-                string out = '';
+                string out = "";
                 out += data[i].state;
                 out += ' ';
                 out += data[i].numBlocked;
@@ -104,7 +104,8 @@ void Printer::printAndFlush() {
                 break;
             }
             case 'V': {
-                string out = data[i].state;
+                string out = "";
+                out += data[i].state;
                 out += ' ';
                 out += data[i].vote ? 'p' : 's';
                 cout << out;
