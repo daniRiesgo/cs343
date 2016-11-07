@@ -64,7 +64,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         }
         else {
             printer.print( id, Voter::States::Block, voted[currentGroup] );
-            cout << "Pero llego" << endl;
             bargers.broadcast();
             signaling = false;
             voters.wait( lock );
@@ -167,6 +166,7 @@ void Printer::print( unsigned int id, Voter::States state, unsigned int numBlock
     #endif
 
     if( data[id].state != 'N' ) printAndFlush();
+    data[id].state = state;
     data[id].numBlocked = numBlocked;
 }
 
