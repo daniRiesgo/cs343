@@ -12,7 +12,7 @@ void Voter::main() {
    yield( rand() % 20 );
 
    // Print start message
-   printer.print( id, 'S' );
+   printer.print( id, Voter::States::Start );
 
    // Yield once
    yield(1);
@@ -28,7 +28,7 @@ void Voter::main() {
    yield(1);
 
    // Print finish message
-   printer.print( id, 'F', vote );
+   printer.print( id, Voter::States::Finished, vote );
 
 }
 
@@ -38,7 +38,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     try {
         if( signaling ) { // prevent barging
 
-            printer.print( id, 'b' ); // announce blocking preventing barging
+            printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
             bargers.wait( lock ); // wait for the signal, barger!
 
         }
@@ -49,7 +49,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ++voted[currentGroup];
 
         // print vote
-        printer.print( id, 'V', ballot );
+        printer.print( id, Voter::States::Vote, TallyVotes::Tour::ballot );
 
         // syncronize voters so that all get the same result
         if(voted[currentGroup] == groupsize) {
@@ -60,10 +60,10 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
             voters.signal();
         }
         else {
-            printer.print( id, 'B', voted );
+            printer.print( id, Voter::States::Block, voted );
             voters.wait( lock );
             if( --voted[currentGroup-1] ) voters.signal();
-            printer.print( id, 'U', (unsigned int) voted.at[currentGroup] );
+            printer.print( id, Voter::States::Unblock, (unsigned int) voted.at[currentGroup] );
         }
 
     } _Finally { // exit critical block
@@ -98,6 +98,7 @@ void uMain::main() {
     L1: {
         uint v, g, seed;
         if( !checkInput( argv, argc, g, v, seed ) ) break L1;
+
         rand.seed(seed);
 
         Printer p( v );
