@@ -90,24 +90,24 @@ void Printer::main() {
 void Printer::printAndFlush() {
     for( uint i = 0; i < voters; ++i ) {
         cout << setw(8);
-        switch (data[i]->state) {
+        switch (data[i].state) {
             case 'S': case 'b': case 'C': {
-                cout << (char) data[i]->state;
+                cout << (char) data[i].state;
                 break;
             }
             case 'B': case 'U': {
-                string out(data[i]->state + ' ' + data[i]->numBlocked);
+                string out(data[i]->state + ' ' + data[i].numBlocked);
                 cout << out;
                 break;
             }
             case 'V': {
-                string out(data[i]->state + ' ' + (data[i]->vote ? 'p' : 's'));
+                string out(data[i]->state + ' ' + (data[i].vote ? 'p' : 's'));
                 cout << out;
                 break;
             }
             default: cout << " ";
         }
-        data[i]->state = 'N';
+        data[i].state = 'N';
     }
     cout << endl;
 }
