@@ -9,20 +9,19 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     // print vote
     printer.print( id, Voter::States::Vote, ballot );
     // wait for the rest
-        // if blocking, print blocking
-    if( ++voted < groupsize ) {
+    if( ++voted < groupsize ) { // if blocking, print blocking
         printer.print( id, Voter::States::Block, voted );
         uBarrier.block();
         voted--;
         printer.print( id, Voter::States::Unblock, (unsigned int) voted );
     }
-    else {
+    else { // if last, release the Paco
         --voted;
         printer.print( id, Voter::States::Complete );
         uBarrier.block();
     }
 
-    return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    return result > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
 void uMain::main() {
