@@ -1,5 +1,5 @@
 KIND:=STACK
-TYPE:=d
+TYPE:=MC
 
 CXX =u++# compiler
 CXXFLAGS =-g -std=c++1y -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -DIMPLKIND_${KIND} -DIMPLTYPE_${TYPE}
