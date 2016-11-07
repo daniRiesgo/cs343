@@ -60,6 +60,7 @@ class PRNG {
 // Wrapper members are necessary to obtain mutual exclusion from the sequential base-class.
 
 _Cormonitor MPRNG : public PRNG {
+    void main(){};
   public:
     MPRNG( uint32_t s = 362436069 ) : PRNG( s ) {}
     uint32_t seed() { return PRNG::seed(); }
