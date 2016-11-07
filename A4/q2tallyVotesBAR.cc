@@ -3,7 +3,6 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    TallyVotes::Tour res;
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
     // print vote
