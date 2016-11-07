@@ -117,15 +117,15 @@ void Printer::print( unsigned int id, Voter::States state ) {
     cout << "printer prints id " << id << " state " << (char) state << endl;
     #endif
 
-    if( data[id]->state != 'N' ) printAndFlush();
-    data[id]->state = state;
+    if( data[id].state != 'N' ) printAndFlush();
+    data[id].state = state;
 }
 void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
     #ifdef VERBOSE
     cout << "printer prints id " << id << " state " << (char) state << " vote " << vote << endl;
     #endif
 
-    if( data[id]->state != 'N' ) printAndFlush();
+    if( data[id].state != 'N' ) printAndFlush();
     else if( state == Voter::States::Finished ) {
         for( uint i = 0; i < voters; ++i ) {
             cout << setw(8);
@@ -136,16 +136,16 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote
         return;
     }
 
-    data[id]->state = state;
-    data[id]->vote = vote;
+    data[id].state = state;
+    data[id].vote = vote;
 }
 void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
     #ifdef VERBOSE
     cout << "printer prints id " << id << " state " << (char) state << " numBlocked " << numBlocked << endl;
     #endif
 
-    if( data[id]->state != 'N' ) printAndFlush();
-    data[id]->numBlocked = numBlocked;
+    if( data[id].state != 'N' ) printAndFlush();
+    data[id].numBlocked = numBlocked;
 }
 
 void uMain::main() {
