@@ -15,10 +15,16 @@ class TallyVotes {
     uOwnerLock lock;
     uCondLock voters, bargers;
     bool signaling;
+    uint currentGroup;
+    vector<long int> result;
+    vector<uint> voted;
 
 #elif defined( IMPLTYPE_SEM )         // semaphore solution
 // includes for this kind of vote-tallier
 class TallyVotes {
+    uint currentGroup;
+    vector<long int> result;
+    vector<uint> voted;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_BAR )         // barrier solution
 // includes for this kind of vote-tallier
@@ -31,24 +37,25 @@ _Cormonitor TallyVotes : public uBarrier {
     // common declarations
     uint groupsize;
     Printer &printer;
-    uint currentGroup;
-    vector<long int> result;
-    vector<uint> voted;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
       :
       #if defined( IMPLTYPE_MC )
        signaling(false),
+       currentGroup(0),
       #elif defined( IMPLTYPE_SEM )
       #elif defined( IMPLTYPE_BAR )
+      result(0),
+      voted(0),
       #endif
       groupsize(group)
       , printer(printer)
-      , currentGroup(0)
 
       {
+          #if defined( IMPLTYPE_MC )
           result.push_back(0);
           voted.push_back(0);
+          #endif
       };
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
