@@ -22,6 +22,7 @@ void Voter::main() {
    // Yield once
    yield(1);
 
+   cout << id << " finishes" << endl;
    // Print finish message
    printer.print( id, Voter::States::Finished, vote );
 
