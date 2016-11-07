@@ -31,19 +31,22 @@ _Cormonitor TallyVotes : public uBarrier {
     #error unsupported voter type
 #endif
     // common declarations
-    uint groupsize, currentGroup;
+    uint groupsize;
     Printer &printer;
+    uint currentGroup;
     vector<int> result;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
-      : groupsize(group)
-      , printer(printer)
+      :
       #if defined( IMPLTYPE_MC )
-      , signaling(false)
-      , currentGroup(0)
+       signaling(false),
       #elif defined( IMPLTYPE_SEM )
       #elif defined( IMPLTYPE_BAR )
       #endif
+      groupsize(group)
+      , printer(printer)
+      , currentGroup(0)
+
       {
           result.push_back(0);
           #if defined( IMPLTYPE_MC )
