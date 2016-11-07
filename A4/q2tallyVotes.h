@@ -86,7 +86,8 @@ _Cormonitor Printer {      // chose one of the two kinds of type constructor
         data = new col[voters];
     };
     ~Printer() {
-        cout << "=================" << endl << "All tours started" << endl;
+        string fin = "All tours started";
+        cout << fin.lenght() * "=" << endl << fin << endl;
     };
     void print( unsigned int id, Voter::States state );
     void print( unsigned int id, Voter::States state, TallyVotes::Tour vote );
