@@ -14,6 +14,7 @@ class TallyVotes {
     // private declarations for MC
     uOwnerLock lock;
     uCondLock voters, bargers;
+    uint groupsize;
     bool signaling;
     uint currentGroup;
     vector<long int> result;
@@ -35,7 +36,6 @@ _Cormonitor TallyVotes : public uBarrier {
     #error unsupported voter type
 #endif
     // common declarations
-    uint groupsize;
     Printer &printer;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
