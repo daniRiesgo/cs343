@@ -183,7 +183,7 @@ void uMain::main() {
         cout << "Input checked" << endl;
         #endif
 
-        myrand().seed(seed);
+        myrand::seed(seed);
 
         Printer p( v );
         #ifdef VERBOSE
