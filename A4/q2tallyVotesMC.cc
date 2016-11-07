@@ -1,7 +1,7 @@
 #include "q2tallyVotes.h"
 #include <uCobegin.h>
 
-#define VERBOSE
+// #define VERBOSE
 
 using namespace std;
 
