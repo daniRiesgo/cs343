@@ -21,7 +21,7 @@ void Voter::main() {
 
    // Yield once
    yield(1);
-   
+
    // Print finish message
    printer.print( id, Voter::States::Finished, vote );
 
@@ -94,4 +94,15 @@ void Printer::print( unsigned int id, Voter::States state, unsigned int numBlock
     data[id].state = state;
     data[id].numBlocked = numBlocked;
 
+}
+
+bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
+    seed = argc == 4 ?           atoi( argv[3] ) : getpid();
+    g = argc == 4 || argc == 3 ? atoi( argv[2] ) : 3;
+    v = argc >= 2 && argc <= 4 ? atoi( argv[1] ) : 6;
+    if( argc > 4 ) {
+        cerr << "Usage: vote [ V [ G [ Seed ] ] ]" << endl;
+        return false;
+    }
+    return true;
 }

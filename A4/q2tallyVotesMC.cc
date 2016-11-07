@@ -47,17 +47,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
-bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
-    seed = argc == 4 ?           atoi( argv[3] ) : getpid();
-    g = argc == 4 || argc == 3 ? atoi( argv[2] ) : 3;
-    v = argc >= 2 && argc <= 4 ? atoi( argv[1] ) : 6;
-    if( argc > 4 ) {
-        cerr << "Usage: vote [ V [ G [ Seed ] ] ]" << endl;
-        return false;
-    }
-    return true;
-}
-
 void uMain::main() {
     L1: {
         uint v, g, seed;

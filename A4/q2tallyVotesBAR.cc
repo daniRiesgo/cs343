@@ -1,38 +1,40 @@
-#include "q2TallyVotes.h"
+#include "q2tallyVotes.cc"
+#include <uCobegin.h>
 
-TallyVotes::TallyVotes( unsigned int group, Printer &printer ) {
+TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
+
+    // register vote
+    result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
+    // print vote
+    printer.print( id, Voter::States::Vote, ballot );
+    // wait for the rest
+        // if blocking, print blocking
+    if( ++voted < groupsize ) {
+        printer.print( id, Voter::States::Block, voted );
+        uBarrier.block();
+        voted--;
+        printer.print( id, Voter::States::Unblock, (unsigned int) voted );
+    }
+    else {
+        --voted;
+        printer.print( id, Voter::States::Complete );
+        uBarrier.block();
+    }
+
+    return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
-Voter::Voter( unsigned int id, TallyVotes &voteTallier, Printer &printer ) {
+void uMain::main() {
+    L1: {
+        uint v, g, seed;
+        if( !checkInput( argv, argc, g, v, seed ) ) break L1;
 
-}
+        myrand.seed(seed);
 
-void Voter::main() {
-   // • yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   // • print start message
-   // • yield once using yield( times )
-   // • vote (once only)
-   // • yield once
-   // • print finish message
-}
+        Printer p( v );
+        TallyVotes tb( g, p );
 
-Tour Voter::vote( unsigned int id, Tour ballot ) {
-    return Tour::Picture;
-}
-
-Printer::Printer( unsigned int voters ) {
-
-}
-
-void Printer::print( unsigned int id, Voter::States state ) {
-
-}
-
-void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
-
-}
-
-void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
-
+        COFOR( i, 0, v, Voter a( i, tb, p ); );
+    }
 }
