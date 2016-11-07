@@ -80,7 +80,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
-void Printer::header() {
+void Printer::main() {
     for( uint i = 0; i < voters; ++i ) {
         string out = "Voter";
         out += to_string(i);
@@ -166,7 +166,7 @@ void Printer::print( unsigned int id, Voter::States state, unsigned int numBlock
     #endif
 
     if( data[id].state != 'N' ) printAndFlush();
-    data[id].state = statedata[id].numBlocked = numBlocked;;
+    data[id].state = state;
     data[id].numBlocked = numBlocked;
 }
 

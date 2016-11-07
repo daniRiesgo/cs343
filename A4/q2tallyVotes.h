@@ -73,7 +73,7 @@ _Task Voter {
 };
 
 _Cormonitor Printer {      // chose one of the two kinds of type constructor
-    void header();
+    void main();
     void printAndFlush();
     struct col {
         char state = 'N';
@@ -85,7 +85,7 @@ _Cormonitor Printer {      // chose one of the two kinds of type constructor
   public:
     Printer( unsigned int voters ) : voters(voters)
     {
-        header();
+        main();
         data = new col[voters];
     };
     ~Printer() {
