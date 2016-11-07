@@ -6,7 +6,7 @@
 
 using namespace std;
 
-_Monitor Printer;
+_Cormonitor Printer;
 
 #if defined( IMPLTYPE_MC )            // mutex/condition solution
 // includes for this kind of vote-tallier
