@@ -12,7 +12,7 @@ MPRNG myrand();
 void Voter::main() {
 
    // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   yield( myrand() % 20 );
+   yield( myrand()() % 20 );
 
    // Print start message
    printer.print( id, Voter::States::Start );
@@ -21,7 +21,7 @@ void Voter::main() {
    yield(1);
 
    // Vote (once only)
-   TallyVotes::Tour vote = myrand() % 2
+   TallyVotes::Tour vote = myrand()() % 2
         ? TallyVotes::Tour::Picture
         : TallyVotes::Tour::Statue;
 
@@ -174,7 +174,7 @@ void uMain::main() {
         #ifdef VERBOSE
         cout << "Entering main" << endl;
         #endif
-        uint v, g;
+        uint v, g, seed;
         #ifdef VERBOSE
         cout << "V and G initialized" << endl;
         #endif
