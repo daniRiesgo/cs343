@@ -4,7 +4,7 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-MPRNG *rand;
+MPRNG rand();
 
 void Voter::main() {
 
@@ -45,7 +45,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     try {
 
         // register vote
-        result[currentGroup] = ballot == TallyVotes::Tour::Picture ? result+1 : result-1;
+        result[currentGroup] += ballot == TallyVotes::Tour::Picture ? +1 : -1;
         ++voted[currentGroup];
 
         // print vote
@@ -66,17 +66,13 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         voters.signal();
     }
     else {
-        printed.print( id, 'B', voted );
+        printer.print( id, 'B', voted );
         voters.wait();
         if( --voted[currentGroup-1] ) voters.signal();
         printer.print( id, 'U', voted[currentGroup] );
     }
 
     return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
-}
-
-void TallyVotes::main() {
-
 }
 
 void Printer::main() {
@@ -100,7 +96,7 @@ void uMain::main() {
     L1: {
         uint v, g, seed;
         if( !checkInput( argv, argc, g, v, seed ) ) break L1;
-        rand = new MPRNG(seed);
+        rand.seed(seed);
 
         Printer p( v );
         TallyVotes tb( g, p );
