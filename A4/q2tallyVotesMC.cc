@@ -87,13 +87,13 @@ void Printer::main() {
 }
 
 void Printer::print( unsigned int id, Voter::States state ) {
-    cout << "printer prints id " << id << " state " << state << endl;
+    cout << "printer prints id " << id << " state " << (char) state << endl;
 }
 void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote ) {
-    cout << "printer prints id " << id << " state " << state << " vote " << vote << endl;
+    cout << "printer prints id " << id << " state " << (char) state << " vote " << vote << endl;
 }
 void Printer::print( unsigned int id, Voter::States state, unsigned int numBlocked ) {
-    cout << "printer prints id " << id << " state " << state << " numBlocked " << numBlocked << endl;
+    cout << "printer prints id " << id << " state " << (char) state << " numBlocked " << numBlocked << endl;
 }
 
 void uMain::main() {
