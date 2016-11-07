@@ -4,7 +4,7 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-MPRNG rand(1);
+MPRNG rand;
 
 void Voter::main() {
 
@@ -49,7 +49,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ++voted[currentGroup];
 
         // print vote
-        printer.print( id, Voter::States::Vote, TallyVotes::Tour::ballot );
+        printer.print( id, Voter::States::Vote, ballot );
 
         // syncronize voters so that all get the same result
         if(voted[currentGroup] == groupsize) {
@@ -60,7 +60,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
             voters.signal();
         }
         else {
-            printer.print( id, Voter::States::Block, voted );
+            printer.print( id, Voter::States::Block, voted[currentGroup] );
             voters.wait( lock );
             if( --voted[currentGroup-1] ) voters.signal();
             printer.print( id, Voter::States::Unblock, (unsigned int) voted[currentGroup] );
