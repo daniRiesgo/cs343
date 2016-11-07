@@ -22,7 +22,7 @@ void Voter::main() {
    yield(1);
 
    // Vote (once only)
-   TallyVotes::Tour vote = MPRNG( randomSeed ? time( nullptr ) : seed+ +)() % 2
+   TallyVotes::Tour vote = MPRNG( randomSeed ? time( nullptr ) : seed++ )() % 2
         ? TallyVotes::Tour::Picture
         : TallyVotes::Tour::Statue;
 
