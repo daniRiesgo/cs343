@@ -19,7 +19,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         block();
     }
 
-    return result < 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    return result > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
 
