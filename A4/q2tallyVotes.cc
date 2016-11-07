@@ -22,7 +22,12 @@ void Voter::main() {
    // Yield once
    yield(1);
 
-   cout << id << " finishes, received vote " << (char) vote << endl;
+   cout << id << " finishes, received vote ";
+   switch (vote) {
+       case TallyVotes::Tour::Picture: cout << "Picture";break;
+       case TallyVotes::Tour::Statue: cout << "Statue";break;
+   }
+   cout << endl;
    // Print finish message
    printer.print( id, Voter::States::Finished, vote );
 
