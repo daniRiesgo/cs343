@@ -63,6 +63,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         }
         else {
             printer.print( id, Voter::States::Block, voted[currentGroup] );
+            bargers.broadcast();
             voters.wait( lock );
             if( --voted[currentGroup-1] ) voters.signal();
             printer.print( id, Voter::States::Unblock, (unsigned int) voted[currentGroup] );
@@ -73,8 +74,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         lock.release();
         signaling = false;
     }
-
-
 
     return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
