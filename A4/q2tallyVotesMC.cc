@@ -96,18 +96,30 @@ void Printer::print( unsigned int id, Voter::States state, unsigned int numBlock
 
 void uMain::main() {
     L1: {
+        cout << "Entering main" << endl;
         uint v, g;
+        cout << "V and G initialized" << endl;
         if( !checkInput( argv, argc, g, v, seed ) ) break L1;
+        cout << "Input checked" << endl
 
         Printer p( v );
+        cout << "Printer initialized" << endl;
         TallyVotes tb( g, p );
+        cout << "Tally initialized" << endl;
         Voter *voters[ v ];
+        cout << "Voters initialized" << endl;
 
-        for( size_t i = 0; i < v; ++i ) { voters[i] = new Voter( i, tb, p ); }
+        for( uint i = 0; i < v; ++i ) {
+            voters[i] = new Voter( i, tb, p );
+            cout << "Voter " << i << " initialized" << endl;
+        }
 
-        for( size_t i = 0; i < v; ++i ) { delete voters[i]; }
+        for( uint i = 0; i < v; ++i ) {
+            delete voters[i];
+            cout << "Voter " << i << " finished" << endl;
+        }
     }
-
+    cout << "Exiting program" << endl;
 }
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
