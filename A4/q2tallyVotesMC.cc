@@ -4,7 +4,7 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-uint seed;
+uint seed = 0;
 
 void Voter::main() {
 
@@ -101,7 +101,7 @@ void uMain::main() {
 
         Printer p( v );
         TallyVotes tb( g, p );
-        Voter *voters[v];
+        Voter *voters[ v ];
 
         for( size_t i = 0; i < v; ++i ) { voters[i] = new Voter( i, tb, p ); }
 
