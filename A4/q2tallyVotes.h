@@ -26,7 +26,7 @@ _Cormonitor TallyVotes : public uBarrier {
     Printer &printer;
     void main();
   public:                             // common interface
-    TallyVotes( unsigned int group, Printer &printer ) : group(group), printer(printer);
+    TallyVotes( unsigned int group, Printer &printer ) : group(group), printer(printer) {};
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
 };
