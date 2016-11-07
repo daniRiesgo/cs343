@@ -1,3 +1,4 @@
+#include "q2tallyVotes.h"
 MPRNG myrand;
 
 void Voter::main() {
