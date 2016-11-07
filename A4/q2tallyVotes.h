@@ -51,9 +51,6 @@ _Cormonitor TallyVotes : public uBarrier {
           result.push_back(0);
           #if defined( IMPLTYPE_MC )
           voted.push_back(0);
-          #elif defined( IMPLTYPE_BAR )
-          main();
-          #endif
       };
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
@@ -71,9 +68,7 @@ _Task Voter {
       : id(id)
       , tallier(voteTallier)
       , printer(printer)
-      {
-          main();
-      };
+      {};
 };
 
 _Cormonitor Printer {      // chose one of the two kinds of type constructor
@@ -90,7 +85,6 @@ _Cormonitor Printer {      // chose one of the two kinds of type constructor
     Printer( unsigned int voters ) : voters(voters)
     {
         data = new col[voters];
-        main();
     };
     ~Printer() {
         cout << "=================" << endl << "All tours started" << endl;
