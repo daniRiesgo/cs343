@@ -7,13 +7,12 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-uint seed = 0;
-bool randomSeed;
+MPRNG myrand();
 
 void Voter::main() {
 
    // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   yield( MPRNG( randomSeed ? time( nullptr ) : seed++ )() % 20 );
+   yield( myrand() % 20 );
 
    // Print start message
    printer.print( id, Voter::States::Start );
@@ -22,7 +21,7 @@ void Voter::main() {
    yield(1);
 
    // Vote (once only)
-   TallyVotes::Tour vote = MPRNG( randomSeed ? time( nullptr ) : seed++ )() % 2
+   TallyVotes::Tour vote = myrand() % 2
         ? TallyVotes::Tour::Picture
         : TallyVotes::Tour::Statue;
 
@@ -184,6 +183,8 @@ void uMain::main() {
         cout << "Input checked" << endl;
         #endif
 
+        myrand.seed(seed);
+
         Printer p( v );
         #ifdef VERBOSE
         cout << "Printer initialized" << endl;
@@ -210,7 +211,6 @@ bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed )
     cout << "Entering input check." << endl;
     #endif
     seed = argc == 4 ?           atoi( argv[3] ) : getpid();
-    if( argc != 4 ) randomSeed = true;
     #ifdef VERBOSE
     cout << "Seed set to " << seed << endl;
     #endif
