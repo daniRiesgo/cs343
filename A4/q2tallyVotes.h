@@ -29,7 +29,6 @@ class TallyVotes {
 #include <uBarrier.h>
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
-    void main();
     int result;
 #else
     #error unsupported voter type
