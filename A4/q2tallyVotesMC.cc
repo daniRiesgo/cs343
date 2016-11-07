@@ -8,7 +8,7 @@ using namespace std;
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
 uint seed = 0;
-MPRNG rand(seed);
+MPRNG *rand;
 
 void Voter::main() {
 
@@ -183,7 +183,7 @@ void uMain::main() {
         #ifdef VERBOSE
         cout << "Input checked" << endl;
         #endif
-        rand.seed(seed);
+        rand = new MPRNG(seed);
 
         Printer p( v );
         #ifdef VERBOSE
