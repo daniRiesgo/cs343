@@ -98,7 +98,10 @@ void Printer::printAndFlush() {
         cout << setw(8);
         switch (data[i].state) {
             case 'S': case 'b': case 'C': {
-                cout << (char) data[i].state;
+                string out = to_string(data[i].state);
+                int spaces = 8-out.length();
+                for(int i = 0; i<spaces; ++i) out += " ";
+                cout << out;
                 break;
             }
             case 'B': case 'U': {
@@ -106,6 +109,8 @@ void Printer::printAndFlush() {
                 out += data[i].state;
                 out += ' ';
                 out += data[i].numBlocked;
+                int spaces = 8-out.length();
+                for(int i = 0; i<spaces; ++i) out += " ";
                 cout << out;
                 break;
             }
@@ -114,10 +119,12 @@ void Printer::printAndFlush() {
                 out += data[i].state;
                 out += ' ';
                 out += data[i].vote ? 'p' : 's';
+                int spaces = 8-out.length();
+                for(int i = 0; i<spaces; ++i) out += " ";
                 cout << out;
                 break;
             }
-            default: cout << " ";
+            default: cout << "        ";
         }
         data[i].state = 'N';
     }
@@ -140,9 +147,8 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote
     if( data[id].state != 'N' ) printAndFlush();
     else if( state == Voter::States::Finished ) {
         for( uint i = 0; i < voters; ++i ) {
-            cout << setw(8);
-            if( i == id ) cout << "F " << (vote ? 'p' : 's');
-            else cout << "...";
+            if( i == id ) cout << "F " << (vote ? 'p' : 's') << "     ";
+            else cout << "...     ";
         }
         cout << endl;
         return;
