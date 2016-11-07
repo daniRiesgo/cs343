@@ -7,7 +7,7 @@ using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
-MPRNG myrand();
+MPRNG myrand;
 
 void Voter::main() {
 
