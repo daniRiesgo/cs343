@@ -1,5 +1,7 @@
 #include "q2tallyVotes.h"
 
+#define VERBOSE
+
 using namespace std;
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
@@ -96,44 +98,72 @@ void Printer::print( unsigned int id, Voter::States state, unsigned int numBlock
 
 void uMain::main() {
     L1: {
+        #ifdef VERBOSE
         cout << "Entering main" << endl;
+        #endif
         uint v, g;
+        #ifdef VERBOSE
         cout << "V and G initialized" << endl;
+        #endif
         if( !checkInput( argv, argc, g, v, seed ) ) break L1;
+        #ifdef VERBOSE
         cout << "Input checked" << endl;
+        #endif
 
         Printer p( v );
+        #ifdef VERBOSE
         cout << "Printer initialized" << endl;
+        #endif
         TallyVotes tb( g, p );
+        #ifdef VERBOSE
         cout << "Tally initialized" << endl;
+        #endif
         Voter *voters[ v ];
+        #ifdef VERBOSE
         cout << "Voters initialized" << endl;
+        #endif
 
         for( uint i = 0; i < v; ++i ) {
             voters[i] = new Voter( i, tb, p );
+            #ifdef VERBOSE
             cout << "Voter " << i << " initialized" << endl;
+            #endif
         }
 
         for( uint i = 0; i < v; ++i ) {
             delete voters[i];
+            #ifdef VERBOSE
             cout << "Voter " << i << " finished" << endl;
+            #endif
         }
     }
+    #ifdef VERBOSE
     cout << "Exiting program" << endl;
+    #endif
 }
 
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) {
+    #ifdef VERBOSE
     cout << "Entering input check." << endl;
+    #endif
     seed = argc == 4 ?           atoi( argv[3] ) : getpid();
+    #ifdef VERBOSE
     cout << "Seed set to " << seed << endl;
+    #endif
     g = argc == 4 || argc == 3 ? atoi( argv[2] ) : 3;
+    #ifdef VERBOSE
     cout << "G set to " << g << endl;
+    #endif
     v = argc >= 2 && argc <= 4 ? atoi( argv[1] ) : 6;
+    #ifdef VERBOSE
     cout << "v set to " << v << endl;
+    #endif
     if( argc > 4 ) {
         cerr << "Usage: vote [ V [ G [ Seed ] ] ]" << endl;
         return false;
     }
+    #ifdef VERBOSE
     cout << "Successfully exiting input check" << endl;
+    #endif
     return true;
 }
