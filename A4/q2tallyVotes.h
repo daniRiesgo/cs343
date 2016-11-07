@@ -16,7 +16,6 @@ class TallyVotes {
     uCondLock voters, bargers;
     bool signaling;
 
-
 #elif defined( IMPLTYPE_SEM )         // semaphore solution
 // includes for this kind of vote-tallier
 class TallyVotes {
@@ -144,7 +143,7 @@ void Printer::printAndFlush() {
                 break;
             }
             case 'V': {
-                cout << "V " << data[i].vote == TallyVotes::Tour::Picture ? "p" : "s";
+                cout << "V " << (data[i].vote == TallyVotes::Tour::Picture) ? "p" : "s";
                 break;
             }
         }
