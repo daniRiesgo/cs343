@@ -80,10 +80,11 @@ _Monitor Printer {      // chose one of the two kinds of type constructor
     void main();
     void printAndFlush();
     struct col {
-        char state;
+        char state = 'N';
         TallyVotes::Tour vote;
         uint numBlocked;
     };
+    uint voters;
     col *data;
   public:
     Printer( unsigned int voters ) : voters(voters)
