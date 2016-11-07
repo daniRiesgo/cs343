@@ -80,7 +80,7 @@ void Printer::print( unsigned int id, Voter::States state, TallyVotes::Tour vote
         printAndFlush();
         data[id].state = 'N';
     }
-    else if( state == Voter::States::Finished ) {
+    if( state == Voter::States::Finished ) {
         for( uint i = 0; i < voters; ++i ) {
             if( i == id ) cout << "F " << (vote ? 'p' : 's');
             else cout << "...";
