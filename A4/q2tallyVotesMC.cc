@@ -11,9 +11,7 @@ uint seed = 0;
 void Voter::main() {
 
    // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   int times = MPRNG(seed)() % 20;
-   cout << "yielding " << times << " times" << endl;
-   yield( times );
+   yield( MPRNG(seed)() % 20 );
 
    // Print start message
    printer.print( id, Voter::States::Start );
@@ -196,6 +194,9 @@ void uMain::main() {
         cout << "Voters initialized" << endl;
         #endif
 
+        #ifdef __U_MULTI__
+        uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
+        #endif
 
         for( uint i = 0; i < v; ++i ) {
             voters[i] = new Voter( i, tb, p );
