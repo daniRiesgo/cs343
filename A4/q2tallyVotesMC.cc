@@ -37,6 +37,7 @@ void Voter::main() {
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
+    cout << "arrives " << id;
     lock.acquire(); // enter critical block
     try {
         if( signaling ) { // prevent barging
