@@ -87,7 +87,7 @@ _Cormonitor Printer {      // chose one of the two kinds of type constructor
     };
     ~Printer() {
         string fin = "All tours started";
-        for( char i : fin ) cout << "=";
+        for( : fin ) cout << "=";
         cout << endl << fin << endl;
     };
     void print( unsigned int id, Voter::States state );
