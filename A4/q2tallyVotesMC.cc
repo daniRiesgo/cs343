@@ -37,11 +37,11 @@ void Voter::main() {
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    cout << "arrives " << id;
+
     lock.acquire(); // enter critical block
     try {
         if( signaling ) { // prevent barging
-
+            cout << "arrives " << id << endl;
             printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
             bargers.wait( lock ); // wait for the signal, barger!
 
