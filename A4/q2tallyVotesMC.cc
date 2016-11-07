@@ -23,8 +23,8 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         // syncronize voters so that all get the same result
         if(voted[currentGroup] == groupsize) {
             printer.print( id, Voter::States::Complete );
-            currentGroup++;
             --voted[currentGroup];
+            currentGroup++;
             voted.push_back(0);
             result.push_back(0);
             voters.signal();
