@@ -27,6 +27,8 @@ class TallyVotes {
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
     void main();
+#else
+    #error unsupported voter type
 #endif
     // common declarations
     uint groupsize;
