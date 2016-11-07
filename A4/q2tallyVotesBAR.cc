@@ -3,6 +3,7 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
+    TallyVotes::Tour res;
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
     // print vote
@@ -15,10 +16,12 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     }
     else { // if last, release the Paco
         printer.print( id, Voter::States::Complete );
+        res = result > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+        result = 0;
         block();
     }
 
-    return result > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    return res;
 }
 
 void uMain::main() {
