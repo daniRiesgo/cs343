@@ -65,6 +65,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         else {
             printer.print( id, Voter::States::Block, voted[currentGroup] );
             bargers.broadcast();
+            signaling = false;
             voters.wait( lock );
             if( --voted[currentGroup-1] ) voters.signal();
             printer.print( id, Voter::States::Unblock, (unsigned int) voted[currentGroup] );
@@ -72,8 +73,8 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
     } _Finally { // exit critical block
         bargers.broadcast();
-        lock.release();
         signaling = false;
+        lock.release();
     }
 
     return result[currentGroup-1] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
