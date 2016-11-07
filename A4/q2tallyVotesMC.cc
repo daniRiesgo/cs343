@@ -98,7 +98,8 @@ void Printer::printAndFlush() {
         cout << setw(8);
         switch (data[i].state) {
             case 'S': case 'b': case 'C': {
-                string out = data[i].state;
+                string out = "";
+                out += data[i].state;
                 int spaces = 8-out.length();
                 for(int i = 0; i<spaces; ++i) out += " ";
                 cout << out;
