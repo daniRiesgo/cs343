@@ -25,6 +25,7 @@ class TallyVotes {
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_BAR )         // barrier solution
 // includes for this kind of vote-tallier
+#include <uBarrier.h>
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
     void main();

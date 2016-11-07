@@ -11,14 +11,14 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     // wait for the rest
     if( ++voted < groupsize ) { // if blocking, print blocking
         printer.print( id, Voter::States::Block, voted );
-        uBarrier.block();
+        uBarrier::block();
         voted--;
         printer.print( id, Voter::States::Unblock, (unsigned int) voted );
     }
     else { // if last, release the Paco
         --voted;
         printer.print( id, Voter::States::Complete );
-        uBarrier.block();
+        uBarrier::block();
     }
 
     return result > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
