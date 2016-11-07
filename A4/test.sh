@@ -25,7 +25,5 @@ echo "default values"
 ./vote 6 3 2
 echo "only 1 voter"
 ./vote 1 1 2
-echo "greater number of tasks than processors"
-./vote 125 25 2
-echo "some very big input"
-./vote 3006 501 2
+echo "big number of tasks"
+./vote 21 3 2
