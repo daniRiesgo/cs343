@@ -22,15 +22,14 @@ class TallyVotes {
 #elif defined( IMPLTYPE_SEM )         // semaphore solution
 // includes for this kind of vote-tallier
 class TallyVotes {
-    uint currentGroup;
-    vector<long int> result;
-    vector<uint> voted;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_BAR )         // barrier solution
 // includes for this kind of vote-tallier
 _Cormonitor TallyVotes : public uBarrier {
     // private declarations for this kind of vote-tallier
     void main();
+    int result;
+    uint voted;
 #else
     #error unsupported voter type
 #endif
