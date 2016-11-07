@@ -194,9 +194,9 @@ void uMain::main() {
         cout << "Voters initialized" << endl;
         #endif
 
-        #ifdef __U_MULTI__
-        uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
-        #endif
+        // #ifdef __U_MULTI__
+        // uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
+        // #endif
 
         for( uint i = 0; i < v; ++i ) {
             voters[i] = new Voter( i, tb, p );
