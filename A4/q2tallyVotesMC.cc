@@ -100,7 +100,7 @@ void uMain::main() {
         uint v, g;
         cout << "V and G initialized" << endl;
         if( !checkInput( argv, argc, g, v, seed ) ) break L1;
-        cout << "Input checked" << endl
+        cout << "Input checked" << endl;
 
         Printer p( v );
         cout << "Printer initialized" << endl;
