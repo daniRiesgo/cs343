@@ -13,7 +13,7 @@ bool rand;
 void Voter::main() {
 
    // Yield a random number of times, between 0 and 19 inclusive, so all tasks do not start simultaneously
-   yield( MPRNG( rand ? time() : seed++ )() % 20 );
+   yield( MPRNG( rand ? time( nullptr ) : seed++ )() % 20 );
 
    // Print start message
    printer.print( id, Voter::States::Start );
@@ -22,7 +22,7 @@ void Voter::main() {
    yield(1);
 
    // Vote (once only)
-   TallyVotes::Tour vote = MPRNG( rand ? time() : seed+ +)() % 2
+   TallyVotes::Tour vote = MPRNG( rand ? time( nullptr ) : seed+ +)() % 2
         ? TallyVotes::Tour::Picture
         : TallyVotes::Tour::Statue;
 
