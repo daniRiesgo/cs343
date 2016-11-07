@@ -100,7 +100,7 @@ bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed )
     seed = argc == 4 ?           atoi( argv[3] ) : getpid();
     g = argc == 4 || argc == 3 ? atoi( argv[2] ) : 3;
     v = argc >= 2 && argc <= 4 ? atoi( argv[1] ) : 6;
-    if( argc > 4 ) {
+    if( argc > 4 || v % g || !(g % 2) || v < g || v <= 0 || g <= 0 || seed < 0 ) {
         cerr << "Usage: vote [ V [ G [ Seed ] ] ]" << endl;
         return false;
     }
