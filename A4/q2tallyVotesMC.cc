@@ -8,7 +8,7 @@ using namespace std;
 bool checkInput( char *argv[], const int argc, uint & g, uint & v, uint & seed ) ;
 
 uint seed = 0;
-int() throw () rand = new MPRNG();
+int(seed) throw () rand = new MPRNG();
 
 void Voter::main() {
 
