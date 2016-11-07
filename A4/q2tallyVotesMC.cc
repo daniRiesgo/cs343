@@ -1,7 +1,7 @@
 #include "q2tallyVotes.h"
 #include <uCobegin.h>
 
-// #define VERBOSE
+#define VERBOSE
 
 using namespace std;
 
@@ -190,14 +190,6 @@ void uMain::main() {
         #ifdef VERBOSE
         cout << "Tally initialized" << endl;
         #endif
-        // Voter *voters[ v ];
-        // #ifdef VERBOSE
-        // cout << "Voters initialized" << endl;
-        // #endif
-
-        // #ifdef __U_MULTI__
-        // uProcessor p[3] __attribute__ (( unused )); // create 3 kernel thread for a total of 4
-        // #endif
 
         COFOR( i, 0, v,
             Voter a( i, tb, p );
@@ -205,13 +197,6 @@ void uMain::main() {
             cout << "Voter " << i << " initialized" << endl;
             #endif
         );
-        //
-        // for( uint i = 0; i < v; ++i ) {
-        //     delete voters[i];
-        //     #ifdef VERBOSE
-        //     cout << "Voter " << i << " finished" << endl;
-        //     #endif
-        // }
     }
     #ifdef VERBOSE
     cout << "Exiting program" << endl;
