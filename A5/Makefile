@@ -1,6 +1,6 @@
 KIND:=PAD
 
-CXX =u++# compiler
+CXX =u++ # compiler
 CXXFLAGS =-g -std=c++1y -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -D${KIND}
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
@@ -27,6 +27,7 @@ q1.o : q1.cc				# add flags 1st executable, ADJUST SUFFIX (.cc)
 .PHONY : ${EXEC01}
 ${EXEC01} :
 	touch q1.cc
+	sleep 1
 	${MAKE} ${EXEC01} KIND="${KIND}"
 
 #############################################################
@@ -61,4 +62,4 @@ ${OBJECTS} : ${MAKEFILE_NAME}			# OPTIONAL : changes to this file => recompile
 -include ${DEPENDS}				# include *.d files containing program dependences
 
 clean :						# remove files that can be regenerated
-	rm -f *.d *.o ${EXECS} 
+	rm -f *.d *.o ${EXECS}
