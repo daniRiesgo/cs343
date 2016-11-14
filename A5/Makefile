@@ -15,4 +15,4 @@ $(TARGET) : $(TARGET).cc
 	$(CC) $(CFLAGS) -o $(EXEC) $(TARGET).cc
 
 clean:
-	$(RM) $(TARGET)
+	$(RM) $(EXEC) voteINTB.txt voteTASK.txt

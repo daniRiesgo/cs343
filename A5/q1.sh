@@ -1,15 +1,15 @@
 echo 'Generating executables'
 
-u++ -g -Wall -O2 -multi -nodebug -DPAD -c q1.cc -o countersPad
-u++ -g -Wall -O2 -multi -nodebug -c q1.cc -o countersNoPad
 touch output.txt
+make
+make KIND=PAD
 
 echo 'Timing results without PAD defined'
 
-time -f "%Uu %Ss %E" ./countersNoPad 10000000 >> output.txt
-time -f "%Uu %Ss %E" ./countersNoPad 10000000 >> output.txt
+time -f "%Uu %Ss %E" ./cPAD 10000000 
+time -f "%Uu %Ss %E" ./cPAD 10000000
 
 echo 'Timing results with PAD defined'
 
-time -f "%Uu %Ss %E" ./countersPad 10000000 >> output.txt
-time -f "%Uu %Ss %E" ./countersPad 10000000 >> output.txt
+time -f "%Uu %Ss %E" ./cNPAD 10000000
+time -f "%Uu %Ss %E" ./cNPAD 10000000
