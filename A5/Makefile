@@ -11,7 +11,7 @@ EXEC = c$(KIND)
 
 all: $(TARGET)
 
-$(TARGET) : $(TARGET).c
+$(TARGET) : $(TARGET).cc
 	$(CC) $(CFLAGS) -o $(EXEC) $(TARGET).cc
 
 clean:
