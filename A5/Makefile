@@ -21,7 +21,7 @@ KIND:=NPAD
 TYPE:=INT
 
 CXX =u++# compiler
-CXXFLAGS = -g -std=c++11 -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -DIMPLTYPE_${TYPE}
+CXXFLAGS = -g -std=c++1y -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -DIMPLTYPE_${TYPE}
 MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 
 OBJECTS01 = q1.o # optional build of given program
