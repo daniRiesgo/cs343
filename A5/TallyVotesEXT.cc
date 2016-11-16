@@ -3,6 +3,15 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
+    if( ++voters == groupSize ) _Accept( );
+
+    // register vote
+    result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
+    // print vote
+    printer.print( id, Voter::States::Vote, ballot );
+
+
+
 }
 
 void uMain::main() {
