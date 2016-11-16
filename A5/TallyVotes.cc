@@ -17,8 +17,6 @@ void Voter::main() {
         ? TallyVotes::Tour::Picture
         : TallyVotes::Tour::Statue;
 
-    cout << "Im getting " << myrand() % 2 << endl;
-
    vote = tallier.vote( id, vote );
 
    // Yield once
