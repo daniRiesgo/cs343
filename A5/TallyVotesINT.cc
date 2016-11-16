@@ -15,7 +15,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         current++;
     }
     else cond[current % RES_SIZE].wait();
-    cout << "Taking current = " << current << ", res[current] = " << res[current] << endl;
+    cout << "Taking current = " << current << ", res[current-1] = " << res[current-1] << endl;
 
     return res[current-1 % RES_SIZE] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
