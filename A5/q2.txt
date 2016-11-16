@@ -1,0 +1,13 @@
+In the end, the four angels cannot move because they all are looking straight to the eyes of another angel.
+They cannot move as long as long as someone is looking at them, so they will never move again unless an
+external agent makes an angel look another way, unblocking those angels looking at the first one.
+
+A deadlock occurs when a circular dependency occurs over a resource. For example:
+1. Two processes A and B are blocked.
+2. A is waiting for condition C1 to be met. When it retakes action, condition C2 will be satisfied.
+3. B is waiting for condition C2 to be met. When it retakes action, condition C1 will be satisfied.
+4. A and B will be blocked forever.
+
+A livelock, on the contrary, occurs when both processes actively take action to avoid the previous situation watching the other process, without doing any useful work. An example could be two people that encounter in a door, one coming in and another coming out, both letting the other one go indefinitely.
+
+The angels are waiting for a condition to be met, taking no action trying to cooperate with the others, so this situation is not a livelock. Instead, we are in front of a deadlock.

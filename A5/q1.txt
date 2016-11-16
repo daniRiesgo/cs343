@@ -1,8 +1,13 @@
-The version having the memory optimization is ≈3 times faster. Storing the variables in whole words employs more space in memory, but generates faster memory access for the cache does not need to perform write-backs as often as if a word contained more than one different variables.
+The version having the memory optimization is ≈3 times faster. Storing the variables in whole words employs
+more space in memory, but generates faster memory access for the cache does not need to perform write-backs
+as often as if a word contained more than one different variables.
 
-A long int typically takes 32b, depending on the architecture they can take up to 64b. In the case of the linux environment, they take 32 and thus we observe the difference in performance given that the system has 8-byte words hence containing 2 variables per word.
+A long int typically takes 32b, depending on the architecture they can take up to 64b. In the case of the
+linux environment, they take 32 and thus we observe the difference in performance given that the system has
+8-byte words hence containing 2 variables per word. Here, pad1 and counter1 share a word, while counter2 and pad2 share the next one.
 
-A (void *) cast is needed to print the address and not the actual content of the variable, for there is an overload of the << operator for std::cout that makes the content to be printed instead.
+A (void *) cast is needed to print the address and not the actual content of the variable, for there is an
+overload of the << operator for std::cout that makes the content to be printed instead.
 
 Here we have the raw results of our tests:
 
