@@ -17,7 +17,7 @@ _Monitor TallyVotes {
 #elif defined( IMPLTYPE_INT )          // internal scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    uCondition cond;
+    uCondition cond[RES_SIZE];
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_INTB )         // internal scheduling monitor solution with barging
 // includes for this kind of vote-tallier
