@@ -18,7 +18,7 @@
 # 	$(RM) $(EXEC) voteINTB.txt voteTASK.txt
 
 KIND:=NPAD
-TYPE:=MC
+TYPE:=INT
 
 CXX =u++# compiler
 CXXFLAGS = -g -std=c++11 -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -DIMPLTYPE_${TYPE}
