@@ -41,6 +41,7 @@ _Task TallyVotes {
     Printer &printer;
     int result;
     int res[RES_SIZE];
+    uint current, voters;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
       :
@@ -53,7 +54,9 @@ _Task TallyVotes {
       #endif
       groupSize(group),
       printer(printer),
-      result(0)
+      result(0),
+      current(0),
+      voters(0)
       {
 
       };
