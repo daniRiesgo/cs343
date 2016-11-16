@@ -1,3 +1,12 @@
+#include <iostream>
+#include <ostream>
+#include <iomanip>
+#include "MPRNG.h"
+
+using namespace std;
+
+_Cormonitor Printer;
+
 #define RES_SIZE 2
 
 #if defined( IMPLTYPE_EXT )            // external scheduling monitor solution
