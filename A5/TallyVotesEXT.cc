@@ -12,6 +12,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         printer.print( id, Voter::States::Complete );
         ret = result;
         result = 0;
+        --voted;
     } else {
         printer.print( id, Voter::States::Block, voted );
         _Accept( vote );
