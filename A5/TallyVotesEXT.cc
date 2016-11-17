@@ -8,7 +8,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     // print vote
     printer.print( id, Voter::States::Vote, ballot );
 
-    if( ++voters == groupSize ) {
+    if( ++voted == groupSize ) {
         printer.print( id, Voter::States::Block, voters );
         _Accept( vote );
         printer.print( id, Voter::States::Unblock, --voters );

@@ -17,7 +17,7 @@ _Monitor TallyVotes {
 #elif defined( IMPLTYPE_INT )          // internal scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    uCondition cond[RES_SIZE];
+    uCondition cond[RES_SIZE], enter;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_INTB )         // internal scheduling monitor solution with barging
 // includes for this kind of vote-tallier
@@ -39,9 +39,7 @@ _Task TallyVotes {
     // common declarations
     unsigned int groupSize;
     Printer &printer;
-    int result;
-    int res[RES_SIZE];
-    uint current, voters;
+    int result, ret;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
       :
@@ -55,8 +53,7 @@ _Task TallyVotes {
       groupSize(group),
       printer(printer),
       result(0),
-      current(0),
-      voters(0)
+      ret(0)
       {
 
       };
