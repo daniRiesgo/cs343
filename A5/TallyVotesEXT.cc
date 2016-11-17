@@ -3,15 +3,22 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( ++voters == groupSize ) _Accept( );
-
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
     // print vote
     printer.print( id, Voter::States::Vote, ballot );
 
+    if( ++voters == groupSize ) {
+        printer.print( id, Voter::States::Block, voters );
+        _Accept( vote );
+        printer.print( id, Voter::States::Unblock, --voters );
+    } else {
+        printer.print( id, Voter::States::Complete );
+        ret = result;
+        result = 0;
+    }
 
-
+    return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
 void uMain::main() {
