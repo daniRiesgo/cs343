@@ -9,13 +9,13 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     printer.print( id, Voter::States::Vote, ballot );
 
     if( ++voted == groupSize ) {
-        printer.print( id, Voter::States::Block, voted );
-        _Accept( vote );
-        printer.print( id, Voter::States::Unblock, --voted );
-    } else {
         printer.print( id, Voter::States::Complete );
         ret = result;
         result = 0;
+    } else {
+        printer.print( id, Voter::States::Block, voted );
+        _Accept( vote );
+        printer.print( id, Voter::States::Unblock, --voted );
     }
 
     return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
