@@ -3,30 +3,36 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( voters[current-1 % RES_SIZE] ) {
+    if( voted ) { // another group is being processed!
         enter.wait();
+        // now collaborate and wake those co-voters that tried to vote as well
         for( size_t i = 1; (i < groupSize) && !enter.empty() ; ++i ) enter.signal();
     }
-
-    ++voters[current % RES_SIZE];
 
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
     // print vote
     printer.print( id, Voter::States::Vote, ballot );
 
-    if( voters[current % RES_SIZE] == groupSize ) {
-        res[current % RES_SIZE] = result;
-        result = 0;
-        for( ; !cond[current % RES_SIZE].empty() ;  ) cond[current % RES_SIZE].signal();
-        current++;
-    }
-    else {
-        cond[current % RES_SIZE].wait();
-    }
-    cout << "Taking current = " << current << ", res[current-1] = " << res[current-1] << endl;
+    if( ++voted == groupSize ) {
+        // Voting results are ready! End poll.
+        printer.print( id, Voter::States::Complete );
 
-    if( ! --voters[current-1 % RES_SIZE] ) enter.signal();
+        ret = result; // we don't want our result to be altered by the next poll
+        result = 0; // nor alter the next poll with our own result
+
+        // let's unblock our mates
+        for( size_t i = 1; (i < groupSize) && !cond.empty() ; ++i ) cond.signal();
+    } else {
+        // wait until the result is ready
+        printer.print( id, Voter::States::Block, voted );
+        cond.wait();
+        // out! Tell the Printer that we are done waiting, and how many are left to be.
+        printer.print( id, Voter::States::Unblock, voted - 1 );
+    }
+
+    // Group is all set! Let the next one begin the poll.
+    if( !--voted ) enter.signal();
 
     return res[current-1 % RES_SIZE] > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
