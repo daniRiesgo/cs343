@@ -12,7 +12,6 @@ _Cormonitor Printer;
 #if defined( IMPLTYPE_EXT )            // external scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    uint voted;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_INT )          // internal scheduling monitor solution
 // includes for this kind of vote-tallier
@@ -39,12 +38,12 @@ _Task TallyVotes {
     // common declarations
     unsigned int groupSize;
     Printer &printer;
+    uint voted;
     int result, ret;
   public:                             // common interface
     TallyVotes( unsigned int group, Printer &printer )
       :
       #if   defined( IMPLTYPE_EXT )
-      voted(0),
       #elif defined( IMPLTYPE_INT )
       #elif defined( IMPLTYPE_INTB )
       #elif defined( IMPLTYPE_AUTO )
@@ -52,6 +51,7 @@ _Task TallyVotes {
       #endif
       groupSize(group),
       printer(printer),
+      voted(0),
       result(0),
       ret(0)
       {
