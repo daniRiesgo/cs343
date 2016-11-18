@@ -7,8 +7,6 @@ using namespace std;
 
 _Cormonitor Printer;
 
-#define RES_SIZE 2
-
 #if defined( IMPLTYPE_EXT )            // external scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
@@ -16,7 +14,7 @@ _Monitor TallyVotes {
 #elif defined( IMPLTYPE_INT )          // internal scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    uCondition cond[RES_SIZE], enter;
+    uCondition cond, enter;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_INTB )         // internal scheduling monitor solution with barging
 // includes for this kind of vote-tallier

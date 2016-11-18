@@ -34,7 +34,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     // Group is all set! Let the next one begin the poll.
     if( !--voted ) enter.signal();
 
-    return res > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
 
 void uMain::main() {
