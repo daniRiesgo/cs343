@@ -3,16 +3,6 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    // if( justASec ) { // a group is already being processed
-    //     enter.wait();
-    //     if( !wakingUp ) {
-    //         justASec = false;
-    //         wakingUp = true;
-    //         for( size_t i = 1; (i < groupSize) && !enter.empty() ; ++i ) enter.signal();
-    //         wakingUp = false;
-    //     }
-    // }
-
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
     // print vote
@@ -23,12 +13,12 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         printer.print( id, Voter::States::Complete );
 
         ret = result; // we don't want our result to be altered by the next poll
-        result = 0; // let the next group know that the variable is ready to be used
+        result = 0; // nor alter the other poll's result!
         voted = 0;
-        int top = blocked;
 
         // let's unblock our mates
-        for( int i = 0; i < top ; ++i ) cond.signal();
+        // signal makes the signalled take the context, don't let them ruin our collaborative work!
+        for( int i = blocked; i > 0 ; --i ) cond.signal();
     } else {
         // wait until the result is ready
         printer.print( id, Voter::States::Block, ++blocked );
