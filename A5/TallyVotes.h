@@ -15,7 +15,6 @@ _Monitor TallyVotes {
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
     uCondition cond, enter;
-    bool justASec, wakingUp;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_INTB )         // internal scheduling monitor solution with barging
 // includes for this kind of vote-tallier
@@ -44,8 +43,6 @@ _Task TallyVotes {
       :
       #if   defined( IMPLTYPE_EXT )
       #elif defined( IMPLTYPE_INT )
-      justASec(false),
-      wakingUp(false),
       #elif defined( IMPLTYPE_INTB )
       #elif defined( IMPLTYPE_AUTO )
       #elif defined( IMPLTYPE_TASK )

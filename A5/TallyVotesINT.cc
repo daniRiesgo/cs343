@@ -24,10 +24,9 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
         ret = result; // we don't want our result to be altered by the next poll
         result = 0; // let the next group know that the variable is ready to be used
+        voted = 0;
 
         // let's unblock our mates
-        // justASec = true;
-        // for( size_t i = 1; (i < groupSize) && !cond.empty() ; ++i )
         cond.signal();
     } else {
         // wait until the result is ready
@@ -36,10 +35,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         // out! Tell the Printer that we are done waiting, and how many are left to be.
         printer.print( id, Voter::States::Unblock, voted - 1 );
     }
-
-    // Group is all set! Let the next one begin the poll.
-    // if( !--voted ) enter.signal();
-    --voted;
 
     return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
