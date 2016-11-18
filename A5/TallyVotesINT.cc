@@ -28,7 +28,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         int top = blocked;
 
         // let's unblock our mates
-        for( size_t i = 1; i < top ; ++i ) cond.signal();
+        for( int i = 0; i < top ; ++i ) cond.signal();
     } else {
         // wait until the result is ready
         printer.print( id, Voter::States::Block, ++blocked );
