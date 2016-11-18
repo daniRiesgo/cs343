@@ -3,15 +3,13 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    // if( voted ) { // a group is already being processed
-    //     if( result == 1+groupSize ) { // and it is not ours!
-    //         enter.wait();
-    //         // if we are the first voter in the group, collaborate and wake
-    //         // those co-voters that were blocked with us
-    //         if( result == 1+groupSize ) {
-    //             result = 0;
-    //             for( size_t i = 1; (i < groupSize) && !enter.empty() ; ++i ) enter.signal();
-    //         }
+    // if( justASec ) { // a group is already being processed
+    //     enter.wait();
+    //     if( !wakingUp ) {
+    //         justASec = false;
+    //         wakingUp = true;
+    //         for( size_t i = 1; (i < groupSize) && !enter.empty() ; ++i ) enter.signal();
+    //         wakingUp = false;
     //     }
     // }
 
@@ -28,7 +26,9 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         result = 0; // let the next group know that the variable is ready to be used
 
         // let's unblock our mates
-        for( size_t i = 1; (i < groupSize) && !cond.empty() ; ++i ) cond.signal();
+        // justASec = true;
+        // for( size_t i = 1; (i < groupSize) && !cond.empty() ; ++i )
+        cond.signal();
     } else {
         // wait until the result is ready
         printer.print( id, Voter::States::Block, voted );
@@ -39,6 +39,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
     // Group is all set! Let the next one begin the poll.
     // if( !--voted ) enter.signal();
+    --voted;
 
     return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
