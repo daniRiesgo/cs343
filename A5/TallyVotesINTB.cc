@@ -27,7 +27,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         // take a ticket
         int ticket = provider++;
         while( ticket != counter ) wait(); // wait for the signal, barger!
-        counter++;
+        if( ++counter+1 = provider ) signaling = false;
     }
 
     // register vote
@@ -59,7 +59,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     if( ! --toGo ) {
         ++counter;
         signalAll();
-        signaling = false;
     }
 
     return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
