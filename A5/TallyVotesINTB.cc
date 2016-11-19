@@ -50,6 +50,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
     if( ! blocked ) {
         ++counter;
+        signaling = false;
         signalAll();
     }
 
