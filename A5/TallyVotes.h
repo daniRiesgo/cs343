@@ -28,7 +28,9 @@ _Monitor TallyVotes {
     bool signaling;
 #elif defined( IMPLTYPE_AUTO )         // automatic-signal monitor solution
 // includes for this kind of vote-tallier
+#include "AutomaticSignal.h"
 _Monitor TallyVotes {
+    AUTOMATIC_SIGNAL;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_TASK )         // internal/external scheduling task solution
 _Task TallyVotes {
