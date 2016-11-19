@@ -31,6 +31,7 @@ _Monitor TallyVotes {
 #include "AutomaticSignal.h"
 _Monitor TallyVotes {
     AUTOMATIC_SIGNAL;
+    bool resultIsReady;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_TASK )         // internal/external scheduling task solution
 _Task TallyVotes {
@@ -55,6 +56,7 @@ _Task TallyVotes {
       provider(0),
       signaling(false),
       #elif defined( IMPLTYPE_AUTO )
+      resultIsReady(false);
       #elif defined( IMPLTYPE_TASK )
       #endif
       groupSize(group),
