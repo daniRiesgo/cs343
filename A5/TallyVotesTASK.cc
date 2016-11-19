@@ -33,6 +33,7 @@ void TallyVotes::main() {
             // signal makes the signalled take the context, don't let them ruin our collaborative work!
             for( uint i = blocked; i > 0 ; --i ) cond.signalBlock();
             _Accept( ~TallyVotes ) {
+                break;
             } or _Accept( vote ) {
                 continue;
             }
