@@ -11,10 +11,57 @@ void TallyVotes::wait() {
 }
 
 void TallyVotes::signalAll() {
-    while ( ! bench.empty() ) bench.signal();\(}\Tab{44}{\)// drain the condition
+    while ( ! bench.empty() ) bench.signal(); // drain the condition
 }
 
-TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot );
+/* Things I'll use!
+
+uint counter -> stores the next ticket to be handed out => Assumes no overflow
+
+*/
+
+TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
+
+    if( stop ) { // prevent barging
+        if( toGo ) printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
+        // take a ticket
+        int ticket = provider++;
+        while( ticket != counter ) wait(); // wait for the signal, barger!
+        counter++;
+        if( provider+1 == counter ) stop = false;
+    }
+
+    // register vote
+    result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
+    // print vote
+    printer.print( id, Voter::States::Vote, ballot );
+
+    if( ++voted == groupSize ) {
+        // Voting results are ready! End poll.
+        printer.print( id, Voter::States::Complete );
+
+        ret = result; // we don't want our result to be altered by the next poll
+        result = 0; // nor alter the other poll's result!
+        voted = 0;
+        toGo = blocked + 1;
+        stop = true;
+
+        // let's unblock our mates
+        signalAll();
+
+    } else {
+
+        // wait until the result is ready
+        printer.print( id, Voter::States::Block, ++blocked );
+        wait();
+        // out! Tell the Printer that we are done waiting, and how many are left to be.
+        printer.print( id, Voter::States::Unblock, --blocked );
+    }
+
+    if( ! --toGo ) ++counter;
+
+    return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+}
 
 void uMain::main() {
     L1: {

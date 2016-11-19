@@ -19,7 +19,9 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         // let's unblock our mates
         // signal makes the signalled take the context, don't let them ruin our collaborative work!
         for( int i = blocked; i > 0 ; --i ) cond.signal();
+
     } else {
+
         // wait until the result is ready
         printer.print( id, Voter::States::Block, ++blocked );
         cond.wait();
