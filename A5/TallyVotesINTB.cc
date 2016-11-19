@@ -29,7 +29,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         wait(); // wait for your turn, barger!
         cout << "I got released " << id << endl;
     }
-    if( blocked != groupSize-1 ) counter++;
+    counter++;
 
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
@@ -44,6 +44,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         result = 0; // nor alter the other poll's result!
         voted = 0;
         signaling = true;
+        --counter;
 
         // let's unblock our mates
         signalAll();
