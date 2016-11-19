@@ -17,7 +17,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         voted = 0;
 
         // let's unblock our mates
-        // signal makes the signalled take the context, don't let them ruin our collaborative work!
         for( int i = blocked; i > 0 ; --i ) cond.signal();
 
     } else {

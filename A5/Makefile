@@ -1,5 +1,5 @@
 KIND:=NPAD
-TYPE:=INT
+TYPE:=EXT
 
 CXX =u++# compiler
 CXXFLAGS = -g -std=c++1y -multi -nodebug -Wall -Wno-unused-label -MMD -O2 -DIMPLTYPE_${TYPE}

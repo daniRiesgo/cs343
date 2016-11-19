@@ -14,7 +14,7 @@ _Monitor TallyVotes {
 #elif defined( IMPLTYPE_INT )          // internal scheduling monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
-    uCondition cond, enter;
+    uCondition cond;
     int blocked;
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_INTB )         // internal scheduling monitor solution with barging
@@ -69,9 +69,7 @@ _Task TallyVotes {
       voted(0),
       result(0),
       ret(0)
-      {
-
-      };
+      {};
     enum Tour { Picture, Statue };
     Tour vote( unsigned int id, Tour ballot );
   };

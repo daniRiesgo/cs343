@@ -16,23 +16,20 @@ void TallyVotes::signalAll() {
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( signaling ) {
-        // cout << "ID: " << id << " barging." << endl;
-        printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
-    }
+    // announce blocking preventing barging only once
+    if( signaling ) printer.print( id, Voter::States::Barging );
 
     // take a ticket
     uint ticket = provider++;
+
+    // enter resources only when our turn
     while( ticket != counter ) {
-        // cout << "ID: " << id << " blocked barging.";
-        // cout << "T: " << ticket << ", C: " << counter << ", B: " << blocked << endl;
         wait(); // wait for your turn, barger!
         signalAll(); // release the rest of the bargers
-        // cout << "ID: " << id << " signalled to unblock from barging.";
-        // cout << "T: " << ticket << ", C: " << counter << ", B: " << blocked << endl;
     }
+
+    // update the counter
     ++counter;
-    // cout << "ID: " << id << " updates C: " << counter << endl;
 
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
@@ -46,30 +43,32 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ret = result; // we don't want our result to be altered by the next poll
         result = 0; // nor alter the other poll's result!
         voted = 0;
-        signaling = true;
-        --counter;
+
+        signaling = true; // new tasks coming will be bargers until result is retrieved by all voters
+        --counter; // prevent bargers from getting in
 
         // let's unblock our mates
         signalAll();
+
     } else {
 
         // wait until the result is ready
         printer.print( id, Voter::States::Block, ++blocked );
+
+        // if some of our co-voters were bargers, this will prevent us from getting
+        // a too-early result
         uint nowBlocked = blocked;
-        do {
-            // cout << "ID: " << id << " blocked waiting for result." << endl;
-            wait();
-        } while( counter < ( ticket + groupSize - nowBlocked ) );
-        // cout << "ID: " << id << " released, retrieving result." << endl;
+        do { wait(); } while( counter < ( ticket + groupSize - nowBlocked ) );
+
         // out! Tell the Printer that we are done waiting, and how many are left to be.
         printer.print( id, Voter::States::Unblock, --blocked );
     }
 
+    // voting is secure. Let a new poll begin
     if( ! blocked ) {
-        ++counter;
-        signaling = false;
-        // cout << "Releasing the bargers." << endl;
-        signalAll();
+        ++counter; // let first unblocked barger begin execution
+        signaling = false; // new arrivals are not bargers anymore
+        signalAll(); // wake up the bargers
     }
 
     return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
