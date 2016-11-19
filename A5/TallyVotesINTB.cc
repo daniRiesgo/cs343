@@ -27,6 +27,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         cout << "They blocked me " << id;
         cout << ". ticket " << ticket << ", counter " << counter << " and blocked " << blocked << endl;
         wait(); // wait for your turn, barger!
+        cout << "I got released " << id << cout;
     }
     if( blocked != groupSize-1 ) counter++;
 
