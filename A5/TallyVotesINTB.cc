@@ -60,6 +60,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
             cout << "Blocked down here " << id << endl;
             wait();
         }
+        cout << "Fuck this shit " << id << " is out." << endl;
         // out! Tell the Printer that we are done waiting, and how many are left to be.
         printer.print( id, Voter::States::Unblock, --blocked );
     }
