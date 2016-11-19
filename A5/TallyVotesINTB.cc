@@ -32,6 +32,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ++counter;
     }
     ++counter;
+    cout << "now counter is " << counter << " because " << id << " updated it." << endl;
 
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
