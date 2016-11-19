@@ -14,21 +14,14 @@ void TallyVotes::signalAll() {
     while ( ! bench.empty() ) bench.signal(); // drain the condition
 }
 
-/* Things I'll use!
-
-uint counter -> stores the next ticket to be handed out => Assumes no overflow
-
-*/
-
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( signaling ) { // prevent barging
-        printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
-        // take a ticket
-        int ticket = ++provider;
-        while( ticket != counter ) wait(); // wait for the signal, barger!
-        if( ++counter == provider ) signaling = false;
-    }
+    if( signaling ) printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
+
+    // take a ticket
+    int ticket = provider++;
+    while( ticket != counter ) wait(); // wait for your turn, barger!
+    if( blocked != groupSize-1 ) counter++;
 
     // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
@@ -42,7 +35,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ret = result; // we don't want our result to be altered by the next poll
         result = 0; // nor alter the other poll's result!
         voted = 0;
-        toGo = blocked + 1;
         signaling = true;
 
         // let's unblock our mates
@@ -56,7 +48,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         printer.print( id, Voter::States::Unblock, --blocked );
     }
 
-    if( 1 == --toGo ) {
+    if( ! blocked ) {
         ++counter;
         signalAll();
     }
