@@ -16,11 +16,17 @@ void TallyVotes::signalAll() {
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( signaling ) printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
+    if( signaling ) {
+        cout << "They see me bargin" << endl;
+        printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
+    }
 
     // take a ticket
     uint ticket = provider++;
-    while( ticket != counter ) wait(); // wait for your turn, barger!
+    while( ticket != counter ) {
+        cout << "They blocked me" << endl;
+        wait(); // wait for your turn, barger!
+    }
     if( blocked != groupSize-1 ) counter++;
 
     // register vote
