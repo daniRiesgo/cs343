@@ -52,7 +52,7 @@ _Task TallyVotes {
       counter(1),
       provider(0),
       toGo(0),
-      stop(false),
+      signaling(false),
       #elif defined( IMPLTYPE_AUTO )
       #elif defined( IMPLTYPE_TASK )
       #endif
