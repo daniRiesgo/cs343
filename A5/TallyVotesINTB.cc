@@ -19,7 +19,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     if( signaling ) printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
 
     // take a ticket
-    int ticket = provider++;
+    uint ticket = provider++;
     while( ticket != counter ) wait(); // wait for your turn, barger!
     if( blocked != groupSize-1 ) counter++;
 
