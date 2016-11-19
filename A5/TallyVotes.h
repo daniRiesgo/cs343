@@ -35,6 +35,7 @@ _Monitor TallyVotes {
     // private declarations for this kind of vote-tallier
 #elif defined( IMPLTYPE_TASK )         // internal/external scheduling task solution
 _Task TallyVotes {
+    void main();
     // private declarations for this kind of vote-tallier
 #else
     #error unsupported voter type
