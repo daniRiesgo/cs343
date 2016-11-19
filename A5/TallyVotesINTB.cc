@@ -22,8 +22,8 @@ uint counter -> stores the next ticket to be handed out => Assumes no overflow
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( stop ) { // prevent barging
-        if( toGo ) printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
+    if( stop && toGo ) { // prevent barging
+        printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
         // take a ticket
         int ticket = provider++;
         while( ticket != counter ) wait(); // wait for the signal, barger!
