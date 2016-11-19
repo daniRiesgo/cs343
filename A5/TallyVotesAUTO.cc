@@ -12,11 +12,14 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ret = result;
         result = 0;
         --voted;
+        resultIsReady = true;
     } else {
         printer.print( id, Voter::States::Block, voted );
-        WAITUNTIL();
+        WAITUNTIL( resultIsReady, , );
         printer.print( id, Voter::States::Unblock, --voted );
     }
+
+    if ( ! voted ) resultIsReady = false;
 
     RETURN( ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue );
 }
