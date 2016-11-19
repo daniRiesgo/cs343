@@ -22,13 +22,12 @@ uint counter -> stores the next ticket to be handed out => Assumes no overflow
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    if( stop && toGo ) { // prevent barging
+    if( signaling ) { // prevent barging
         printer.print( id, Voter::States::Barging ); // announce blocking preventing barging
         // take a ticket
         int ticket = provider++;
         while( ticket != counter ) wait(); // wait for the signal, barger!
         counter++;
-        if( provider+1 == counter ) stop = false;
     }
 
     // register vote
@@ -44,11 +43,10 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         result = 0; // nor alter the other poll's result!
         voted = 0;
         toGo = blocked + 1;
-        stop = true;
+        signaling = true;
 
         // let's unblock our mates
         signalAll();
-
     } else {
 
         // wait until the result is ready
@@ -58,7 +56,11 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         printer.print( id, Voter::States::Unblock, --blocked );
     }
 
-    if( ! --toGo ) ++counter;
+    if( ! --toGo ) {
+        ++counter;
+        signalAll();
+        signaling = false;
+    }
 
     return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
 }
