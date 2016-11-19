@@ -36,6 +36,7 @@ _Monitor TallyVotes {
 #elif defined( IMPLTYPE_TASK )         // internal/external scheduling task solution
 _Task TallyVotes {
     void main();
+    uint lastid;
     // private declarations for this kind of vote-tallier
 #else
     #error unsupported voter type
@@ -59,6 +60,7 @@ _Task TallyVotes {
       #elif defined( IMPLTYPE_AUTO )
       resultIsReady(false),
       #elif defined( IMPLTYPE_TASK )
+      lastid(0),
       #endif
       groupSize(group),
       printer(printer),

@@ -10,6 +10,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     printer.print( id, Voter::States::Vote, ballot );
     // wait until the result is ready
     printer.print( id, Voter::States::Block, ++blocked );
+    lastid = id;
     cond.wait();
     // out! Tell the Printer that we are done waiting, and how many are left to be.
     printer.print( id, Voter::States::Unblock, --blocked );
@@ -18,9 +19,9 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 }
 
 void TallyVotes::main() {
-    try {
+    for( ;; ) {
         if( voted == groupSize ) {
-            printer.print( id, Voter::States::Complete );
+            printer.print( lastid, Voter::States::Complete );
 
             ret = result; // we don't want our result to be altered by the next poll
             result = 0; // nor alter the other poll's result!
@@ -31,9 +32,7 @@ void TallyVotes::main() {
             for( int i = blocked; i > 0 ; --i ) cond.signalBlock();
         }
         _Accept( mem );
-    } catch( uMutexFailure::RendezvousFailure ) { // implicitly enabled
-        // deal with rendezvous failure
-    } // try
+    }
 }
 
 void uMain::main() {
