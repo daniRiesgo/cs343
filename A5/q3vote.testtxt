@@ -2,30 +2,10 @@ For each of the version, we performed three different tests evaluating three dif
 scenarios, plus an extra battery of tests checking bad input values. All tests were
 passed, where passing means that every sequence makes sense, dividing the voters among
 the correct number of groups and producing coherent results of the polls. Below, the
-output of each of the versions of the program can be found.
+output of each of the versions of the program can be found. Input check was performed in
+the previous assignment, so results were omitted in this file.
 
--------- Test results for bad inputs --------
-// shared function among versions, checked with TYPE = "EXT"
-
-V % G != 0 -> expected usage message
-Usage: vote [ V [ G [ Seed ] ] ]
-
-V < G      -> expected usage message
-Usage: vote [ V [ G [ Seed ] ] ]
-
-G % 2 == 0 -> expected usage message
-Usage: vote [ V [ G [ Seed ] ] ]
-
-V <= 0     -> expected usage message
-Usage: vote [ V [ G [ Seed ] ] ]
-
-G <= 0     -> expected usage message
-Usage: vote [ V [ G [ Seed ] ] ]
-
-seed < 0   -> expected usage message
-Usage: vote [ V [ G [ Seed ] ] ]
-
----------- Test results for type=EXT
+---------- Test results for type=EXT --------
 
 -------------- Default values ---------------
 
@@ -459,83 +439,5 @@ B 1
 C
 U 0
 F p
-=================
-All tours started
-
-------------- Big number of tasks -------------
-
-Voter0	Voter1	Voter2	Voter3	Voter4	Voter5	Voter6	Voter7	Voter8	Voter9	Voter10	Voter11	Voter12	Voter13	Voter14	Voter15	Voter16	Voter17	Voter18	Voter19	Voter20
-=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======	=======
-							S					S		S
-												V s
-			S					S				B 1	S	V p	S					S
-							V s			S	S			B 2				S
-							B 3
-							C					U 2				S
-...	...	...	...	...	...	...	...	...	...	...	...	F s	...	...	...	...	...	...	...	...
-														U 1					S
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	F s	...	...	...	...	...	...
-							U 0
-...	...	...	...	...	...	...	F s	...	...	...	...	...	...	...	...	...	...	...	...	...
-		S			S	S							V s
-				S									B 1		V p
-S			V s						S						B 2
-	S		B 3
-			C										U 2				S
-...	...	...	...	...	...	...	...	...	...	...	...	...	F s	...	...	...	...	...	...	...
-															U 1
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	F s	...	...	...	...	...
-			U 0
-...	...	...	F s	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-																				V s
-								V s												B 1
-								B 2										V p
-																		B 3
-																		C		U 2
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	F s
-								U 1
-...	...	...	...	...	...	...	...	F s	...	...	...	...	...	...	...	...	...	...	...	...
-																		U 0
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	F s	...	...
-										V p
-										B 1	V p
-											B 2					V s
-																B 3
-										U 2						C
-...	...	...	...	...	...	...	...	...	...	F p	...	...	...	...	...	...	...	...	...	...
-											U 1
-...	...	...	...	...	...	...	...	...	...	...	F p	...	...	...	...	...	...	...	...	...
-																U 0
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	F p	...	...	...	...
-																			V p
-		V p																	B 1
-		B 2			V p
-					B 3
-					C														U 2
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	F p	...
-		U 1
-...	...	F p	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-					U 0
-...	...	...	...	...	F p	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-						V s
-				V p		B 1
-V p				B 2
-B 3
-C						U 2
-...	...	...	...	...	...	F p	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-				U 1
-...	...	...	...	F p	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-U 0
-F p	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-									V p
-	V p								B 1
-	B 2																V p
-																	B 3
-									U 2								C
-...	...	...	...	...	...	...	...	...	F p	...	...	...	...	...	...	...	...	...	...	...
-	U 1
-...	F p	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-																	U 0
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	F p	...	...	...
 =================
 All tours started
