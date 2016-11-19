@@ -56,7 +56,7 @@ _Task TallyVotes {
       provider(0),
       signaling(false),
       #elif defined( IMPLTYPE_AUTO )
-      resultIsReady(false);
+      resultIsReady(false),
       #elif defined( IMPLTYPE_TASK )
       #endif
       groupSize(group),
