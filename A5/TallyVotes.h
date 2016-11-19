@@ -24,7 +24,7 @@ _Monitor TallyVotes {
     uCondition bench;                  // only one condition variable (you may change the variable name)
     void wait();                       // barging version of wait
     void signalAll();                  // unblock all waiting tasks
-    uint *blocked, counter, provider;
+    uint blocked, counter, provider;
     bool signaling;
 #elif defined( IMPLTYPE_AUTO )         // automatic-signal monitor solution
 // includes for this kind of vote-tallier
@@ -51,7 +51,6 @@ _Task TallyVotes {
       blocked(0),
       counter(0),
       provider(0),
-      toGo(0),
       signaling(false),
       #elif defined( IMPLTYPE_AUTO )
       #elif defined( IMPLTYPE_TASK )
