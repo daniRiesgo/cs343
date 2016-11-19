@@ -50,7 +50,7 @@ _Task TallyVotes {
       #elif defined( IMPLTYPE_INTB )
       blocked(0),
       counter(0),
-      provider(1),
+      provider(0),
       toGo(0),
       signaling(false),
       #elif defined( IMPLTYPE_AUTO )
