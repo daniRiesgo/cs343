@@ -56,7 +56,10 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         // wait until the result is ready
         printer.print( id, Voter::States::Block, ++blocked );
         uint nowBlocked = blocked;
-        while( counter < ( ticket + groupSize - nowBlocked ) ) wait();
+        while( counter < ( ticket + groupSize - nowBlocked ) ) {
+            cout << "Blocked down here " << id << endl;
+            wait();
+        }
         // out! Tell the Printer that we are done waiting, and how many are left to be.
         printer.print( id, Voter::States::Unblock, --blocked );
     }
