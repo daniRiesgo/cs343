@@ -441,3 +441,6 @@ U 0
 F p
 =================
 All tours started
+
+------------- Big number of tasks -------------
+ Output of this test is omitted because this file cannot exceed 500 lines in lenght. Results were sactisfactory, and this can be seen by executing the test again. We tried ./vote 21 3 2
