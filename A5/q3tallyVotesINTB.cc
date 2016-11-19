@@ -1,4 +1,4 @@
-#include "TallyVotes.cc"
+#include "q3tallyVotes.cc"
 #include <uCobegin.h>
 
 void TallyVotes::wait() {

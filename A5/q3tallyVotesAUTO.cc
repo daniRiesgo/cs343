@@ -1,9 +1,8 @@
-#include "TallyVotes.cc"
+#include "q3tallyVotes.cc"
 #include <uCobegin.h>
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    // register vote
     result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
     // print vote
     printer.print( id, Voter::States::Vote, ballot );
@@ -13,13 +12,16 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         ret = result;
         result = 0;
         --voted;
+        resultIsReady = true;
     } else {
         printer.print( id, Voter::States::Block, voted );
-        _Accept( vote );
+        WAITUNTIL( resultIsReady, , );
         printer.print( id, Voter::States::Unblock, --voted );
     }
 
-    return ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    if ( ! voted ) resultIsReady = false;
+
+    RETURN( ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue );
 }
 
 void uMain::main() {

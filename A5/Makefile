@@ -8,7 +8,7 @@ MAKEFILE_NAME = ${firstword ${MAKEFILE_LIST}}	# makefile name
 OBJECTS01 = q1.o # optional build of given program
 EXEC01 = counter
 
-OBJECTS2 = TallyVotes${TYPE}.o # list of object files for question 1 prefixed with "q2"
+OBJECTS2 = q3tallyVotes${TYPE}.o # list of object files for question 1 prefixed with "q2"
 EXEC2 = vote
 
 OBJECTS = ${OBJECTS2} # all object files
@@ -66,7 +66,7 @@ else						# implementation type has changed
 .PHONY : ${EXEC2}
 ${EXEC2} :
 	rm -f ImplType
-	touch q2tallyVotes.h
+	touch q3tallyVotes.h
 	sleep 1
 	${MAKE} ${EXEC2} TYPE="${TYPE}"
 endif
