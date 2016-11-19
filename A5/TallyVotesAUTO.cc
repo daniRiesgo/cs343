@@ -3,7 +3,22 @@
 
 TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
 
-    return res > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue;
+    result += ballot == TallyVotes::Tour::Picture ? +1 : -1;
+    // print vote
+    printer.print( id, Voter::States::Vote, ballot );
+
+    if( ++voted == groupSize ) {
+        printer.print( id, Voter::States::Complete );
+        ret = result;
+        result = 0;
+        --voted;
+    } else {
+        printer.print( id, Voter::States::Block, voted );
+        WAITUNTIL();
+        printer.print( id, Voter::States::Unblock, --voted );
+    }
+
+    RETURN( ret > 0 ? TallyVotes::Tour::Picture : TallyVotes::Tour::Statue );
 }
 
 void uMain::main() {
