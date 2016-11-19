@@ -62,6 +62,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     if( ! blocked ) {
         ++counter;
         signaling = false;
+        cout << "Release the bargers!" << endl;
         signalAll();
     }
 
