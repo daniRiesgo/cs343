@@ -25,7 +25,7 @@ _Monitor TallyVotes {
     void wait();                       // barging version of wait
     void signalAll();                  // unblock all waiting tasks
     int blocked, counter, provider, toGo;
-    bool stop;
+    bool signaling;
 #elif defined( IMPLTYPE_AUTO )         // automatic-signal monitor solution
 // includes for this kind of vote-tallier
 _Monitor TallyVotes {
