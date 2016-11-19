@@ -10,6 +10,7 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
     printer.print( id, Voter::States::Vote, ballot );
     // wait until the result is ready
     printer.print( id, Voter::States::Block, ++blocked );
+    ++voted;
     lastid = id;
     cond.wait();
     // out! Tell the Printer that we are done waiting, and how many are left to be.
