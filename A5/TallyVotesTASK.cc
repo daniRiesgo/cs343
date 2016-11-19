@@ -29,7 +29,7 @@ void TallyVotes::main() {
 
             // let's unblock our mates
             // signal makes the signalled take the context, don't let them ruin our collaborative work!
-            for( int i = blocked; i > 0 ; --i ) cond.signalBlock();
+            for( uint i = blocked; i > 0 ; --i ) cond.signalBlock();
         }
         _Accept( mem );
     }
