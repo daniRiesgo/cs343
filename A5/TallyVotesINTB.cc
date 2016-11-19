@@ -29,7 +29,6 @@ TallyVotes::Tour TallyVotes::vote( unsigned int id, TallyVotes::Tour ballot ) {
         wait(); // wait for your turn, barger!
         cout << "I got released " << id;
         cout << ". ticket " << ticket << ", counter " << counter << " and blocked " << blocked << endl;
-        ++counter;
     }
     ++counter;
     cout << "now counter is " << counter << " because " << id << " updated it." << endl;
