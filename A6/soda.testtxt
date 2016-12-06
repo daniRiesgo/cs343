@@ -1,0 +1,560 @@
+After successfully running the default config file for 50 times (output not shown for it does not fit), we tried with
+different scenarios trying to raise possible corner cases.
+1. Very high sodaCost: once the Students have used their gift card, they have to wait a longer time until they have
+credit available in their account to buy another soda.
+2. Lower the number of vending machines and higher the number of students: machines will have problems with stock, so
+students will keep looping around machines looking for stock.
+3. Limit the maximum purchases to 1: watch the corner case where the student only buys one soda. It can be either the
+gifted one or a regular one, but it has to be only one
+
+We found similar corner cases that were as well tested, such as a single courier with a big parental delay, which would
+potentially block the courier and thus the children or reducing the maximum stock per flavor to one. However, these as
+well as many other ones can be reduced to "make the Students wait/work a lot" or "make the Courier(s) wait/work a lot".
+Thus, we will not include more of the tested cases here.
+
+As inputs are very long, we will include a single result having the system working for a while, with 3 students buying
+40 sodas each and 3 couriers.
+
+Parent	Gropoff	WATOff	Names	Truck	Plant	Stud0	Stud1	Stud2	Mach0	Mach1	Mach2	Cour0	Cour1	Cour2
+*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******	*******
+S	S	S	S	 	S	 	 	 	 	 	 	S	S	S
+ 	 	 	R 0	 	 	 	 	 	S 4
+ 	 	 	R 1	 	 	 	 	 	 	S 4
+ 	 	C 0, 5	R 2	S	 	S 0, 10	 	 	 	 	S 4
+D 1, 1	 	W	N 0, 0	 	G 3	V 0	S 0, 22	S 2, 10	 	 	 	t 0, 5
+D 0, 3	 	C 1, 5	N 1, 1	P 3	P	 	V 1
+ 	 	 	 	d 0, 3	 	 	 	 	r
+D 0, 3	 	W	N 0, 0	U 0, 2	 	V 0	 	 	R	 	 	T 0, 5	t 1, 5
+D 2, 1	 	C 2, 5	N 2, 2	 	G 8	 	 	V 2
+D 0, 2	 	W	N 0, 1	 	 	V 1	 	 	 	 	 	 	 	t 2, 5
+D 2, 3
+D 1, 3	 	 	 	P 8	P
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+D 0, 1	 	 	N 0, 2	U 1, 7	 	V 2	 	 	 	R
+D 1, 3	D 4	 	N 1, 1	 	G 4	 	V 1	 	 	 	 	 	T 1, 5
+D 0, 3	 	 	N 0, 0	 	 	V 0
+D 2, 3	 	 	 	P 4	P
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+ 	 	 	N 1, 2	U 2, 6	 	 	V 2	 	 	 	R	 	 	T 2, 5
+D 0, 1	 	 	N 2, 2	 	 	 	G 5	V 2	 	 	B 0, 2
+D 1, 2	 	 	 	 	G 4
+ 	 	 	 	P 4	P
+ 	 	 	 	d 0, 4	 	 	 	 	r
+D 2, 3	D 4	 	N 0, 1	U 0, 6	 	V 1	 	 	R
+D 2, 2	 	 	 	 	G 5
+D 0, 3	 	 	 	P 5	P
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+D 2, 1	 	 	N 2, 0	U 1, 7	 	 	 	V 0	 	R
+D 2, 2	 	 	 	 	G 5	B 6	B 6	 	 	B 0, 1	B 0, 1
+ 	 	 	 	P 5	P
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+D 0, 2	D 4	 	 	U 2, 8	 	 	 	G 5	B 2, 2	 	R
+D 2, 3	 	 	 	 	G 6	G 5	 	 	 	B 0, 0
+D 0, 3	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	U 0, 8	 	 	 	 	R
+D 0, 3	 	 	 	 	 	 	B 2	B 6	B 2, 3	 	B 0, 2
+D 1, 2	 	T 1, 9	 	 	G 4	 	 	B 2	B 2, 2
+D 0, 1	 	W	 	P 4	P	 	 	 	 	 	 	t 1, 9
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 1	 	 	 	 	 	R
+ 	 	 	 	d 2, 1	 	 	 	 	 	 	r
+D 2, 2	 	T 2, 9	N 0, 2	U 2, 4	 	V 2	 	 	 	 	R
+D 1, 2	 	W	 	 	G 8	 	 	 	 	 	 	 	t 2, 9
+D 0, 1
+D 2, 2	 	 	 	P 8	P
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	U 0, 3	 	 	 	 	R
+ 	 	 	 	d 1, 1	 	 	 	 	 	r
+ 	 	 	 	D 1, 1	 	 	 	 	 	R
+ 	 	 	 	d 2, 1	 	 	 	 	 	 	r
+D 2, 2	 	 	 	U 2, 1	 	 	 	 	 	 	R
+D 0, 3	 	 	 	 	G 11	B 2	 	 	 	 	B 0, 1
+D 0, 1
+D 1, 2	 	 	 	P 11	P
+ 	 	 	 	d 0, 11	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+ 	 	 	 	U 1, 3	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	U 2, 2	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 2	 	 	 	 	r
+D 2, 1	 	 	 	D 0, 2	 	 	B 7	 	R	 	B 0, 0	T 1, 9	T 2, 9
+D 0, 1	 	T 0, 9	 	 	G 8	 	 	B 7	B 2, 4
+ 	 	W	 	 	 	 	 	 	 	 	 	 	 	t 0, 9
+D 1, 1	 	 	N 1, 0	P 8	P	 	V 0	 	 	 	 	 	 	T 0, 9
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 7	 	 	 	 	R
+ 	 	 	 	d 1, 7	 	 	 	 	 	r
+ 	 	 	 	U 1, 1	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	U 2, 2	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 3	 	 	 	 	r
+ 	 	 	N 0, 0	D 0, 3	 	V 0	 	 	R
+D 1, 1	 	 	 	 	 	 	B 3	 	B 0, 4
+D 2, 1	 	T 1, 9	 	 	G 6	 	 	B 3	B 2, 4
+D 0, 1	 	W	 	 	 	B 7	 	 	B 0, 3	 	 	t 1, 9
+D 2, 2	 	T 2, 9	 	P 6	P	B 3	 	 	B 0, 2
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	U 0, 2	 	 	 	 	R
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 4	 	 	 	 	 	R
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+D 0, 2	 	W	 	D 2, 0	 	 	 	 	 	 	R	 	t 2, 9
+D 0, 2	 	T 0, 9	 	 	G 7
+D 0, 2	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	U 0, 1	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 2, 1	 	W	 	D 0, 6	 	 	 	 	R	 	 	 	 	t 0, 9
+D 2, 3	 	 	 	 	G 7
+ 	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 2, 2	 	 	 	D 0, 5	 	 	 	 	R
+D 1, 2	 	 	 	 	G 3
+D 2, 3	 	 	 	P 3	P
+ 	 	 	 	d 0, 3	 	 	 	 	r
+ 	 	 	 	D 0, 3	 	 	 	 	R
+ 	 	 	 	d 1, 3	 	 	 	 	 	r
+ 	 	 	 	D 1, 3	 	 	 	 	 	R
+ 	 	 	 	d 2, 3	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 3	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 3	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 3	 	 	 	 	R
+D 2, 1	 	 	 	 	G 6
+D 1, 3	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	U 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 0, 1	 	 	 	D 0, 5	 	 	 	 	R
+D 0, 1	 	 	 	 	G 6
+D 0, 3
+D 2, 2	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	U 2, 1	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 3	 	 	 	 	r
+D 0, 1	 	 	 	D 0, 3	 	 	 	 	R
+D 2, 3	 	 	 	 	G 6
+D 1, 3	 	 	 	P 6	P	 	B 8	 	B 0, 4	 	 	T 1, 9	T 2, 9
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 4	 	 	 	 	r
+ 	 	 	 	D 0, 4	 	 	 	 	R	 	 	 	 	T 0, 9
+D 0, 2	 	 	 	 	 	 	 	B 8	B 2, 4
+D 0, 3	 	 	 	 	G 3	B 8	 	 	B 0, 4
+ 	 	 	 	P 3	P
+ 	 	 	 	d 0, 3	 	 	 	 	r
+ 	 	 	 	D 0, 2	 	 	 	 	R
+ 	 	 	 	d 1, 2	 	 	 	 	 	r
+ 	 	 	 	D 1, 2	 	 	 	 	 	R
+ 	 	 	 	d 2, 2	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 2	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 2	 	 	 	 	r
+D 2, 1	 	 	 	D 0, 2	 	 	 	 	R
+ 	 	 	 	 	 	 	 	B 4	B 2, 3
+D 2, 2	 	 	 	 	G 7	 	B 4	 	B 0, 4
+ 	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 4	 	 	 	 	R
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 4	 	 	 	 	 	R
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 4	 	 	 	 	r
+D 0, 1	 	 	 	D 0, 4	 	 	 	 	R
+D 0, 1	 	 	 	 	 	B 4	 	 	B 0, 4
+ 	 	 	 	 	G 6	B 0	 	 	B 0, 3
+ 	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	U 0, 1	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 0, 2	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	 	 	 	B 0	 	B 0, 3
+D 1, 1	 	T 1, 9	 	 	 	 	 	B 0	B 2, 4
+D 0, 2	 	W	 	 	G 5	 	 	 	 	 	 	t 1, 9
+ 	 	 	 	P 5	P
+ 	 	 	 	d 0, 5	 	 	 	 	r
+ 	 	 	 	D 0, 3	 	 	 	 	R
+ 	 	 	 	d 1, 3	 	 	 	 	 	r
+ 	 	 	 	D 1, 3	 	 	 	 	 	R
+ 	 	 	 	d 2, 3	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 3	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 3	 	 	 	 	r
+D 0, 2	 	T 0, 9	 	D 0, 3	 	 	 	 	R
+D 2, 2	 	W	 	 	G 6	 	 	 	 	 	 	 	t 0, 9
+D 1, 3	 	T 2, 9	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 1, 2	 	W	 	D 0, 5	 	 	 	 	R	 	 	 	 	t 2, 9
+D 1, 2	 	 	 	 	G 6	 	B 5	 	B 0, 4	 	 	T 1, 9	T 0, 9
+ 	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R	 	 	 	 	T 2, 9
+D 1, 2	 	 	 	 	 	B 5	 	 	B 0, 4
+ 	 	 	 	 	 	 	 	B 5	B 2, 4
+D 2, 3	 	 	 	 	G 6	 	B 1	 	B 0, 3
+ 	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 4	 	 	 	 	R
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 4	 	 	 	 	 	R
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 4	 	 	 	 	r
+D 2, 1	 	 	 	D 0, 4	 	 	 	 	R
+ 	 	 	 	 	 	B 1	 	 	B 0, 4
+...	...	...	...	...	...	F	...	...	...	...	...	...	...	...
+D 0, 2	 	T 1, 9	 	 	G 7
+D 0, 2	 	W	 	P 7	P	 	 	B 1	B 2, 3	 	 	t 1, 9
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 4	 	 	 	 	R
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 4	 	 	 	 	 	R
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 4	 	 	 	 	r
+D 0, 2	 	 	 	D 0, 4	 	 	 	 	R
+D 1, 1	 	 	 	 	G 3
+D 2, 1	 	 	 	P 3	P
+ 	 	 	 	d 0, 3	 	 	 	 	r
+ 	 	 	 	D 0, 3	 	 	 	 	R
+ 	 	 	 	d 1, 3	 	 	 	 	 	r
+ 	 	 	 	D 1, 3	 	 	 	 	 	R
+ 	 	 	 	d 2, 3	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 3	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 3	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 3	 	 	 	 	R
+D 2, 2	 	 	 	 	G 5
+ 	 	 	 	P 5	P
+ 	 	 	 	d 0, 5	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 5	 	 	 	 	R
+D 2, 3	 	 	 	 	G 6
+D 1, 2	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 0, 1	 	 	 	D 0, 6	 	 	 	 	R
+D 0, 2	 	 	 	 	G 4
+ 	 	 	 	P 4	P
+ 	 	 	 	d 0, 4	 	 	 	 	r
+ 	 	 	 	D 0, 4	 	 	 	 	R
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 4	 	 	 	 	 	R
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 4	 	 	 	 	r
+D 2, 1	 	 	 	D 0, 4	 	 	 	 	R
+D 2, 3	 	 	 	 	G 8
+D 1, 3	 	 	 	P 8	P
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+ 	 	 	 	D 1, 8	 	 	 	 	 	R
+ 	 	 	 	d 2, 8	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 8	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R	 	 	T 1, 9
+D 0, 3	 	 	 	 	 	 	B 6	 	B 0, 4
+D 2, 1	 	 	 	 	G 7
+ 	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 1, 1	 	 	 	D 0, 6	 	 	 	 	R
+D 2, 1	 	 	 	 	G 6	 	B 2	 	B 0, 4
+D 2, 1	 	T 1, 9
+D 1, 2	 	W	 	 	 	 	 	 	 	 	 	 	t 1, 9
+D 2, 3	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 5	 	 	 	 	R
+D 1, 3	 	 	 	 	G 9
+D 1, 1	 	 	 	P 9	P
+ 	 	 	 	d 0, 9	 	 	 	 	r
+ 	 	 	 	D 0, 9	 	 	 	 	R
+ 	 	 	 	d 1, 9	 	 	 	 	 	r
+ 	 	 	 	D 1, 9	 	 	 	 	 	R
+ 	 	 	 	d 2, 9	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 9	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 9	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 9	 	 	 	 	R
+D 1, 3	 	 	 	 	G 5	 	 	 	 	 	 	 	T 1, 9
+ 	 	 	 	P 5	P
+ 	 	 	 	d 0, 5	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+D 1, 1	 	 	 	 	 	 	B 7	 	B 0, 4
+D 0, 3	 	 	 	 	G 6
+D 1, 1	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 5	 	 	 	 	R
+D 1, 3	 	 	 	 	G 6
+ 	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+D 2, 2	 	 	 	 	 	 	B 3	 	B 0, 4
+D 2, 1	 	 	 	 	G 6
+D 2, 2	 	T 1, 9	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 2, 2	 	W	 	D 0, 5	 	 	 	 	R	 	 	 	 	L 1
+D 2, 3	 	C 1, 5	 	 	G 8	 	L
+D 1, 3	 	 	 	P 8	P
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+ 	 	 	 	D 1, 8	 	 	 	 	 	R
+ 	 	 	 	d 2, 8	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 8	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	W	 	D 0, 8	 	 	 	 	R	 	 	t 1, 5
+D 0, 2	 	 	 	 	 	 	 	 	 	 	 	T 1, 5
+D 0, 3	 	 	 	 	G 4
+D 1, 2	 	 	 	P 4	P	 	B 6	 	B 0, 4
+ 	 	 	 	d 0, 4	 	 	 	 	r
+ 	 	 	 	D 0, 3	 	 	 	 	R
+ 	 	 	 	d 1, 3	 	 	 	 	 	r
+ 	 	 	 	D 1, 3	 	 	 	 	 	R
+ 	 	 	 	d 2, 3	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 3	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 3	 	 	 	 	r
+D 0, 2	 	 	 	D 0, 3	 	 	 	 	R
+D 2, 3	 	 	 	 	G 6
+D 1, 1	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 2, 1	 	 	 	D 0, 6	 	 	 	 	R
+D 2, 1	 	 	 	 	G 5	 	B 2	 	B 0, 4
+D 0, 2
+D 1, 2	 	 	 	P 5	P
+ 	 	 	 	d 0, 5	 	 	 	 	r
+ 	 	 	 	D 0, 5	 	 	 	 	R
+ 	 	 	 	d 1, 5	 	 	 	 	 	r
+ 	 	 	 	D 1, 5	 	 	 	 	 	R
+ 	 	 	 	d 2, 5	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 5	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 5	 	 	 	 	r
+D 1, 2	 	 	 	D 0, 5	 	 	 	 	R
+D 1, 1	 	T 1, 9	 	 	G 4
+D 1, 1	 	 	 	P 4	P
+ 	 	 	 	d 0, 4	 	 	 	 	r
+ 	 	 	 	D 0, 4	 	 	 	 	R
+ 	 	 	 	d 1, 4	 	 	 	 	 	r
+ 	 	 	 	D 1, 4	 	 	 	 	 	R
+ 	 	 	 	d 2, 4	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 4	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 4	 	 	 	 	r
+ 	 	W	 	D 0, 4	 	 	 	 	R	 	 	 	t 1, 9
+D 2, 1	 	 	 	 	 	 	 	 	 	 	 	 	T 1, 9
+D 0, 1	 	 	 	 	G 7	 	B 7	 	B 0, 3
+D 1, 1
+D 2, 2	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 7	 	 	 	 	R
+ 	 	 	 	d 1, 7	 	 	 	 	 	r
+ 	 	 	 	D 1, 7	 	 	 	 	 	R
+ 	 	 	 	d 2, 7	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 7	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 7	 	 	 	 	r
+D 0, 1	 	 	 	D 0, 7	 	 	 	 	R
+D 0, 3	 	 	 	 	G 11	 	B 3	 	B 0, 2
+D 0, 3	 	 	 	P 11	P
+ 	 	 	 	d 0, 11	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+ 	 	 	 	D 1, 8	 	 	 	 	 	R
+ 	 	 	 	d 2, 8	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 8	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 8	 	 	 	 	r
+D 0, 3	 	 	 	D 0, 8	 	 	 	 	R
+D 1, 3	 	 	 	 	G 6
+ 	 	 	 	P 6	P
+ 	 	 	 	d 0, 6	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 2, 1	 	T 1, 9	 	D 0, 6	 	 	 	 	R
+D 0, 3	 	W	 	 	G 8	 	 	 	 	 	 	 	 	t 1, 9
+D 1, 3	 	 	 	P 8	P
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+ 	 	 	 	D 1, 8	 	 	 	 	 	R
+ 	 	 	 	d 2, 8	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 8	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R	 	 	 	 	T 1, 9
+D 1, 3	 	 	 	 	 	 	B 8	 	B 0, 4
+D 0, 1	 	 	 	 	G 7
+ 	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 2, 2	 	 	 	D 0, 6	 	 	 	 	R
+D 1, 2	 	 	 	 	G 8
+ 	 	 	 	P 8	P
+ 	 	 	 	d 0, 8	 	 	 	 	r
+ 	 	 	 	D 0, 8	 	 	 	 	R
+ 	 	 	 	d 1, 8	 	 	 	 	 	r
+ 	 	 	 	D 1, 8	 	 	 	 	 	R
+ 	 	 	 	d 2, 8	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 8	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 8	 	 	 	 	r
+D 2, 3	 	 	 	D 0, 8	 	 	 	 	R
+D 2, 2	 	 	 	 	G 7	 	B 4	 	B 0, 4
+D 2, 2	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 6	 	 	 	 	R
+ 	 	 	 	d 1, 6	 	 	 	 	 	r
+ 	 	 	 	D 1, 6	 	 	 	 	 	R
+ 	 	 	 	d 2, 6	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 6	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 6	 	 	 	 	r
+D 2, 1	 	 	 	D 0, 6	 	 	 	 	R
+D 2, 3	 	 	 	 	G 7	 	B 0	 	B 0, 4
+D 0, 2
+D 0, 2	 	 	 	P 7	P
+ 	 	 	 	d 0, 7	 	 	 	 	r
+ 	 	 	 	D 0, 7	 	 	 	 	R
+ 	 	 	 	d 1, 7	 	 	 	 	 	r
+ 	 	 	 	D 1, 7	 	 	 	 	 	R
+ 	 	 	 	d 2, 7	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 7	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 7	 	 	 	 	r
+D 2, 2	 	T 1, 9	 	D 0, 7	 	 	 	 	R
+D 1, 1	 	W	 	 	G 2	 	 	 	 	 	 	L 1
+ 	 	 	 	P 2	P
+ 	 	 	 	d 0, 2	 	 	 	 	r
+ 	 	 	 	D 0, 2	 	 	 	 	R
+ 	 	 	 	d 1, 2	 	 	 	 	 	r
+ 	 	 	 	D 1, 2	 	 	 	 	 	R
+ 	 	 	 	d 2, 2	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 2	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 2	 	 	 	 	r
+D 0, 3	 	C 1, 5	 	D 0, 2	 	 	L	 	R
+D 2, 3	 	W	 	 	G 11	 	 	 	 	 	 	 	t 1, 5
+D 2, 3	 	 	 	 	 	 	 	 	 	 	 	 	T 1, 5
+D 2, 1	 	 	 	 	 	 	B 6	 	B 0, 3
+D 2, 2	 	 	 	P 11	P
+ 	 	 	 	d 0, 11	 	 	 	 	r
+ 	 	 	 	D 0, 9	 	 	 	 	R
+ 	 	 	 	d 1, 9	 	 	 	 	 	r
+ 	 	 	 	D 1, 9	 	 	 	 	 	R
+ 	 	 	 	d 2, 9	 	 	 	 	 	 	r
+ 	 	 	 	D 2, 9	 	 	 	 	 	 	R
+ 	 	 	 	d 0, 9	 	 	 	 	r
+ 	 	 	 	D 0, 9	 	 	 	 	R
+...	...	...	...	...	...	...	F	...	...	...	...	...	...	...
+...	...	...	...	...	...	...	...	F	...	...	...	...	...	...
+D 0, 3
+D 2, 3	 	 	 	 	G 5
+D 2, 3
+D 1, 1
+...	...	...	...	F	...	...	...	...	...	...	...	...	...	...
+...	...	...	...	...	F	...	...	...	...	...	...	...	...	...
+...	...	...	...	...	...	...	...	...	F	...	...	...	...	...
+...	...	...	...	...	...	...	...	...	...	F	...	...	...	...
+...	...	...	...	...	...	...	...	...	...	...	F	...	...	...
+...	...	...	F	...	...	...	...	...	...	...	...	...	...	...
+...	F	...	...	...	...	...	...	...	...	...	...	...	...	...
+D 1, 1
+D 1, 2
+D 0, 2
+D 1, 1
+...	...	...	...	...	...	...	...	...	...	...	...	F	...	...
+...	...	...	...	...	...	...	...	...	...	...	...	...	F	...
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	F
+...	...	F	...	...	...	...	...	...	...	...	...	...	...	...
+D 2, 3
+F	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+***********************
