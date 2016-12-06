@@ -6,7 +6,7 @@ The provided code includes the developed code for the proposed assignments in th
 
 ## Set up environment
 
-Install [$\mu$C++](https://github.com/pabuhr/uCPP) in your **Linux** (yep, only Linux supported) machine for running the code.
+Install [µC++](https://github.com/pabuhr/uCPP) in your **Linux** (yep, only Linux supported) machine for running the code.
 
 ## Credit
 
